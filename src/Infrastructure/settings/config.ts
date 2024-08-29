@@ -1,0 +1,29 @@
+const config = {
+	server: {
+		port: process.env.PORT || 3000,
+		host: process.env.HOST || "localhost"
+	},
+	jwt: {
+		accessTokenKey: process.env.ACCESS_TOKEN_KEY,
+		refreshTokenKey: process.env.REFRESH_TOKEN_KEY,
+		accessTokenAge: process.env.ACCESS_TOKEN_AGE
+	},
+	smtp: {
+		host: process.env.SMTP_HOST,
+		port: process.env.SMTP_PORT,
+		user: process.env.SMTP_USER,
+		pass: process.env.SMTP_PASS
+	},
+	mail: {
+		brandName: "IoTunnel",
+		website: "https://iotunnel.cloud",
+		companyAddress: "Universitas Pembangunan Nasional Veteran Jawa Timur",
+		companyAddress2: "Jl. Raya Rungkut Madya, Gunung Anyar, Kota Surabaya, Jawa Timur 60294",
+		registerContent:
+			"To complete your registration, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to verify your account and get started with IoTunnel",
+		resetPasswordContent:
+			"To reset your password, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to reset your password"
+	}
+};
+
+export default config;

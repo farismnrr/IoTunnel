@@ -1,0 +1,14 @@
+Thanks for trying out {{product_name}}. We’ve pulled together some information and resources to help you get started.
+
+{{product_name}} ( https://example.com )
+
+******************
+Dear {{customer_name}},
+******************
+
+{{content_otp}}
+{{otp_code}}
+
+{{company_name_2}}
+{{company_address}}
+{{company_address_2}}

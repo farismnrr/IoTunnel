@@ -10,7 +10,7 @@ import AdminService from "../../../App/services/admin.service";
 import AdminValidator from "../../../App/validators/admins";
 import TokenManager from "../../../Common/tokens/manager.token";
 
-export default class AdminHandler {
+class AdminHandler {
 	private readonly _adminService: AdminService;
 	private readonly _validator: typeof AdminValidator;
 	private readonly _tokenManager: typeof TokenManager;
@@ -26,7 +26,7 @@ export default class AdminHandler {
 		autoBind(this);
 	}
 
-	// Start Admin Handler
+	// Start OTP Handler
 	async sendOtpMailHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdmin;
 		this._validator.validateSendOtpPayload(payload);
@@ -56,7 +56,9 @@ export default class AdminHandler {
 			})
 			.code(200);
 	}
+	// End OTP Handler
 
+	// Start Admin Handler
 	async registerAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithOtp;
 		this._validator.validateAdminPayload(payload);
@@ -73,10 +75,10 @@ export default class AdminHandler {
 	}
 
 	async editAdminHandler(request: Request, h: ResponseToolkit) {
-		const adminId = request.auth.credentials as unknown as IAuth;
+		const admin = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IAdmin;
 		this._validator.validateEditAdminPayload(payload);
-		await this._adminService.editAdmin(adminId.id, payload);
+		await this._adminService.editAdmin(admin.id, payload);
 		return h
 			.response({
 				status: "success",
@@ -98,8 +100,8 @@ export default class AdminHandler {
 	}
 
 	async deleteAdminByIdHandler(request: Request, h: ResponseToolkit) {
-		const adminId = request.auth.credentials as unknown as IAuth;
-		await this._adminService.deleteAdminById(adminId.id);
+		const admin = request.auth.credentials as unknown as IAuth;
+		await this._adminService.deleteAdminById(admin.id);
 		return h
 			.response({
 				status: "success",
@@ -147,13 +149,13 @@ export default class AdminHandler {
 	}
 
 	async editAdminAuthHandler(request: Request, h: ResponseToolkit) {
-		const admin = request.payload as IAuth;
-		this._validator.validateAdminAuthPayload(admin);
-		const adminId = this._tokenManager.verifyRefreshToken(admin.refresh_token);
+		const payload = request.payload as IAuth;
+		this._validator.validateAdminAuthPayload(payload);
+		const adminId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
 		const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
 		await this._adminService.editAdminAuth({
 			access_token: accessToken,
-			refresh_token: admin.refresh_token
+			refresh_token: payload.refresh_token
 		} as IAuth);
 		return h
 			.response({
@@ -167,10 +169,10 @@ export default class AdminHandler {
 	}
 
 	async logoutAdminHandler(request: Request, h: ResponseToolkit) {
-		const admin = request.payload as IAuth;
-		this._validator.validateAdminAuthPayload(admin);
-		this._tokenManager.verifyRefreshToken(admin.refresh_token);
-		await this._adminService.logoutAdmin(admin.refresh_token);
+		const payload = request.payload as IAuth;
+		this._validator.validateAdminAuthPayload(payload);
+		this._tokenManager.verifyRefreshToken(payload.refresh_token);
+		await this._adminService.logoutAdmin(payload.refresh_token);
 		return h
 			.response({
 				status: "success",
@@ -180,3 +182,5 @@ export default class AdminHandler {
 	}
 	// End Admin Auth Handler
 }
+
+export default AdminHandler;

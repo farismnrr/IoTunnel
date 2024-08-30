@@ -36,7 +36,7 @@ const LogPlugin = {
 		const statusCode = response.isBoom ? response.output.statusCode : response.statusCode;
 
 		console.log(
-			`[ Bun - Hapi ] Code: ${statusCode} | Time: ${responseTime
+			`[ Bun - Hapi ] Code: ${statusCode} | Time: ${unit === "s" ? " " : ""}${responseTime
 				.toFixed()
 				.padStart(3, " ")}${unit} | ${paddedMethod}\t${request.path}`
 		);

@@ -18,7 +18,10 @@ class MigrationPlugin {
 				`create-users-table.sql`,
 				`create-admins-table.sql`,
 				`create-auths-table.sql`,
-				`create-otp-table.sql`
+				`create-otp-codes-table.sql`,
+				`create-trials-table.sql`,
+				`create-products-table.sql`,
+				`create-subscriptions-table.sql`
 			];
 
 			for (const migration of migrations) {

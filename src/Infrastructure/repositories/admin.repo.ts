@@ -33,8 +33,8 @@ class AdminRepository {
 				createdAt
 			]
 		};
-		const result = await this._pool.query(adminQuery);
-		return result.rows[0].id;
+		const adminResult = await this._pool.query(adminQuery);
+		return adminResult.rows[0].id;
 	}
 
 	async getAdminById(id: string): Promise<IAdmin | null> {
@@ -46,8 +46,8 @@ class AdminRepository {
 			`,
 			values: [id]
 		};
-		const result = await this._pool.query(adminQuery);
-		return result.rows[0] || null;
+		const adminResult = await this._pool.query(adminQuery);
+		return adminResult.rows[0] || null;
 	}
 
 	async getAdminByEmail(email: string): Promise<IAdmin | null> {
@@ -59,8 +59,8 @@ class AdminRepository {
 			`,
 			values: [email]
 		};
-		const result = await this._pool.query(adminQuery);
-		return result.rows[0] || null;
+		const adminResult = await this._pool.query(adminQuery);
+		return adminResult.rows[0] || null;
 	}
 
 	async editAdmin(id: string, admin: IAdmin): Promise<string> {
@@ -94,8 +94,8 @@ class AdminRepository {
             `,
 			values: [...values, updatedAt, id]
 		};
-		const result = await this._pool.query(adminQuery);
-		return result.rows[0].id;
+		const adminResult = await this._pool.query(adminQuery);
+		return adminResult.rows[0].id;
 	}
 
 	async editAdminPassword(id: string, password: string): Promise<string> {
@@ -109,16 +109,13 @@ class AdminRepository {
             `,
 			values: [password, updatedAt, id]
 		};
-		const result = await this._pool.query(adminQuery);
-		return result.rows[0].id;
+		const adminResult = await this._pool.query(adminQuery);
+		return adminResult.rows[0].id;
 	}
 
 	async deleteAdminById(id: string): Promise<void> {
 		const adminQuery = {
-			text: `
-                DELETE FROM admins 
-                WHERE id = $1
-            `,
+			text: `DELETE FROM admins WHERE id = $1`,
 			values: [id]
 		};
 		await this._pool.query(adminQuery);

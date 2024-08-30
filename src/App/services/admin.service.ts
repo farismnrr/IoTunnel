@@ -101,7 +101,7 @@ class AdminService {
 	async editAdmin(id: string, payload: IAdmin): Promise<void> {
 		const adminRole = await this._authRepository.getAdminRole(id);
 		if (adminRole !== "admin") {
-			throw new AuthorizationError("Admin not authorized");
+			throw new AuthorizationError("You are not authorized to edit this admin");
 		}
 
 		const admin = await this._adminRepository.getAdminById(id);
@@ -148,7 +148,7 @@ class AdminService {
 	async deleteAdminById(id: string): Promise<void> {
 		const adminRole = await this._authRepository.getAdminRole(id);
 		if (adminRole !== "admin") {
-			throw new AuthorizationError("Admin not authorized");
+			throw new AuthorizationError("You are not authorized to delete this admin");
 		}
 
 		const admin = await this._adminRepository.getAdminById(id);

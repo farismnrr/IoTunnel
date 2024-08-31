@@ -5,9 +5,9 @@ import type {
 	IAuth
 } from "../../Common/models/types";
 import bcrypt from "bcrypt";
-import AdminRepository from "../../Infrastructure/repositories/admin.repo";
-import MailRepository from "../../Infrastructure/repositories/mail.repo";
-import AuthRepository from "../../Infrastructure/repositories/auth.repo";
+import AdminRepository from "../../Infrastructure/repositories/server/admin.repo";
+import MailRepository from "../../Infrastructure/repositories/server/mail.repo";
+import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,

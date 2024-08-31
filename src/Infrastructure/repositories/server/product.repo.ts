@@ -1,4 +1,4 @@
-import type { IProduct, ITrial } from "../../Common/models/types";
+import type { IProduct, ITrial } from "../../../Common/models/types";
 import { Pool } from "pg";
 
 class ProductRepo {
@@ -9,7 +9,7 @@ class ProductRepo {
 	}
 
 	// Start Product Repository
-	async addProduct(product: IProduct): Promise<IProduct> {
+	async addProduct(product: IProduct): Promise<string> {
 		const createdAt = new Date();
 		const productQuery = {
 			text: `
@@ -33,7 +33,7 @@ class ProductRepo {
 		};
 
 		const productResult = await this._pool.query(productQuery);
-		return productResult.rows[0];
+		return productResult.rows[0].id;
 	}
 
 	async getProducts(): Promise<IProduct[]> {

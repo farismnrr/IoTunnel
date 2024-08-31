@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import nodemailer from "nodemailer";
-import Config from "../settings/config";
+import Config from "../../settings/config";
 
 class MailRepository {
 	private readonly _transporter: nodemailer.Transporter;
@@ -16,7 +16,10 @@ class MailRepository {
 		});
 	}
 
-	private async _getHtmlTemplate(templatePath: string, replacements: { [key: string]: string }): Promise<string> {
+	private async _getHtmlTemplate(
+		templatePath: string,
+		replacements: { [key: string]: string }
+	): Promise<string> {
 		let htmlBody = fs.readFileSync(templatePath, "utf8");
 		for (const [key, value] of Object.entries(replacements)) {
 			htmlBody = htmlBody.replace(new RegExp(`{{${key}}}`, "g"), value);
@@ -35,7 +38,7 @@ class MailRepository {
 	}
 
 	async sendOtpRegisterMail(to: string, otpCode: number): Promise<void> {
-		const htmlTemplatePath = path.join(__dirname, "../../../public/OTP/index.html");
+		const htmlTemplatePath = path.join(__dirname, "../../../../public/OTP/index.html");
 		const replacements = {
 			otp_code: otpCode.toString(),
 			website: Config.mail.website,
@@ -50,8 +53,12 @@ class MailRepository {
 		await this._sendMail(to, "OTP Verification", htmlBody);
 	}
 
-	async sendOtpResetPasswordMail(to: string, otpCode: number, customerName: string): Promise<void> {
-		const htmlTemplatePath = path.join(__dirname, "../../../public/OTP/index.html");
+	async sendOtpResetPasswordMail(
+		to: string,
+		otpCode: number,
+		customerName: string
+	): Promise<void> {
+		const htmlTemplatePath = path.join(__dirname, "../../../../public/OTP/index.html");
 		const replacements = {
 			otp_code: otpCode.toString(),
 			website: Config.mail.website,

@@ -1,8 +1,8 @@
 import type { IUser, IUserWithOtp, IUserWithNewPassword, IAuth } from "../../Common/models/types";
 import bcrypt from "bcrypt";
-import UserRepository from "../../Infrastructure/repositories/user.repo";
-import MailRepository from "../../Infrastructure/repositories/mail.repo";
-import AuthRepository from "../../Infrastructure/repositories/auth.repo";
+import UserRepository from "../../Infrastructure/repositories/server/user.repo";
+import MailRepository from "../../Infrastructure/repositories/server/mail.repo";
+import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,
@@ -94,16 +94,16 @@ class UserService {
 	}
 
 	async editUser(id: string, payload: IUser): Promise<void> {
-        const userRole = await this._authRepository.getUserRole(id);
+		const userRole = await this._authRepository.getUserRole(id);
 		if (userRole !== "user") {
-            throw new AuthorizationError("You are not authorized to edit this user");
+			throw new AuthorizationError("You are not authorized to edit this user");
 		}
-        
+
 		const user = await this._userRepository.getUserById(id);
 		if (!user) {
-            throw new NotFoundError("User not found");
+			throw new NotFoundError("User not found");
 		}
-        
+
 		const isMatch = await bcrypt.compare(payload.password, user.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Invalid password");

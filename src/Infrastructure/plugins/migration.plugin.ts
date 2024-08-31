@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import AuthRepository from "../repositories/auth.repo";
+import AuthRepository from "../repositories/server/auth.repo";
 import { Pool } from "pg";
 
 class MigrationPlugin {
@@ -21,6 +21,7 @@ class MigrationPlugin {
 				`create-otp-codes-table.sql`,
 				`create-trials-table.sql`,
 				`create-products-table.sql`,
+				`create-orders-table.sql`,
 				`create-subscriptions-table.sql`
 			];
 

@@ -1,7 +1,7 @@
 import type { IProduct, ITrial } from "../../Common/models/types";
-import ProductRepository from "../../Infrastructure/repositories/product.repo";
-import UserRepository from "../../Infrastructure/repositories/user.repo";
-import AuthRepository from "../../Infrastructure/repositories/auth.repo";
+import ProductRepository from "../../Infrastructure/repositories/server/product.repo";
+import UserRepository from "../../Infrastructure/repositories/server/user.repo";
+import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import { nanoid } from "nanoid";
 import { NotFoundError, AuthorizationError } from "../../Common/errors";
 
@@ -32,7 +32,7 @@ class ProductService {
 			...payload,
 			id
 		});
-		return product.id;
+		return product;
 	}
 
 	async getProducts(): Promise<IProduct[]> {

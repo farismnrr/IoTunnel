@@ -4,10 +4,10 @@ import UserHandler from "./handler";
 import UserService from "../../../App/services/user.service";
 import ProductService from "../../../App/services/product.service";
 import UserValidator from "../../../App/validators/users";
-import MailRepository from "../../../Infrastructure/repositories/mail.repo";
-import AuthRepository from "../../../Infrastructure/repositories/auth.repo";
-import UserRepository from "../../../Infrastructure/repositories/user.repo";
-import ProductRepository from "../../../Infrastructure/repositories/product.repo";
+import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
+import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
 import TokenManager from "../../../Common/tokens/manager.token";
 
 const userRepository = new UserRepository();

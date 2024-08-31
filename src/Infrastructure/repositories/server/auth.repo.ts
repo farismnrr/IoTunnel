@@ -1,4 +1,4 @@
-import type { IOtpCode, IAuth } from "../../Common/models/types";
+import type { IOtpCode, IAuth } from "../../../Common/models/types";
 import { Pool } from "pg";
 
 class AuthRepository {

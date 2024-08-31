@@ -30,7 +30,3 @@ Content-Type: application/json
 ### Get Transaction Status
 GET https://api.sandbox.midtrans.com/v2/YOUR-ORDERID-123456/status HTTP/1.1
 Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87
-
-### Refund Transaction
-POST https://api.sandbox.midtrans.com/v2/YOUR-ORDERID-123456/refund HTTP/1.1
-Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87

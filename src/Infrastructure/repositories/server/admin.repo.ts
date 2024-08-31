@@ -1,4 +1,4 @@
-import type { IAdmin } from "../../Common/models/types";
+import type { IAdmin } from "../../../Common/models/types";
 import { Pool } from "pg";
 
 class AdminRepository {
@@ -123,7 +123,7 @@ class AdminRepository {
 
 	async deleteAllAdmins(): Promise<void> {
 		const adminQuery = {
-			text: `DELETE FROM admins`,
+			text: `DELETE FROM admins`
 		};
 		await this._pool.query(adminQuery);
 	}

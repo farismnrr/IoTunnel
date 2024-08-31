@@ -19,41 +19,39 @@ class ProductRepo {
 					description, 
 					price,
 					duration,
-					free_trial,
 					created_at,
 					updated_at
-				) VALUES ($1, $2, $3, $4, $5, $6, $7, $7) RETURNING *`,
+				) VALUES ($1, $2, $3, $4, $5, $6, $6) RETURNING *`,
 			values: [
 				product.id,
 				product.product_name,
 				product.description,
 				product.price,
 				product.duration,
-				product.free_trial,
-				createdAt,
+				createdAt
 			]
 		};
 
-		const productResult = await this._pool.query<IProduct>(productQuery);
+		const productResult = await this._pool.query(productQuery);
 		return productResult.rows[0];
 	}
 
-    async getProducts(): Promise<IProduct[]> {
-        const productQuery = {
-            text: `SELECT id, product_name, description, price, duration, free_trial FROM products`,
-        };
-        const productResult = await this._pool.query<IProduct>(productQuery);
-        return productResult.rows;
-    }
+	async getProducts(): Promise<IProduct[]> {
+		const productQuery = {
+			text: `SELECT id, product_name, description, price, duration FROM products`
+		};
+		const productResult = await this._pool.query(productQuery);
+		return productResult.rows;
+	}
 
-    async getProductById(id: string): Promise<IProduct | null> {
-        const productQuery = {
-            text: `SELECT id, product_name, description, price, duration, free_trial FROM products WHERE id = $1`,
-            values: [id]
-        };
-        const productResult = await this._pool.query<IProduct>(productQuery);
-        return productResult.rows[0] || null;
-    }
+	async getProductById(id: string): Promise<IProduct | null> {
+		const productQuery = {
+			text: `SELECT id, product_name, description, price, duration FROM products WHERE id = $1`,
+			values: [id]
+		};
+		const productResult = await this._pool.query(productQuery);
+		return productResult.rows[0] || null;
+	}
 
 	async updateProduct(id: string, product: IProduct): Promise<string> {
 		const updatedAt = new Date();
@@ -77,10 +75,6 @@ class ProductRepo {
 			fields.push(`duration = $${index++}`);
 			values.push(product.duration);
 		}
-		if (product.free_trial) {
-			fields.push(`free_trial = $${index++}`);
-			values.push(product.free_trial ? 1 : 0);
-		}
 		if (fields.length === 0) {
 			throw new Error("No fields to update");
 		}
@@ -99,66 +93,59 @@ class ProductRepo {
 		return productResult.rows[0].id;
 	}
 
-    async deleteProduct(id: string): Promise<void> {
-        const productQuery = {
-            text: `DELETE FROM products WHERE id = $1`,
-            values: [id]
-        };
-        await this._pool.query(productQuery);
-    }
+	async deleteProduct(id: string): Promise<void> {
+		const productQuery = {
+			text: `DELETE FROM products WHERE id = $1`,
+			values: [id]
+		};
+		await this._pool.query(productQuery);
+	}
 	// End Product Repository
 
 	// Start Trial Repository
-	async addTrialByUserId(userId: string, trial: ITrial): Promise<string> {
+	async addTrialByUserEmail(email: string, trial: ITrial): Promise<string> {
 		const createdAt = new Date();
 		const trialQuery = {
 			text: `
 				INSERT INTO trials (
 					id, 
-					user_id, 
+					email, 
 					free_trial,
 					created_at,
 					updated_at
 				) VALUES ($1, $2, $3, $4, $4) RETURNING id`,
-			values: [
-				trial.id,
-				userId,
-				trial.free_trial,
-				createdAt,
-			]
+			values: [trial.id, email, trial.free_trial, createdAt]
 		};
 		const trialResult = await this._pool.query(trialQuery);
 		return trialResult.rows[0].id;
 	}
 
-	async getTrialByUserId(userId: string): Promise<ITrial | null> {
+	async getTrialByUserEmail(email: string): Promise<ITrial | null> {
 		const trialQuery = {
 			text: `
 				SELECT 
 					id, 
-					user_id, 
-					free_trial, 
-					created_at, 
-					updated_at 
+					email, 
+					free_trial
 				FROM trials 
-				WHERE user_id = $1
+				WHERE email = $1
 			`,
-			values: [userId]
+			values: [email]
 		};
 		const trialResult = await this._pool.query(trialQuery);
-		return trialResult.rows[0] || null;
+		return trialResult.rows[0];
 	}
 
-	async updateTrialByUserId(userId: string, trial: ITrial): Promise<string> {
+	async updateTrialByUserEmail(email: string, trial: ITrial): Promise<string> {
 		const updatedAt = new Date();
 		const trialQuery = {
 			text: `
 				UPDATE trials 
 				SET free_trial = $1, updated_at = $2 
-				WHERE user_id = $3 
+				WHERE email = $3 
 				RETURNING id
 			`,
-			values: [trial.free_trial, updatedAt, userId]
+			values: [trial.free_trial, updatedAt, email]
 		};
 		const trialResult = await this._pool.query(trialQuery);
 		return trialResult.rows[0].id;

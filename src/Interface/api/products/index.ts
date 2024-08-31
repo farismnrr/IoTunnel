@@ -3,13 +3,15 @@ import routes from "./routes";
 import ProductHandler from "./handler";
 import ProductService from "../../../App/services/product.service";
 import ProductRepository from "../../../Infrastructure/repositories/product.repo";
+import UserRepository from "../../../Infrastructure/repositories/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/auth.repo";
 import ProductValidator from "../../../App/validators/products";
 
 const authRepository = new AuthRepository();
+const userRepository = new UserRepository();
 const productRepository = new ProductRepository();
 
-const productService = new ProductService(productRepository, authRepository);
+const productService = new ProductService(productRepository, userRepository, authRepository);
 const productHandler = new ProductHandler(productService, ProductValidator);
 
 export default {

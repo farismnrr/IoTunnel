@@ -16,7 +16,7 @@ const mailRepository = new MailRepository();
 const authRepository = new AuthRepository();
 
 const userService = new UserService(userRepository, mailRepository, authRepository);
-const productService = new ProductService(productRepository, authRepository);
+const productService = new ProductService(productRepository, userRepository, authRepository);
 const userHandler = new UserHandler(userService, productService, UserValidator, TokenManager);
 
 export default {

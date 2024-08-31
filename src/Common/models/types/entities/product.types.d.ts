@@ -4,12 +4,11 @@ interface IProduct {
     description: string;
     price: number;
     duration: string;
-    free_trial: boolean;
 }
 
 interface ITrial {
     id: string;
-    user_id: string;
+    email: string;
     free_trial: boolean;
 }
 

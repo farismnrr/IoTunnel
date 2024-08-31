@@ -14,12 +14,13 @@ class ProductHandler {
 		autoBind(this);
 	}
 
-    // Start Product Handler
+	// Start Product Handler
 	async getProductsHandler(request: Request, h: ResponseToolkit) {
 		const products = await this._productService.getProducts();
 		return h
 			.response({
 				status: "success",
+				message: "Products fetched successfully",
 				data: {
 					products
 				}
@@ -33,6 +34,7 @@ class ProductHandler {
 		return h
 			.response({
 				status: "success",
+				message: "Product fetched successfully",
 				data: {
 					product
 				}
@@ -40,13 +42,14 @@ class ProductHandler {
 			.code(200);
 	}
 	// End Product Handler
-    
+
 	// Start Admin Auth Handler
 	async postProductHandler(request: Request, h: ResponseToolkit) {
 		const admin = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IProduct;
 		this._validator.validateAddProductPayload(payload);
 		const product = await this._productService.addProduct(admin.id, payload);
+		console.log("TEST");
 		return h
 			.response({
 				status: "success",
@@ -62,12 +65,12 @@ class ProductHandler {
 		const admin = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IProduct;
 		const { id } = request.params;
-		this._validator.validateAddProductPayload(payload);
+		this._validator.validateEditProductPayload(payload);
 		await this._productService.editProduct(admin.id, id, payload);
 		return h
 			.response({
 				status: "success",
-				message: "Product updated successfully",
+				message: "Product updated successfully"
 			})
 			.code(200);
 	}
@@ -79,13 +82,13 @@ class ProductHandler {
 		return h
 			.response({
 				status: "success",
-				message: "Product deleted successfully",
+				message: "Product deleted successfully"
 			})
 			.code(200);
 	}
 	// End Admin Auth Handler
 
-    // Start Trial Handler
+	// Start Trial Handler
 	async getTrialByUserIdHandler(request: Request, h: ResponseToolkit) {
 		const user = request.auth.credentials as unknown as IAuth;
 		const trial = await this._productService.getTrialByUserId(user.id);
@@ -94,7 +97,7 @@ class ProductHandler {
 				status: "success",
 				message: "Trial fetched successfully",
 				data: {
-					trial_id: trial
+					trial: trial
 				}
 			})
 			.code(200);
@@ -106,7 +109,7 @@ class ProductHandler {
 		return h
 			.response({
 				status: "success",
-				message: "Trial updated successfully",
+				message: "Trial updated successfully"
 			})
 			.code(200);
 	}

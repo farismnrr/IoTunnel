@@ -65,14 +65,15 @@ class UserHandler {
 	async registerUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUserWithOtp;
 		this._validator.validateUserPayload(payload);
+		const trial = await this._productService.addTrialByUserEmail(payload.email);
 		const user = await this._userService.registerUser(payload);
-		await this._productService.addTrialByUserId(user);
 		return h
 			.response({
 				status: "success",
 				message: "User successfully registered",
 				data: {
-					user_id: user
+					user_id: user,
+					free_trial: trial
 				}
 			})
 			.code(201);

@@ -1,6 +1,6 @@
 -- Create table products
 CREATE TABLE IF NOT EXISTS products (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id VARCHAR(30) PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     price INTEGER NOT NULL,

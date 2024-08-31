@@ -1,6 +1,5 @@
 -- Create table trial
 CREATE TABLE IF NOT EXISTS trials (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL,
     free_trial BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

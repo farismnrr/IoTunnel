@@ -17,6 +17,7 @@ const productHandler = new ProductHandler(productService, ProductValidator);
 export default {
 	name: "products",
     version: "1.0.0",
+	description: "Add Product API",
 	register: (server: Server) => {
 		server.route(routes(productHandler));
 	}

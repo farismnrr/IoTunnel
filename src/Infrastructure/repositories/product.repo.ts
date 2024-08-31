@@ -103,28 +103,25 @@ class ProductRepo {
 	// End Product Repository
 
 	// Start Trial Repository
-	async addTrialByUserEmail(email: string, trial: ITrial): Promise<string> {
+	async addTrialByUserEmail(email: string, trial: boolean): Promise<void> {
 		const createdAt = new Date();
 		const trialQuery = {
 			text: `
 				INSERT INTO trials (
-					id, 
 					email, 
 					free_trial,
 					created_at,
 					updated_at
-				) VALUES ($1, $2, $3, $4, $4) RETURNING id`,
-			values: [trial.id, email, trial.free_trial, createdAt]
+				) VALUES ($1, $2, $3, $3)`,
+			values: [email, trial, createdAt]
 		};
-		const trialResult = await this._pool.query(trialQuery);
-		return trialResult.rows[0].id;
+		await this._pool.query(trialQuery);
 	}
 
 	async getTrialByUserEmail(email: string): Promise<ITrial | null> {
 		const trialQuery = {
 			text: `
 				SELECT 
-					id, 
 					email, 
 					free_trial
 				FROM trials 
@@ -136,19 +133,17 @@ class ProductRepo {
 		return trialResult.rows[0];
 	}
 
-	async updateTrialByUserEmail(email: string, trial: ITrial): Promise<string> {
+	async updateTrialByUserEmail(email: string, trial: ITrial): Promise<void> {
 		const updatedAt = new Date();
 		const trialQuery = {
 			text: `
 				UPDATE trials 
 				SET free_trial = $1, updated_at = $2 
-				WHERE email = $3 
-				RETURNING id
+				WHERE email = $3
 			`,
 			values: [trial.free_trial, updatedAt, email]
 		};
-		const trialResult = await this._pool.query(trialQuery);
-		return trialResult.rows[0].id;
+		await this._pool.query(trialQuery);
 	}
 	// End Trial Repository
 }

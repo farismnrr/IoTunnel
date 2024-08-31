@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import AdminRepository from "../../Infrastructure/repositories/admin.repo";
 import MailRepository from "../../Infrastructure/repositories/mail.repo";
 import AuthRepository from "../../Infrastructure/repositories/auth.repo";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
 import {
 	InvariantError,
 	NotFoundError,
@@ -54,7 +54,7 @@ class AdminService {
 
 	// Start Admin Service
 	async registerAdmin(payload: IAdminWithOtp): Promise<string> {
-		const id = uuidv4();
+		const id = `admin-${nanoid(10)}-${Date.now()}`;
 		const password = payload.password;
 		const retypePassword = payload.retype_password;
 		if (password !== retypePassword) {

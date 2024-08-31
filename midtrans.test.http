@@ -1,0 +1,36 @@
+### Create Transaction
+POST https://app.sandbox.midtrans.com/snap/v1/transactions HTTP/1.1
+Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87
+Content-Type: application/json
+
+{
+  "transaction_details": {
+    "order_id": "YOUR-ORDERID-123456",
+    "gross_amount": 10000
+  },
+  "credit_card": {
+    "secure": true
+  },
+  "item_details": [
+    {
+      "id": "ITEM1",
+      "price": 10000,
+      "quantity": 1,
+      "name": "Adidas f50"
+    }
+  ],
+  "customer_details": {
+    "first_name": "budi",
+    "last_name": "pratama",
+    "email": "budi.pra@example.com",
+    "phone": "08111222333"
+  }
+}
+
+### Get Transaction Status
+GET https://api.sandbox.midtrans.com/v2/YOUR-ORDERID-123456/status HTTP/1.1
+Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87
+
+### Refund Transaction
+POST https://api.sandbox.midtrans.com/v2/YOUR-ORDERID-123456/refund HTTP/1.1
+Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87

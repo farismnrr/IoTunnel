@@ -2,8 +2,8 @@ import type { IProduct, ITrial } from "../../Common/models/types";
 import ProductRepository from "../../Infrastructure/repositories/product.repo";
 import UserRepository from "../../Infrastructure/repositories/user.repo";
 import AuthRepository from "../../Infrastructure/repositories/auth.repo";
-import { v4 as uuidv4 } from "uuid";
-import { NotFoundError, AuthorizationError, InvariantError } from "../../Common/errors";
+import { nanoid } from "nanoid";
+import { NotFoundError, AuthorizationError } from "../../Common/errors";
 
 class ProductService {
 	private readonly _productRepository: ProductRepository;
@@ -22,7 +22,7 @@ class ProductService {
 
 	// Start Product Service
 	async addProduct(adminId: string, payload: IProduct): Promise<string> {
-		const id = uuidv4();
+		const id = `product-${nanoid(16)}`;
 		const adminRole = await this._authRepository.getAdminRole(adminId);
 		if (adminRole !== "admin") {
 			throw new AuthorizationError("You are not authorized to add this product");
@@ -79,16 +79,7 @@ class ProductService {
 		if (trial) {
 			return false;
 		}
-		const id = uuidv4();
-		const trialId = await this._productRepository.addTrialByUserEmail(email, {
-			id,
-			email: email,
-			free_trial: true
-		});
-
-		if (!trialId) {
-			throw new InvariantError("Failed to add trial");
-		}
+		await this._productRepository.addTrialByUserEmail(email, true);
 		return true;
 	}
 

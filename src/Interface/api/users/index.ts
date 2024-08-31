@@ -21,7 +21,8 @@ const userHandler = new UserHandler(userService, productService, UserValidator, 
 
 export default {
 	name: "users",
-	version: "1.0.0",
+	version: "1.1.0",
+	description: "Implement Product Service to Users API",
 	register: async (server: Server) => {
 		server.route(routes(userHandler));
 	}

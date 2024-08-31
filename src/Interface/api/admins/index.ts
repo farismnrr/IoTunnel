@@ -18,6 +18,7 @@ const adminHandler = new AdminHandler(adminService, AdminValidator, TokenManager
 export default {
 	name: "admins",
     version: "1.0.0",
+	description: "Add Admin API",
 	register: (server: Server) => {
 		server.route(routes(adminHandler));
 	}

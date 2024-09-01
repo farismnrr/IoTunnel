@@ -22,14 +22,15 @@ const config = {
 		registerContent:
 			"To complete your registration, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to verify your account and get started with IoTunnel",
 		resetPasswordContent:
-			"To reset your password, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to reset your password"
+			"To reset your password, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to reset your password",
+		otpHtml: "../../../../public/OTP/index.html"
 	},
 	midtrans: {
 		serverKey: process.env.MIDTRANS_SERVER_KEY,
 		clientKey: process.env.MIDTRANS_CLIENT_KEY,
 		snapUrl: process.env.MIDTRANS_SNAP_URL,
 		coreUrl: process.env.MIDTRANS_CORE_URL
-	},
+	}
 };
 
 export default config;

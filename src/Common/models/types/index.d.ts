@@ -1,3 +1,4 @@
+import type { ISubscription } from "./entities/subscription.types";
 import type { IProduct, ITrial } from "./entities/product.types";
 import type { IAuth, IOtpCode, IAuthToken } from "./entities/auth.types";
 import type { IUser, IUserWithOtp, IUserWithNewPassword } from "./entities/user.types";
@@ -9,9 +10,12 @@ import type {
 	IItem,
 	IPayment,
 	IPaymentStatus,
-	IOrderWithPaymentUrl
+	IOrderWithPaymentUrl,
+	IOrderData
 } from "./entities/order.types";
+
 export type {
+	ISubscription,
 	IAuth,
 	IAdmin,
 	IOtpCode,
@@ -29,5 +33,6 @@ export type {
 	IItem,
 	IPayment,
 	IPaymentStatus,
-	IOrderWithPaymentUrl
+	IOrderWithPaymentUrl,
+	IOrderData
 };

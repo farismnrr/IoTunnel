@@ -38,7 +38,7 @@ class MailRepository {
 	}
 
 	async sendOtpRegisterMail(to: string, otpCode: number): Promise<void> {
-		const htmlTemplatePath = path.join(__dirname, "../../../../public/OTP/index.html");
+		const htmlTemplatePath = path.join(__dirname, Config.mail.otpHtml);
 		const replacements = {
 			otp_code: otpCode.toString(),
 			website: Config.mail.website,
@@ -58,7 +58,7 @@ class MailRepository {
 		otpCode: number,
 		customerName: string
 	): Promise<void> {
-		const htmlTemplatePath = path.join(__dirname, "../../../../public/OTP/index.html");
+		const htmlTemplatePath = path.join(__dirname, Config.mail.otpHtml);
 		const replacements = {
 			otp_code: otpCode.toString(),
 			website: Config.mail.website,

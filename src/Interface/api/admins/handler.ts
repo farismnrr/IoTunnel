@@ -31,7 +31,6 @@ class AdminHandler {
 		const payload = request.payload as IAdmin;
 		this._validator.validateSendOtpPayload(payload);
 		const otpCode = await this._adminService.sendOtpMail(payload.email);
-		console.log("TEST");
 		return h
 			.response({
 				status: "success",

@@ -31,7 +31,7 @@ class OrderRepo {
 		return orderResult.rows[0].id;
 	}
 
-	async getOrderById(orderId: string): Promise<IOrder | null> {
+	async getOrderById(orderId: string): Promise<IOrder> {
 		const orderQuery = {
 			text: `
                 SELECT id, user_id, product_id, status, token, payment_url FROM orders WHERE id = $1
@@ -39,8 +39,9 @@ class OrderRepo {
 			values: [orderId]
 		};
 		const orderResult = await this._pool.query(orderQuery);
-		return orderResult.rows[0] || null;
+		return orderResult.rows[0];
 	}
+
 	async editOrderStatus(orderId: string, status: string): Promise<string> {
 		const updatedAt = new Date();
 		const orderQuery = {

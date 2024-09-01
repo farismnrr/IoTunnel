@@ -1,5 +1,6 @@
 import type { IProduct, ITrial } from "../../Common/models/types";
 import ProductRepository from "../../Infrastructure/repositories/server/product.repo";
+import SubscriptionRepository from "../../Infrastructure/repositories/server/subscription.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
 import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import { nanoid } from "nanoid";
@@ -7,22 +8,25 @@ import { NotFoundError, AuthorizationError } from "../../Common/errors";
 
 class ProductService {
 	private readonly _productRepository: ProductRepository;
+	private readonly _subscriptionRepository: SubscriptionRepository;
 	private readonly _userRepository: UserRepository;
 	private readonly _authRepository: AuthRepository;
 
 	constructor(
 		productRepository: ProductRepository,
+		subscriptionRepository: SubscriptionRepository,
 		userRepository: UserRepository,
 		authRepository: AuthRepository
 	) {
 		this._productRepository = productRepository;
+		this._subscriptionRepository = subscriptionRepository;
 		this._userRepository = userRepository;
 		this._authRepository = authRepository;
 	}
 
 	// Start Product Service
 	async addProduct(adminId: string, payload: IProduct): Promise<string> {
-		const id = `product-${nanoid(16)}`;
+		const id = `product-${nanoid(12)}`;
 		const adminRole = await this._authRepository.getAdminRole(adminId);
 		if (adminRole !== "admin") {
 			throw new AuthorizationError("You are not authorized to add this product");
@@ -75,11 +79,12 @@ class ProductService {
 
 	// Start Trial Service
 	async addTrialByUserEmail(email: string): Promise<boolean> {
+		const id = `trial-${nanoid(16)}`;
 		const trial = await this._productRepository.getTrialByUserEmail(email);
 		if (trial) {
 			return false;
 		}
-		await this._productRepository.addTrialByUserEmail(email, true);
+		await this._productRepository.addTrialByUserEmail(id, email, true);
 		return true;
 	}
 
@@ -115,10 +120,27 @@ class ProductService {
 			throw new NotFoundError("Trial not found");
 		}
 
-		await this._productRepository.updateTrialByUserEmail(user.email, {
-			...trial,
-			free_trial: false
-		});
+		if (trial.free_trial !== true) {
+			throw new AuthorizationError("Trial already used");
+		}
+
+		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
+		if (!subscription) {
+			await this._productRepository.updateTrialByUserEmail(user.email, {
+				...trial,
+				free_trial: false
+			});
+
+			const createdAt = new Date();
+			const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
+			await this._subscriptionRepository.addSubscription(userId, {
+				id: `subscription-${trial.id}-${Date.now()}`,
+				trial_id: trial.id,
+				api_key: `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`,
+				subscription_start_date: createdAt,
+				subscription_end_date: trialEndDate
+			});
+		}
 	}
 	// End Trial Service
 }

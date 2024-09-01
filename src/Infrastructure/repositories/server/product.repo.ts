@@ -103,17 +103,18 @@ class ProductRepo {
 	// End Product Repository
 
 	// Start Trial Repository
-	async addTrialByUserEmail(email: string, trial: boolean): Promise<void> {
+	async addTrialByUserEmail(id: string, email: string, trial: boolean): Promise<void> {
 		const createdAt = new Date();
 		const trialQuery = {
 			text: `
 				INSERT INTO trials (
+					id,
 					email, 
 					free_trial,
 					created_at,
 					updated_at
-				) VALUES ($1, $2, $3, $3)`,
-			values: [email, trial, createdAt]
+				) VALUES ($1, $2, $3, $4, $4)`,
+			values: [id, email, trial, createdAt]
 		};
 		await this._pool.query(trialQuery);
 	}
@@ -122,6 +123,7 @@ class ProductRepo {
 		const trialQuery = {
 			text: `
 				SELECT 
+					id,
 					email, 
 					free_trial
 				FROM trials 

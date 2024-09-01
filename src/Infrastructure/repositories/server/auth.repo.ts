@@ -55,13 +55,6 @@ class AuthRepository {
 		return otpResult.rows[0] || null;
 	}
 
-	async deleteOtp(): Promise<void> {
-		const otpQuery = {
-			text: `DELETE FROM otp_codes WHERE otp_expires_at > NOW()`
-		};
-		await this._pool.query(otpQuery);
-	}
-
 	async deleteOtpByEmail(email: string): Promise<void> {
 		const otpQuery = {
 			text: `DELETE FROM otp_codes WHERE email = $1`,

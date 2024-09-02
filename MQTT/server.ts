@@ -1,7 +1,7 @@
 import { Server } from "@hapi/hapi";
-import MosquittoHandler from "./mosquitto/handler";
-import MosquittoService from "./mosquitto/service";
-import routes from "./mosquitto/routes";
+import MosquittoHandler from "./src/mosquitto/handler";
+import MosquittoService from "./src/mosquitto/service";
+import routes from "./src/mosquitto/routes";
 
 const init = async () => {
 	const server = new Server({

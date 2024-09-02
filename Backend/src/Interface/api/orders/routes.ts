@@ -17,6 +17,11 @@ const routes: (handler: OrderHandler) => ServerRoute[] = handler => [
 		options: {
 			auth: "user_jwt"
 		}
+	},
+	{
+		method: "GET",
+		path: "/orders/subscription",
+		handler: handler.getSubscriptionsHandler
 	}
 ];
 

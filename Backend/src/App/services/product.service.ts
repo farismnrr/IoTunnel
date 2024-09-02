@@ -125,22 +125,24 @@ class ProductService {
 		}
 
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
-		if (!subscription) {
-			await this._productRepository.updateTrialByUserEmail(user.email, {
-				...trial,
-				free_trial: false
-			});
-
-			const createdAt = new Date();
-			const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
-			await this._subscriptionRepository.addSubscription(userId, {
-				id: `subscription-${trial.id}-${Date.now()}`,
-				trial_id: trial.id,
-				api_key: `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`,
-				subscription_start_date: createdAt,
-				subscription_end_date: trialEndDate
-			});
+		if (subscription) {
+			throw new AuthorizationError("Subscription already exists");
 		}
+
+		await this._productRepository.updateTrialByUserEmail(user.email, {
+			...trial,
+			free_trial: false
+		});
+
+		const createdAt = new Date();
+		const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
+		await this._subscriptionRepository.addSubscription(userId, {
+			id: `subscription-${trial.id}-${Date.now()}`,
+			trial_id: trial.id,
+			api_key: `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`,
+			subscription_start_date: createdAt,
+			subscription_end_date: trialEndDate
+		});
 	}
 	// End Trial Service
 }

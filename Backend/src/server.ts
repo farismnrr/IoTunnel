@@ -19,6 +19,14 @@ const createServer = async () => {
 		}
 	});
 
+	await server.route({
+		method: "GET",
+		path: "/",
+		handler: function (request: Hapi.Request, h: Hapi.ResponseToolkit) {
+			return h.response("Server Connected");
+		}
+	});
+
 	return server;
 };
 
@@ -28,12 +36,12 @@ const handleClientError = (server: Hapi.Server) => {
 		if (response instanceof Error) {
 			const newResponse = h.response({
 				status: "fail",
-				message: response.message,
+				message: response.message
 			});
 			if (response instanceof ClientError) {
 				newResponse.code(response.statusCode);
 			} else if (response instanceof Error) {
-				if (response.message === "invalid input syntax for type uuid: \"xxx\"") {
+				if (response.message === 'invalid input syntax for type uuid: "xxx"') {
 					newResponse.code(400);
 				} else {
 					newResponse.code(401);

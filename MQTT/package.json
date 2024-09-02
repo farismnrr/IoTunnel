@@ -1,0 +1,17 @@
+{
+  "name": "mqtt-client",
+  "module": "server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun --watch server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

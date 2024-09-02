@@ -1,4 +1,4 @@
-import type { IOrder, IOrderData, IOrderWithPaymentUrl } from "../../Common/models/types";
+import type { IOrder, IOrderData, IOrderWithPaymentUrl, ISubscription } from "../../Common/models/types";
 import OrderRepository from "../../Infrastructure/repositories/server/order.repo";
 import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
@@ -99,7 +99,10 @@ class OrderService {
 		};
 	}
 
-	async getOrderById(userid: string, orderId: string): Promise<IOrderData | IOrderWithPaymentUrl> {
+	async getOrderById(
+		userid: string,
+		orderId: string
+	): Promise<IOrderData | IOrderWithPaymentUrl> {
 		const order = await this._orderRepository.getOrderById(orderId);
 		if (!order) {
 			throw new NotFoundError("Order not found");
@@ -119,7 +122,6 @@ class OrderService {
 			throw new NotFoundError("Product not found");
 		}
 
-		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		const paymentStatus = await this._midtransRepository.getTransactionStatus(orderId);
 		if (
 			paymentStatus.transaction_status !== "settlement" &&
@@ -136,6 +138,7 @@ class OrderService {
 			await this._orderRepository.editOrderStatus(orderId, "paid");
 		}
 
+		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		if (!subscription) {
 			await this.createOrderWithSubscription(userid, product.id);
 		}
@@ -160,39 +163,39 @@ class OrderService {
 			throw new NotFoundError("Product not found");
 		}
 
-		if (product.duration === "1 month") {
-			const createdAt = new Date();
-			const trialEndDate = new Date(createdAt.getTime() + 1 * 30 * 24 * 60 * 60 * 1000); // Set for 1 Months of Subscription
-			await this._subscriptionRepository.addSubscription(userId, {
-				id: `subscription-${product.id}-${Date.now()}`,
-				product_id: product.id,
-				api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
-				subscription_start_date: createdAt,
-				subscription_end_date: trialEndDate
-			});
+		const subscriptionDuration = product.duration;
+		const createdAt = new Date();
+		let trialEndDate;
+
+		switch (subscriptionDuration) {
+			case "1 month":
+				trialEndDate = new Date(createdAt.getTime() + 1 * 30 * 24 * 60 * 60 * 1000); // Set for 1 Months of Subscription
+				break;
+			case "3 months":
+				trialEndDate = new Date(createdAt.getTime() + 3 * 30 * 24 * 60 * 60 * 1000); // Set for 3 Months of Subscription
+				break;
+			case "6 months":
+				trialEndDate = new Date(createdAt.getTime() + 6 * 30 * 24 * 60 * 60 * 1000); // Set for 6 Months of Subscription
+				break;
+			default:
+				throw new Error(`Unsupported subscription duration: ${subscriptionDuration}`);
 		}
-		if (product.duration === "3 months") {
-			const createdAt = new Date();
-			const trialEndDate = new Date(createdAt.getTime() + 3 * 30 * 24 * 60 * 60 * 1000); // Set for 3 Months of Subscription
-			await this._subscriptionRepository.addSubscription(userId, {
-				id: `subscription-${product.id}-${Date.now()}`,
-				product_id: product.id,
-				api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
-				subscription_start_date: createdAt,
-				subscription_end_date: trialEndDate
-			});
+
+		await this._subscriptionRepository.addSubscription(userId, {
+			id: `subscription-${product.id}-${Date.now()}`,
+			product_id: product.id,
+			api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
+			subscription_start_date: createdAt,
+			subscription_end_date: trialEndDate
+		});
+	}
+
+	async getSubscriptions(api_key: string): Promise<ISubscription[]> {
+		if (api_key !== process.env.API_KEY) {
+			throw new AuthorizationError("Invalid API Key");
 		}
-		if (product.duration === "6 months") {
-			const createdAt = new Date();
-			const trialEndDate = new Date(createdAt.getTime() + 6 * 30 * 24 * 60 * 60 * 1000); // Set for 6 Months of Subscription
-			await this._subscriptionRepository.addSubscription(userId, {
-				id: `subscription-${product.id}-${Date.now()}`,
-				product_id: product.id,
-				api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
-				subscription_start_date: createdAt,
-				subscription_end_date: trialEndDate
-			});
-		}
+		const subscriptions = await this._subscriptionRepository.getSubscriptions();
+		return subscriptions;
 	}
 }
 

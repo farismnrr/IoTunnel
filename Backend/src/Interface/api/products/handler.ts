@@ -49,7 +49,6 @@ class ProductHandler {
 		const payload = request.payload as IProduct;
 		this._validator.validateAddProductPayload(payload);
 		const product = await this._productService.addProduct(admin.id, payload);
-		console.log("TEST");
 		return h
 			.response({
 				status: "success",

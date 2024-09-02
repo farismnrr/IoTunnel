@@ -8,10 +8,7 @@ class SubscriptionRepository {
 		this._pool = new Pool();
 	}
 
-	async addSubscription(
-		userId: string,
-		subscription: Partial<ISubscription>
-	): Promise<void> {
+	async addSubscription(userId: string, subscription: Partial<ISubscription>): Promise<void> {
 		const subscriptionQuery = {
 			text: `
 				INSERT INTO subscriptions (
@@ -39,8 +36,29 @@ class SubscriptionRepository {
 		await this._pool.query(subscriptionQuery);
 	}
 
-	async getSubscriptionByUserId(userId: string): Promise<ISubscription | null> {
-		const query = {
+	async getSubscriptionByUserId(userId: string): Promise<ISubscription> {
+		const subscriptionQuery = {
+			text: `
+				SELECT 
+					id, 
+					user_id, 
+					product_id, 
+					trial_id,
+					api_key,
+					subscription_start_date,
+					subscription_end_date
+				FROM subscriptions
+				WHERE user_id = $1
+			`,
+			values: [userId]
+		};
+
+		const subscriptionResult = await this._pool.query(subscriptionQuery);
+		return subscriptionResult.rows[0];
+	}
+
+	async getSubscriptions(): Promise<ISubscription[]> {
+		const subscriptionQuery = {
 			text: `
 				SELECT 
 					id, 
@@ -50,15 +68,12 @@ class SubscriptionRepository {
 					api_key, 
 					subscription_start_date, 
 					subscription_end_date 
-				FROM subscriptions 
-				WHERE user_id = $1
-			`,
-			values: [userId]
+				FROM subscriptions
+			`
 		};
 
-		const result = await this._pool.query(query);
-		console.log(result.rows);
-		return result.rows[0] || null;
+		const subscriptionResult = await this._pool.query(subscriptionQuery);
+		return subscriptionResult.rows;
 	}
 }
 

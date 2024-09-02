@@ -34,6 +34,16 @@ class OrderHandler {
 			data: order
 		});
 	}
+
+	async getSubscriptionsHandler(request: Request, h: ResponseToolkit) {
+		const api_key = request.headers["x-api-key"];
+		const subscription = await this._orderService.getSubscriptions(api_key);
+		return h.response({
+			status: "success",
+			message: "Subscription fetched successfully",
+			data: subscription
+		});
+	}
 }
 
 export default OrderHandler;

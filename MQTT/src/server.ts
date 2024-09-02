@@ -9,6 +9,14 @@ const init = async () => {
 		host: process.env.HOST
 	});
 
+	await server.route({
+		method: "GET",
+		path: "/",
+		handler: function (request, h) {
+			return h.response("Server Connected");
+		}
+	});
+
 	const mosquittoService = new MosquittoService();
 	const mosquittoHandler = new MosquittoHandler(mosquittoService);
 	server.route(routes(mosquittoHandler));

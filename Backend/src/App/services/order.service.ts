@@ -1,9 +1,11 @@
 import type { IOrder, IOrderData, IOrderWithPaymentUrl, ISubscription } from "../../Common/models/types";
+import Config from "../../Infrastructure/settings/config";
 import OrderRepository from "../../Infrastructure/repositories/server/order.repo";
 import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
 import ProductRepository from "../../Infrastructure/repositories/server/product.repo";
 import MidtransRepository from "../../Infrastructure/repositories/external/midtrans.repo";
+import MosquittoRepository from "../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../Infrastructure/repositories/server/subscription.repo";
 import { nanoid } from "nanoid";
 import { NotFoundError, AuthorizationError } from "../../Common/errors";
@@ -14,6 +16,7 @@ class OrderService {
 	private readonly _userRepository: UserRepository;
 	private readonly _productRepository: ProductRepository;
 	private readonly _midtransRepository: MidtransRepository;
+	private readonly _mosquittoRepository: MosquittoRepository;
 	private readonly _subscriptionRepository: SubscriptionRepository;
 	constructor(
 		orderRepository: OrderRepository,
@@ -21,6 +24,7 @@ class OrderService {
 		userRepository: UserRepository,
 		productRepository: ProductRepository,
 		midtransRepository: MidtransRepository,
+		mosquittoRepository: MosquittoRepository,
 		subscriptionRepository: SubscriptionRepository
 	) {
 		this._orderRepository = orderRepository;
@@ -28,6 +32,7 @@ class OrderService {
 		this._userRepository = userRepository;
 		this._productRepository = productRepository;
 		this._midtransRepository = midtransRepository;
+		this._mosquittoRepository = mosquittoRepository;
 		this._subscriptionRepository = subscriptionRepository;
 	}
 
@@ -141,6 +146,7 @@ class OrderService {
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		if (!subscription) {
 			await this.createOrderWithSubscription(userid, product.id);
+			await this._mosquittoRepository.getMosquittoUrl();
 		}
 
 		return {
@@ -191,7 +197,7 @@ class OrderService {
 	}
 
 	async getSubscriptions(api_key: string): Promise<ISubscription[]> {
-		if (api_key !== process.env.API_KEY) {
+		if (api_key !== Config.mosquitto.apiKey) {
 			throw new AuthorizationError("Invalid API Key");
 		}
 		const subscriptions = await this._subscriptionRepository.getSubscriptions();

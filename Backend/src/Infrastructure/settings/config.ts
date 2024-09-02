@@ -30,6 +30,10 @@ const config = {
 		clientKey: process.env.MIDTRANS_CLIENT_KEY,
 		snapUrl: process.env.MIDTRANS_SNAP_URL,
 		coreUrl: process.env.MIDTRANS_CORE_URL
+	},
+	mosquitto: {
+		url: process.env.MOSQUITTO_URL,
+		apiKey: process.env.MOSQUITTO_API_KEY
 	}
 };
 

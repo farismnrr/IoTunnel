@@ -7,6 +7,7 @@ import UserRepository from "../../../Infrastructure/repositories/server/user.rep
 import OrderRepository from "../../../Infrastructure/repositories/server/order.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
 
 const userRepository = new UserRepository();
@@ -14,6 +15,7 @@ const authRepository = new AuthRepository();
 const orderRepository = new OrderRepository();
 const productRepository = new ProductRepository();
 const midtransRepository = new MidtransRepository();
+const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
 
 const orderService = new OrderService(
@@ -22,6 +24,7 @@ const orderService = new OrderService(
 	userRepository,
 	productRepository,
 	midtransRepository,
+	mosquittoRepository,
 	subscriptionRepository
 );
 const orderHandler = new OrderHandler(orderService);

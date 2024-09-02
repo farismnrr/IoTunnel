@@ -1,17 +1,20 @@
 {
-  "name": "mqtt-client",
-  "module": "server.ts",
-  "type": "module",
-  "scripts": {
-    "start": "bun --watch server.ts"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
-  }
+	"name": "mqtt-client",
+	"module": "server.ts",
+	"type": "module",
+	"scripts": {
+		"start": "bun --watch src/server.ts",
+		"start:prod": "pm2 start src/server.ts --name mqtt-client --watch --autorestart"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"@hapi/hapi": "^21.3.10",
+		"auto-bind": "^5.0.1",
+		"node-fetch": "^3.3.2"
+	}
 }

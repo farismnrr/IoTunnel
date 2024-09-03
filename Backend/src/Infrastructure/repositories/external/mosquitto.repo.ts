@@ -12,6 +12,9 @@ class MosquittoRepository {
 				}
 			};
 			const response = await fetch(`${Config.mosquitto.url}/mosquitto/password`, options);
+			if (response.status !== 201) {
+				throw new Error("Failed to get Mosquitto URL");
+			}
 			await response.json();
 		} catch (error) {
 			console.error("Failed to get Mosquitto URL:", error);
@@ -30,6 +33,9 @@ class MosquittoRepository {
 				}
 			};
 			const response = await fetch(`${Config.mosquitto.url}/mosquitto/password/${user_id}`, options);
+			if (response.status !== 200) {
+				throw new Error("Failed to delete Mosquitto URL");
+			}
 			await response.json();
 		} catch (error) {
 			console.error("Failed to delete Mosquitto URL:", error);

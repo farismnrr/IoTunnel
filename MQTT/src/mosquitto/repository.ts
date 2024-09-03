@@ -11,7 +11,14 @@ class MosquittoRepository {
 				Authorization: apiKey,
 			},
 		};
-		const response = await fetch(`${config.mosquitto.apiUrl}/api/v1/orders/subscription`, options);
+		const response = await fetch(
+			`${config.mosquitto.apiUrl}/api/v1/orders/subscription`,
+			options
+		);
+		if (response.status !== 200) {
+			console.log("Failed to fetch webhook");
+			throw new Error("Failed to fetch webhook");
+		}
 		const data = await response.json();
 		return data.data;
 	}

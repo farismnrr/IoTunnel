@@ -143,7 +143,7 @@ class ProductService {
 			...trial,
 			free_trial: false
 		});
-
+		
 		const createdAt = new Date();
 		const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
 		// const trialEndDate = new Date(createdAt.getTime() + 1 * 60 * 1000);
@@ -157,6 +157,7 @@ class ProductService {
 				subscription_end_date: trialEndDate
 			}
 		);
+		await this._mosquittoRepository.getMosquittoUrl(api_key);
 	}
 	// End Trial Service
 }

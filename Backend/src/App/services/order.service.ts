@@ -152,7 +152,7 @@ class OrderService {
 		if (!subscription) {
 			await this.createOrderWithSubscription(userid, product.id);
 		}
-
+		
 		await this._mosquittoRepository.getMosquittoUrl(api_key);
 		return {
 			id: order.id,

@@ -29,22 +29,25 @@ class OrderHandler {
 		const api_key = request.headers.authorization;
 		const { id } = request.params;
 		const order = await this._orderService.getOrderById(user.id, id, api_key);
-		return h.response({
-			status: "success",
-			message: "Order fetched successfully",
-			data: order
-		});
+		return h
+			.response({
+				status: "success",
+				message: "Order fetched successfully",
+				data: order
+			})
+			.code(200);
 	}
 
 	async getSubscriptionsHandler(request: Request, h: ResponseToolkit) {
-		console.log(request.headers.authorization);
 		const user = request.auth.credentials as unknown as IAuth;
 		const subscription = await this._orderService.getSubscriptions(user.id);
-		return h.response({
-			status: "success",
-			message: "Subscription fetched successfully",
-			data: subscription
-		});
+		return h
+			.response({
+				status: "success",
+				message: "Subscription fetched successfully",
+				data: subscription
+			})
+			.code(200);
 	}
 }
 

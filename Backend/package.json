@@ -5,6 +5,8 @@
 	"scripts": {
 		"dev": "bun install && bun copy-env && bun generate-token",
 		"start": "bun --watch src/server.ts",
+		"build": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server",
+		"deploy": "pm2 start dist/backend-server",
 		"lint": "eslint src",
 		"copy-env": "bun -e \"const fs = require('fs'); fs.copyFileSync('.env.example', '.env');\" || cp .env.example .env",
 		"generate-token": "bun src/Infrastructure/settings/token.ts"

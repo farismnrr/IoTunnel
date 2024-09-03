@@ -138,7 +138,6 @@ class ProductService {
 			throw new AuthorizationError("Subscription already exists");
 		}
 
-		await this._mosquittoRepository.getMosquittoUrl(api_key);
 		await this._productRepository.updateTrialByUserEmail(user.email, {
 			...trial,
 			free_trial: false

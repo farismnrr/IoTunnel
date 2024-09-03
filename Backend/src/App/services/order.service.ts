@@ -151,9 +151,9 @@ class OrderService {
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		if (!subscription) {
 			await this.createOrderWithSubscription(userid, product.id);
+			await this._mosquittoRepository.getMosquittoUrl(api_key);
 		}
 		
-		await this._mosquittoRepository.getMosquittoUrl(api_key);
 		return {
 			id: order.id,
 			payment_type: paymentStatus.payment_type,

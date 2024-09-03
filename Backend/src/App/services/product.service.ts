@@ -1,5 +1,6 @@
 import type { IProduct, ITrialWithSubscription } from "../../Common/models/types";
 import ProductRepository from "../../Infrastructure/repositories/server/product.repo";
+import MosquittoRepository from "../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../Infrastructure/repositories/server/subscription.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
 import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
@@ -8,16 +9,19 @@ import { NotFoundError, AuthorizationError } from "../../Common/errors";
 
 class ProductService {
 	private readonly _productRepository: ProductRepository;
+	private readonly _mosquittoRepository: MosquittoRepository;
 	private readonly _subscriptionRepository: SubscriptionRepository;
 	private readonly _userRepository: UserRepository;
 	private readonly _authRepository: AuthRepository;
 	constructor(
 		productRepository: ProductRepository,
+		mosquittoRepository: MosquittoRepository,
 		subscriptionRepository: SubscriptionRepository,
 		userRepository: UserRepository,
 		authRepository: AuthRepository
 	) {
 		this._productRepository = productRepository;
+		this._mosquittoRepository = mosquittoRepository;
 		this._subscriptionRepository = subscriptionRepository;
 		this._userRepository = userRepository;
 		this._authRepository = authRepository;
@@ -134,6 +138,7 @@ class ProductService {
 			throw new AuthorizationError("Subscription already exists");
 		}
 
+		await this._mosquittoRepository.getMosquittoUrl(api_key);
 		await this._productRepository.updateTrialByUserEmail(user.email, {
 			...trial,
 			free_trial: false
@@ -150,8 +155,7 @@ class ProductService {
 				api_key: `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`,
 				subscription_start_date: createdAt,
 				subscription_end_date: trialEndDate
-			},
-			api_key
+			}
 		);
 	}
 	// End Trial Service

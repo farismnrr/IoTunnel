@@ -17,6 +17,7 @@ const subscriptionRepository = new SubscriptionRepository(mosquittoRepository);
 
 const productService = new ProductService(
 	productRepository,
+	mosquittoRepository,
 	subscriptionRepository,
 	userRepository,
 	authRepository

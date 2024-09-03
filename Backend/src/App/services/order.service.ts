@@ -150,9 +150,10 @@ class OrderService {
 
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		if (!subscription) {
-			await this.createOrderWithSubscription(userid, product.id, api_key);
+			await this.createOrderWithSubscription(userid, product.id);
 		}
 
+		await this._mosquittoRepository.getMosquittoUrl(api_key);
 		return {
 			id: order.id,
 			payment_type: paymentStatus.payment_type,
@@ -162,7 +163,7 @@ class OrderService {
 		};
 	}
 
-	async createOrderWithSubscription(userId: string, productId: string, api_key: string): Promise<void> {
+	async createOrderWithSubscription(userId: string, productId: string): Promise<void> {
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");
@@ -197,7 +198,7 @@ class OrderService {
 			api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
 			subscription_start_date: createdAt,
 			subscription_end_date: trialEndDate
-		}, api_key);
+		});
 	}
 
 	async getSubscriptions(userId: string): Promise<ISubscription> {

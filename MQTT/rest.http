@@ -1,4 +1,4 @@
 POST http://localhost:5000/api/v1/orders/subscription
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItczF6em55OExwbi0xNzI1MzQ3NDY5NDY2IiwiaWF0IjoxNzI1MzQ4MjQ3fQ.2eMlmo44WilWWrE_b5xVPQ03PkMDvs1cXiT_5YqURyo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItdnlpQXp4MF9yTC0xNzI1Mzk5NTgwMDczIiwiaWF0IjoxNzI1NDAwNzkzfQ.cKYTpssOaGddRxU25FdgEH6DU36Ivgck-2hRjxbZhFk

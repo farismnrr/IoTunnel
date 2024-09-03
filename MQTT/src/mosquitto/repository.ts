@@ -11,8 +11,7 @@ class MosquittoRepository {
 				Authorization: apiKey,
 			},
 		};
-
-		const response = await fetch(`${config.mosquitto.apiUrl}/orders/subscription`, options);
+		const response = await fetch(`${config.mosquitto.apiUrl}/api/v1/orders/subscription`, options);
 		const data = await response.json();
 		return data.data;
 	}

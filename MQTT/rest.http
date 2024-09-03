@@ -1,4 +1,4 @@
 POST http://localhost:5000/api/v1/orders/subscription
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItdnlpQXp4MF9yTC0xNzI1Mzk5NTgwMDczIiwiaWF0IjoxNzI1NDAwNzkzfQ.cKYTpssOaGddRxU25FdgEH6DU36Ivgck-2hRjxbZhFk
+Authorization: Bearer YOUR_API_KEY

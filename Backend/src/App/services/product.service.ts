@@ -1,4 +1,4 @@
-import type { IProduct, ITrial } from "../../Common/models/types";
+import type { IProduct, ITrialWithSubscription } from "../../Common/models/types";
 import ProductRepository from "../../Infrastructure/repositories/server/product.repo";
 import SubscriptionRepository from "../../Infrastructure/repositories/server/subscription.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
@@ -87,7 +87,7 @@ class ProductService {
 		return true;
 	}
 
-	async getTrialByUserId(userId: string): Promise<ITrial | null> {
+	async getTrialByUserId(userId: string): Promise<ITrialWithSubscription | null> {
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");
@@ -102,7 +102,12 @@ class ProductService {
 		if (!trial) {
 			throw new NotFoundError("Trial not found");
 		}
-		return trial;
+
+		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
+		return {
+			...trial,
+			subscription
+		};
 	}
 
 	async editTrialByUserId(userId: string, api_key: string): Promise<void> {

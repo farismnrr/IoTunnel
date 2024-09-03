@@ -9,7 +9,7 @@ const routes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
 	},
 	{
 		method: "DELETE",
-		path: "/mosquitto/password",
+		path: "/mosquitto/password/{userId}",
 		handler: handler.deletePassword,
 	},
 ];

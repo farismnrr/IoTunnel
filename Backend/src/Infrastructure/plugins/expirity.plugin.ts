@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 import Hapi from "@hapi/hapi";
+import bcrypt from "bcrypt";
 import MosquittoRepository from "../repositories/external/mosquitto.repo";
 
 const ExpirityPlugin = async (server: Hapi.Server) => {
@@ -18,7 +19,8 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 					};
 					const subscription = await pool.query(getSubscriptionQuery); // <-- Array
 					subscription.rows.forEach(async row => {
-						await mosquittoRepository.deleteMosquittoUrl(row.user_id); // <-- Single ID
+						const hashedUserId = await bcrypt.hash(row.user_id, 10);
+						await mosquittoRepository.deleteMosquittoUrl(hashedUserId, row.user_id); // <-- Single ID
 						console.log(`Mosquitto Password deleted from ${row.user_id}`);
 					});
 
@@ -27,7 +29,6 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 						values: [currentTime]
 					};
 					await pool.query(subscriptionQuery);
-					console.log("Subscription deleted");
 				}
 
 				async function deleteOtp(): Promise<void> {
@@ -42,7 +43,7 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 				setInterval(async () => {
 					await deleteSubscription();
 					await deleteOtp();
-				}, 60 * 1000);
+				}, 1 * 1000);
 			}
 		}
 	});

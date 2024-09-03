@@ -6,6 +6,7 @@
     "start": "bun --watch src/server.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/bun": "latest"
   },
   "peerDependencies": {
@@ -15,6 +16,7 @@
     "@hapi/hapi": "^21.3.10",
     "auto-bind": "^5.0.1",
     "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
     "node-fetch": "^3.3.2"
   }
 }

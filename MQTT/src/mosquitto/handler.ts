@@ -22,8 +22,9 @@ class MosquittoHandler {
 	}
 
 	async deletePassword(request: Request, h: ResponseToolkit) {
-		const userId = request.headers.authorization;
-		await this._mosquittoService.deletePassword(userId);
+		const apiKey = request.headers.authorization;
+		const { userId } = request.params;
+		await this._mosquittoService.deletePassword(apiKey, userId);
 		return h
 			.response({
 				status: "success",

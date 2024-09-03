@@ -14,7 +14,7 @@ class MosquittoRepository {
 		await response.json();
 	}
 
-	async deleteMosquittoUrl(api_key: string): Promise<void> {
+	async deleteMosquittoUrl(api_key: string, user_id: string): Promise<void> {
 		const options = {
 			method: "DELETE",
 			headers: {
@@ -23,7 +23,7 @@ class MosquittoRepository {
 				Authorization: api_key
 			}
 		};
-		const response = await fetch(`${Config.mosquitto.url}/mosquitto/password`, options);
+		const response = await fetch(`${Config.mosquitto.url}/mosquitto/password/${user_id}`, options);
 		await response.json();
 	}
 }

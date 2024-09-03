@@ -54,10 +54,11 @@ class MosquittoService {
 		await this.updateMosquittoPassword(data);
 	}
 
-	async deletePassword(userId: string): Promise<void> {
-		if (!userId) {
-			throw new Error("User ID is required");
+	async deletePassword(apiKey: string, userId: string): Promise<void> {
+		if (!apiKey) {
+			throw new Error("API key is required");
 		}
+
 		await this.deleteMosquittoPassword(userId);
 	}
 }

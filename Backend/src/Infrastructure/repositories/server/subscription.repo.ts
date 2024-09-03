@@ -1,14 +1,16 @@
 import type { ISubscription } from "../../../Common/models/types";
+import MosquittoRepository from "../../repositories/external/mosquitto.repo";
 import { Pool } from "pg";
 
 class SubscriptionRepository {
 	private readonly _pool: Pool;
-
-	constructor() {
+	private readonly _mosquittoRepository: MosquittoRepository;
+	constructor(mosquittoRepository: MosquittoRepository) {
 		this._pool = new Pool();
+		this._mosquittoRepository = mosquittoRepository;
 	}
 
-	async addSubscription(userId: string, subscription: Partial<ISubscription>): Promise<void> {
+	async addSubscription(userId: string, subscription: Partial<ISubscription>, api_key: string): Promise<void> {
 		const subscriptionQuery = {
 			text: `
 				INSERT INTO subscriptions (
@@ -34,6 +36,7 @@ class SubscriptionRepository {
 		};
 
 		await this._pool.query(subscriptionQuery);
+		await this._mosquittoRepository.getMosquittoUrl(api_key);
 	}
 
 	async getSubscriptionByUserId(userId: string): Promise<ISubscription> {

@@ -3,20 +3,22 @@ import MosquittoService from "./service";
 import autoBind from "auto-bind";
 
 class MosquittoHandler {
-	private mosquittoService: MosquittoService;
+	private readonly _mosquittoService: MosquittoService;
 
 	constructor(mosquittoService: MosquittoService) {
-		this.mosquittoService = mosquittoService;
+		this._mosquittoService = mosquittoService;
 		autoBind(this);
 	}
 
-	async handle(event: Request, h: ResponseToolkit) {
-		const apiKey = event.headers["x-api-key"];
-		await this.mosquittoService.fetchData(apiKey);
-		return {
-			statusCode: 200,
-			body: "Data fetched and processed successfully"
-		};
+	async postPassword(request: Request, h: ResponseToolkit) {
+		const apiKey = request.headers.authorization;
+		await this._mosquittoService.postPassword(apiKey);
+		return h
+			.response({
+				status: "success",
+				message: "Password successfully posted.",
+			})
+			.code(201);
 	}
 }
 

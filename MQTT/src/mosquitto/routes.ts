@@ -1,11 +1,11 @@
 import type { ServerRoute } from "@hapi/hapi";
 import MosquittoHandler from "./handler";
 
-const routes: (handler: MosquittoHandler) => ServerRoute[] = (handler) => [
+const routes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
 	{
-		method: "GET",
-		path: "/mosquitto",
-		handler: handler.handle,
+		method: "POST",
+		path: "/mosquitto/password",
+		handler: handler.postPassword,
 	},
 ];
 

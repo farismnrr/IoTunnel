@@ -1,15 +1,17 @@
 import Config from "../../settings/config";
 
 class MosquittoRepository {
-    async getMosquittoUrl(): Promise<void> {
-        const options = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-				"x-api-key": Config.mosquitto.apiKey || ""
+	async getMosquittoUrl(api_key: string): Promise<void> {
+		const options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+				Authorization: api_key
 			}
 		};
-		await fetch(`${Config.mosquitto.url}/mosquitto`, options);
+		const response = await fetch(`${Config.mosquitto.url}/mosquitto/password`, options);
+		await response.json();
 	}
 }
 

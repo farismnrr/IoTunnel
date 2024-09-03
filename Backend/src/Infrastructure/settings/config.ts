@@ -33,7 +33,6 @@ const config = {
 	},
 	mosquitto: {
 		url: process.env.MOSQUITTO_URL,
-		apiKey: process.env.MOSQUITTO_API_KEY
 	}
 };
 

@@ -104,7 +104,8 @@ class ProductHandler {
 
 	async editTrialByUserIdHandler(request: Request, h: ResponseToolkit) {
 		const user = request.auth.credentials as unknown as IAuth;
-		await this._productService.editTrialByUserId(user.id);
+		const api_key = request.headers.authorization;
+		await this._productService.editTrialByUserId(user.id, api_key);
 		return h
 			.response({
 				status: "success",

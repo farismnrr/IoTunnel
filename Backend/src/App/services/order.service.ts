@@ -1,5 +1,9 @@
-import type { IOrder, IOrderData, IOrderWithPaymentUrl, ISubscription } from "../../Common/models/types";
-import Config from "../../Infrastructure/settings/config";
+import type {
+	IOrder,
+	IOrderData,
+	IOrderWithPaymentUrl,
+	ISubscription
+} from "../../Common/models/types";
 import OrderRepository from "../../Infrastructure/repositories/server/order.repo";
 import AuthRepository from "../../Infrastructure/repositories/server/auth.repo";
 import UserRepository from "../../Infrastructure/repositories/server/user.repo";
@@ -106,7 +110,8 @@ class OrderService {
 
 	async getOrderById(
 		userid: string,
-		orderId: string
+		orderId: string,
+		api_key: string
 	): Promise<IOrderData | IOrderWithPaymentUrl> {
 		const order = await this._orderRepository.getOrderById(orderId);
 		if (!order) {
@@ -145,8 +150,7 @@ class OrderService {
 
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
 		if (!subscription) {
-			await this.createOrderWithSubscription(userid, product.id);
-			await this._mosquittoRepository.getMosquittoUrl();
+			await this.createOrderWithSubscription(userid, product.id, api_key);
 		}
 
 		return {
@@ -158,7 +162,7 @@ class OrderService {
 		};
 	}
 
-	async createOrderWithSubscription(userId: string, productId: string): Promise<void> {
+	async createOrderWithSubscription(userId: string, productId: string, api_key: string): Promise<void> {
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");
@@ -193,14 +197,11 @@ class OrderService {
 			api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
 			subscription_start_date: createdAt,
 			subscription_end_date: trialEndDate
-		});
+		}, api_key);
 	}
 
-	async getSubscriptions(api_key: string): Promise<ISubscription[]> {
-		if (api_key !== Config.mosquitto.apiKey) {
-			throw new AuthorizationError("Invalid API Key");
-		}
-		const subscriptions = await this._subscriptionRepository.getSubscriptions();
+	async getSubscriptions(userId: string): Promise<ISubscription> {
+		const subscriptions = await this._subscriptionRepository.getSubscriptionByUserId(userId);
 		return subscriptions;
 	}
 }

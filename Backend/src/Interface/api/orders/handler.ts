@@ -26,8 +26,9 @@ class OrderHandler {
 
 	async getOrderByIdHandler(request: Request, h: ResponseToolkit) {
         const user = request.auth.credentials as unknown as IAuth;
+		const api_key = request.headers.authorization;
 		const { id } = request.params;
-		const order = await this._orderService.getOrderById(user.id, id);
+		const order = await this._orderService.getOrderById(user.id, id, api_key);
 		return h.response({
 			status: "success",
 			message: "Order fetched successfully",
@@ -36,8 +37,8 @@ class OrderHandler {
 	}
 
 	async getSubscriptionsHandler(request: Request, h: ResponseToolkit) {
-		const api_key = request.headers["x-api-key"];
-		const subscription = await this._orderService.getSubscriptions(api_key);
+		const user = request.auth.credentials as unknown as IAuth;
+		const subscription = await this._orderService.getSubscriptions(user.id);
 		return h.response({
 			status: "success",
 			message: "Subscription fetched successfully",

@@ -20,6 +20,17 @@ class MosquittoHandler {
 			})
 			.code(201);
 	}
+
+	async deletePassword(request: Request, h: ResponseToolkit) {
+		const userId = request.headers.authorization;
+		await this._mosquittoService.deletePassword(userId);
+		return h
+			.response({
+				status: "success",
+				message: "Password successfully deleted.",
+			})
+			.code(200);
+	}
 }
 
 export default MosquittoHandler;

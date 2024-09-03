@@ -7,6 +7,11 @@ const routes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
 		path: "/mosquitto/password",
 		handler: handler.postPassword,
 	},
+	{
+		method: "DELETE",
+		path: "/mosquitto/password",
+		handler: handler.deletePassword,
+	},
 ];
 
 export default routes;

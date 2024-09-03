@@ -24,10 +24,11 @@ class MosquittoService {
 				return;
 			}
 		});
+		console.log("Successfully updated mosquitto password");
 	}
 
-	async deleteMosquittoPassword(data: WebhookResponse): Promise<void> {
-		const command = `sudo mosquitto_passwd -D /etc/mosquitto/passwd ${data.user_id}`;
+	async deleteMosquittoPassword(userId: string): Promise<void> {
+		const command = `sudo mosquitto_passwd -D /etc/mosquitto/passwd ${userId}`;
 			exec(command, (error: Error | null) => {
 				if (error) {
 					console.error(`Error executing command: ${error.message}`);
@@ -42,6 +43,7 @@ class MosquittoService {
 				return;
 			}
 		});
+		console.log("Successfully deleted mosquitto password");
 	}
 
 	async postPassword(apiKey: string): Promise<void> {
@@ -50,6 +52,13 @@ class MosquittoService {
 		}
 		const data = await this._mosquittoRepository.getWebhook(apiKey);
 		await this.updateMosquittoPassword(data);
+	}
+
+	async deletePassword(userId: string): Promise<void> {
+		if (!userId) {
+			throw new Error("User ID is required");
+		}
+		await this.deleteMosquittoPassword(userId);
 	}
 }
 

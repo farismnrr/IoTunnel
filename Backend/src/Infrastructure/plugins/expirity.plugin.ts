@@ -13,6 +13,7 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 
 				async function deleteSubscription(): Promise<void> {
 					const currentTime = new Date();
+					await mosquittoRepository.getMosquittoConnection();
 					const getSubscriptionQuery = {
 						text: `SELECT user_id FROM subscriptions WHERE subscription_end_date < $1`,
 						values: [currentTime]

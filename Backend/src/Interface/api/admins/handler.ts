@@ -6,7 +6,7 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import autoBind from "auto-bind";
-import AdminService from "../../../App/services/admin.service";
+import AdminService from "../../../App/services/server/admin.service";
 import AdminValidator from "../../../App/validators/admins";
 import TokenManager from "../../../Common/tokens/manager.token";
 

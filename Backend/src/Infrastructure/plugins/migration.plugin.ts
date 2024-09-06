@@ -21,8 +21,11 @@ const MigrationPlugin = async (server: Hapi.Server) => {
 							`create-otp-codes-table.sql`,
 							`create-trials-table.sql`,
 							`create-products-table.sql`,
+							`create-items-table.sql`,
 							`create-orders-table.sql`,
-							`create-subscriptions-table.sql`
+							`create-subscriptions-table.sql`,
+							`create-topics-table.sql`,
+							`create-components-table.sql`
 						];
 
 						for (const migration of migrations) {

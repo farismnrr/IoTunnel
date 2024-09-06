@@ -1,7 +1,7 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import ProductHandler from "./handler";
-import ProductService from "../../../App/services/product.service";
+import ProductService from "../../../App/services/server/product.service";
 import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";

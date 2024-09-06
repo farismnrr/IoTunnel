@@ -6,8 +6,8 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import autoBind from "auto-bind";
-import UserService from "../../../App/services/user.service";
-import ProductService from "../../../App/services/product.service";
+import UserService from "../../../App/services/server/user.service";
+import ProductService from "../../../App/services/server/product.service";
 import UserValidator from "../../../App/validators/users";
 import TokenManager from "../../../Common/tokens/manager.token";
 

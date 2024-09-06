@@ -1,8 +1,8 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import UserHandler from "./handler";
-import UserService from "../../../App/services/user.service";
-import ProductService from "../../../App/services/product.service";
+import UserService from "../../../App/services/server/user.service";
+import ProductService from "../../../App/services/server/product.service";
 import UserValidator from "../../../App/validators/users";
 import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";

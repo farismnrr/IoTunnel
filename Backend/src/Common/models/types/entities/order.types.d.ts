@@ -22,7 +22,7 @@ interface ICustomer {
     phone: string;
 }
 
-interface IItem {
+interface IOrderItem {
     id: string;
     price: number;
     quantity: number;
@@ -52,4 +52,4 @@ interface IOrderData {
 	subscription: ISubscription | null;
 }
 
-export type { IOrder, ITransaction, ICustomer, IItem, IPayment, IPaymentStatus, IOrderWithPaymentUrl, IOrderData };
+export type { IOrder, ITransaction, ICustomer, IOrderItem, IPayment, IPaymentStatus, IOrderWithPaymentUrl, IOrderData };

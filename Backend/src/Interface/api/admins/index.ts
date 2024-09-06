@@ -1,7 +1,7 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import AdminHandler from "./handler";
-import AdminService from "../../../App/services/admin.service";
+import AdminService from "../../../App/services/server/admin.service";
 import AdminRepository from "../../../Infrastructure/repositories/server/admin.repo";
 import AdminValidator from "../../../App/validators/admins";
 import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";

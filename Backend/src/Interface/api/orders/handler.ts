@@ -1,7 +1,7 @@
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import type { IAuth } from "../../../Common/models/types";
 import autoBind from "auto-bind";
-import OrderService from "../../../App/services/order.service";
+import OrderService from "../../../App/services/server/order.service";
 
 class OrderHandler {
 	private readonly _orderService: OrderService;

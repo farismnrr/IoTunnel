@@ -1,7 +1,7 @@
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import type { IProduct, IAuth } from "../../../Common/models/types";
 import autoBind from "auto-bind";
-import ProductService from "../../../App/services/product.service";
+import ProductService from "../../../App/services/server/product.service";
 import ProductValidator from "../../../App/validators/products";
 
 class ProductHandler {

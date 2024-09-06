@@ -1,7 +1,7 @@
 import type {
 	ITransaction,
 	ICustomer,
-	IItem,
+	IOrderItem,
 	IPayment,
 	IPaymentStatus
 } from "../../../Common/models/types";
@@ -11,7 +11,7 @@ class MidtransRepository {
 	async createTransaction(
 		transactionDetails: ITransaction,
 		customerDetails: ICustomer,
-		itemDetails: IItem[]
+		itemDetails: IOrderItem[]
 	): Promise<IPayment> {
 		const options = {
 			method: "POST",

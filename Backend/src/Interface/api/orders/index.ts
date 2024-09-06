@@ -1,7 +1,7 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import OrderHandler from "./handler";
-import OrderService from "../../../App/services/order.service";
+import OrderService from "../../../App/services/server/order.service";
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
 import OrderRepository from "../../../Infrastructure/repositories/server/order.repo";

@@ -11,10 +11,10 @@ class MosquittoService {
 
 	async updateMosquittoPassword(data: WebhookResponse): Promise<void> {
 		const command = `sudo mosquitto_passwd -b /etc/mosquitto/passwd ${data.user_id} ${data.api_key}`;
-			exec(command, (error: Error | null) => {
-				if (error) {
-					console.error(`Error executing command: ${error.message}`);
-					return;
+		exec(command, (error: Error | null) => {
+			if (error) {
+				console.error(`Error executing command: ${error.message}`);
+				return;
 			}
 		});
 		const command2 = `sudo systemctl restart mosquitto`;
@@ -29,10 +29,10 @@ class MosquittoService {
 
 	async deleteMosquittoPassword(userId: string): Promise<void> {
 		const command = `sudo mosquitto_passwd -D /etc/mosquitto/passwd ${userId}`;
-			exec(command, (error: Error | null) => {
-				if (error) {
-					console.error(`Error executing command: ${error.message}`);
-					return;
+		exec(command, (error: Error | null) => {
+			if (error) {
+				console.error(`Error executing command: ${error.message}`);
+				return;
 			}
 		});
 
@@ -47,6 +47,7 @@ class MosquittoService {
 	}
 
 	async postPassword(apiKey: string): Promise<void> {
+		await this._mosquittoRepository.getServerConnection();
 		if (!apiKey) {
 			throw new Error("API key is required");
 		}
@@ -55,6 +56,7 @@ class MosquittoService {
 	}
 
 	async deletePassword(apiKey: string, userId: string): Promise<void> {
+		await this._mosquittoRepository.getServerConnection();
 		if (!apiKey) {
 			throw new Error("API key is required");
 		}

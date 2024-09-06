@@ -1,13 +1,10 @@
 import type { ISubscription } from "../../../Common/models/types";
-import MosquittoRepository from "../../repositories/external/mosquitto.repo";
 import { Pool } from "pg";
 
 class SubscriptionRepository {
 	private readonly _pool: Pool;
-	private readonly _mosquittoRepository: MosquittoRepository;
-	constructor(mosquittoRepository: MosquittoRepository) {
+	constructor() {
 		this._pool = new Pool();
-		this._mosquittoRepository = mosquittoRepository;
 	}
 
 	async addSubscription(userId: string, subscription: Partial<ISubscription>): Promise<void> {

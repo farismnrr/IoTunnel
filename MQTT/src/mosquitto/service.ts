@@ -46,8 +46,11 @@ class MosquittoService {
 		console.log("Successfully deleted mosquitto password");
 	}
 
-	async postPassword(apiKey: string): Promise<void> {
+	async getServerConnection(): Promise<void> {
 		await this._mosquittoRepository.getServerConnection();
+	}
+
+	async postPassword(apiKey: string): Promise<void> {
 		if (!apiKey) {
 			throw new Error("API key is required");
 		}
@@ -56,7 +59,6 @@ class MosquittoService {
 	}
 
 	async deletePassword(apiKey: string, userId: string): Promise<void> {
-		await this._mosquittoRepository.getServerConnection();
 		if (!apiKey) {
 			throw new Error("API key is required");
 		}

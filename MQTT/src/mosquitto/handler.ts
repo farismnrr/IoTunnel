@@ -10,6 +10,16 @@ class MosquittoHandler {
 		autoBind(this);
 	}
 
+	async getServerConnection(request: Request, h: ResponseToolkit) {
+		await this._mosquittoService.getServerConnection();
+		return h
+			.response({
+				status: "success",
+				message: "Server connection successfully retrieved.",
+			})
+			.code(200);
+	}
+	
 	async postPassword(request: Request, h: ResponseToolkit) {
 		const apiKey = request.headers.authorization;
 		await this._mosquittoService.postPassword(apiKey);

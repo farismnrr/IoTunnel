@@ -2,7 +2,7 @@ import Config from "../../settings/config";
 import ConnectionError from "../../../Common/errors";
 
 class MosquittoRepository {
-	async getMosquittoConnection(): Promise<void> {
+	async getMosquittoConnection(): Promise<number | undefined> {
 		try {
 			const options = {
 				method: "GET",
@@ -10,7 +10,11 @@ class MosquittoRepository {
 					"Content-Type": "application/json"
 				}
 			};
-			await fetch(`${Config.mosquitto.url}`, options);
+			const response = await fetch(`${Config.mosquitto.url}/mosquitto/connection`, options);
+			if (response.status !== 200) {
+				throw new ConnectionError("Failed to get Mosquitto Connection");
+			}
+			return response.status;
 		} catch (error) {
 			console.error("Failed to get Mosquitto Connection:", error);
 		}

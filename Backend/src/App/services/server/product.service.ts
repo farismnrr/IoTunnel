@@ -5,7 +5,7 @@ import SubscriptionRepository from "../../../Infrastructure/repositories/server/
 import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
 import { nanoid } from "nanoid";
-import { NotFoundError, AuthorizationError } from "../../../Common/errors";
+import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
 
 class ProductService {
 	private readonly _productRepository: ProductRepository;
@@ -115,7 +115,10 @@ class ProductService {
 	}
 
 	async editTrialByUserId(userId: string, api_key: string): Promise<void> {
-		await this._mosquittoRepository.getMosquittoConnection();
+		const connection = await this._mosquittoRepository.getMosquittoConnection();
+		if (connection !== 200) {
+			throw new ConnectionError("Failed to get Mosquitto Connection");
+		}
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");

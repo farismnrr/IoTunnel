@@ -2,7 +2,7 @@ import config from "../utils/config";
 import type { WebhookResponse } from "../utils/models";
 
 class MosquittoRepository {
-	async getServerConnection(): Promise<void> {
+	async getServerConnection(): Promise<number | undefined> {
 		try {
 			const options = {
 				method: "GET",
@@ -10,12 +10,13 @@ class MosquittoRepository {
 					"Content-Type": "application/json"
 				}
 			};
-			await fetch(`${config.mosquitto.apiUrl}`, options);
+			const response = await fetch(`${config.mosquitto.apiUrl}`, options);
+			return response.status;
 		} catch (error) {
-			console.error("Failed to get Mosquitto Connection:", error);
+			console.error("Failed to get Server Connection:", error);
 		}
 	}
-	
+
 	async getWebhook(apiKey: string): Promise<WebhookResponse> {
 		const options = {
 			method: "POST",

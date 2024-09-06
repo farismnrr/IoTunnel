@@ -21,7 +21,7 @@ const createServer = async () => {
 		path: "/",
 		handler: function (request: Hapi.Request, h: Hapi.ResponseToolkit) {
 			return h.response("Server Connected");
-		}
+		},
 	});
 
 	return server;
@@ -38,9 +38,25 @@ const mosquittoPlugin = {
 	},
 };
 
+const handleClientError = (server: Hapi.Server) => {
+	server.ext("onPreResponse", (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+		const { response } = request;
+		if (response instanceof Error) {
+			const newResponse = h.response({
+				status: "fail",
+				message: response.message,
+			});
+			newResponse.code(500);
+			return newResponse;
+		}
+		return h.continue;
+	});
+};
+
 const init = async () => {
 	const server = await createServer();
 	await mosquittoPlugin.plugin.register(server);
+	await handleClientError(server);
 	await server.start();
 	console.log(`Server running on ${server.info.uri}`);
 };

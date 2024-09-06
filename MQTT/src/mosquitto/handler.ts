@@ -19,7 +19,7 @@ class MosquittoHandler {
 			})
 			.code(200);
 	}
-	
+
 	async postPassword(request: Request, h: ResponseToolkit) {
 		const apiKey = request.headers.authorization;
 		await this._mosquittoService.postPassword(apiKey);

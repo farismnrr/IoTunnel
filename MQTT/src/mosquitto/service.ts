@@ -47,7 +47,10 @@ class MosquittoService {
 	}
 
 	async getServerConnection(): Promise<void> {
-		await this._mosquittoRepository.getServerConnection();
+		const connection = await this._mosquittoRepository.getServerConnection();
+		if (connection !== 200) {
+			throw new Error("Failed to connect to server");
+		}
 	}
 
 	async postPassword(apiKey: string): Promise<void> {

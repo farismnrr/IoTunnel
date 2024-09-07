@@ -13,12 +13,19 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 
 				async function deleteSubscription(): Promise<void> {
 					const currentTime = new Date();
-					await mosquittoRepository.getMosquittoConnection();
 					const getSubscriptionQuery = {
 						text: `SELECT user_id FROM subscriptions WHERE subscription_end_date < $1`,
 						values: [currentTime]
 					};
 					const subscription = await pool.query(getSubscriptionQuery); // <-- Array
+					if (!subscription.rowCount) {
+						return;
+					}
+					const connection = await mosquittoRepository.getMosquittoConnection();
+					if (connection !== 200) {
+						console.error("Failed to get Mosquitto Connection");
+						return;
+					}
 					subscription.rows.forEach(async row => {
 						const hashedUserId = await bcrypt.hash(row.user_id, 10);
 						await mosquittoRepository.deleteMosquittoUrl(hashedUserId, row.user_id); // <-- Single ID

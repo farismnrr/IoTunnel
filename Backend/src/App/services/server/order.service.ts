@@ -12,7 +12,7 @@ import MidtransRepository from "../../../Infrastructure/repositories/external/mi
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
 import { nanoid } from "nanoid";
-import { NotFoundError, AuthorizationError } from "../../../Common/errors";
+import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
 
 class OrderService {
 	private readonly _orderRepository: OrderRepository;
@@ -43,7 +43,10 @@ class OrderService {
 	async createOrder(userId: string, productId: string): Promise<IOrder> {
 		const id = `order-${nanoid(16)}`;
 		const status = "pending";
-		await this._mosquittoRepository.getMosquittoConnection();
+		const connection = await this._mosquittoRepository.getMosquittoConnection();
+		if (connection !== 200) {
+			throw new ConnectionError("Failed to get Mosquitto Connection");
+		}
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");

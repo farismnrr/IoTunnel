@@ -1,7 +1,7 @@
 -- Create table topics
 CREATE TABLE IF NOT EXISTS topics (
     id VARCHAR(30) PRIMARY KEY,
-    subscription_id VARCHAR(30) NOT NULL,
+    subscription_id VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (subscription_id) REFERENCES subscriptions(id) ON DELETE CASCADE ON UPDATE CASCADE

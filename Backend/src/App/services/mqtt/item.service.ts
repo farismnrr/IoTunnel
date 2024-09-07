@@ -19,14 +19,8 @@ class ItemService {
 			throw new AuthorizationError("You are not authorized to add this item");
 		}
 
-		let id;
-		if (item.pin_type === "digital") {
-			id = `digital-${nanoid(16)}`;
-		} else if (item.pin_type === "analog") {
-			id = `analog-${nanoid(16)}`;
-		} else {
-			throw new InvariantError("Invalid item name");
-		}
+		const itemPrefix = ["digital", "analog"].includes(item.pin_type) ? `item-${item.pin_type}` : "";
+		const id = `${itemPrefix}-${nanoid(16)}`;
 
 		const itemExists = await this._itemRepository.getItemByName(item.name);
 		if (itemExists) {

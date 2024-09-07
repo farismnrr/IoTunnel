@@ -35,6 +35,25 @@ class SubscriptionRepository {
 		await this._pool.query(subscriptionQuery);
 	}
 
+	async getSubscriptions(): Promise<ISubscription[]> {
+		const subscriptionQuery = {
+			text: `
+				SELECT 
+					id, 
+					user_id, 
+					product_id, 
+					trial_id, 
+					api_key, 
+					subscription_start_date, 
+					subscription_end_date 
+				FROM subscriptions
+			`
+		};
+
+		const subscriptionResult = await this._pool.query(subscriptionQuery);
+		return subscriptionResult.rows;
+	}
+
 	async getSubscriptionByUserId(userId: string): Promise<ISubscription> {
 		const subscriptionQuery = {
 			text: `
@@ -56,23 +75,25 @@ class SubscriptionRepository {
 		return subscriptionResult.rows[0];
 	}
 
-	async getSubscriptions(): Promise<ISubscription[]> {
+	async getSubscriptionByApiKey(apiKey: string): Promise<ISubscription> {
 		const subscriptionQuery = {
 			text: `
 				SELECT 
 					id, 
 					user_id, 
 					product_id, 
-					trial_id, 
-					api_key, 
-					subscription_start_date, 
-					subscription_end_date 
+					trial_id,
+					api_key,
+					subscription_start_date,
+					subscription_end_date
 				FROM subscriptions
-			`
+				WHERE api_key = $1
+			`,
+			values: [apiKey]
 		};
 
 		const subscriptionResult = await this._pool.query(subscriptionQuery);
-		return subscriptionResult.rows;
+		return subscriptionResult.rows[0];
 	}
 }
 

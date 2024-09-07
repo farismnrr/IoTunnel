@@ -3,7 +3,7 @@
 	"module": "src/server.ts",
 	"type": "module",
 	"scripts": {
-		"dev": "bun install && bun copy-env && bun generate-token",
+		"dev": "bun copy-env && bun generate-token",
 		"start": "bun --watch src/server.ts",
 		"build": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server",
 		"deploy": "pm2 start dist/backend-server",

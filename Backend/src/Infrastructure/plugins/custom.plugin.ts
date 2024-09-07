@@ -4,6 +4,7 @@ import users from "../../Interface/api/users";
 import products from "../../Interface/api/products";
 import orders from "../../Interface/api/orders";
 import items from "../../Interface/api/items";
+import components from "../../Interface/api/components";
 
 const CustomPlugin = async (server: Hapi.Server) => {
 	await server.register([
@@ -33,6 +34,12 @@ const CustomPlugin = async (server: Hapi.Server) => {
 		},
 		{
 			plugin: items,
+			routes: {
+				prefix: "/api/v1"
+			}
+		},
+		{
+			plugin: components,
 			routes: {
 				prefix: "/api/v1"
 			}

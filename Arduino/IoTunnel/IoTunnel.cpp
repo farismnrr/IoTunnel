@@ -13,6 +13,8 @@ void IoTunnel::loop() {
 
 void IoTunnel::getCredentials(const char* username, const char* password) {
   api.getCredentials(username, password);
+  this->_username = username;
+  this->_password = password;
 }
 
 void IoTunnel::connectToWiFi(const char* ssid, const char* password) {
@@ -24,29 +26,26 @@ void IoTunnel::connectToWiFi(const char* ssid, const char* password) {
   Serial.println("Connected to the Wi-Fi network");
 }
 
-const char* IoTunnel::getTopic(const char* virtualPin) {
+void IoTunnel::virtualPinSetup(const char* virtualPin) {
+  // Konfigurasi MQTT
+  client.setServer(api.mqttBroker, api.mqttPort);
+
+  // Mendapatkan topik dari API
   String topic = api.getTopic(espClient, virtualPin);
   this->_topic = topic;
-  return this->_topic.c_str();
-}
 
-void IoTunnel::connectToMQTT(const char* username, const char* password) {
-  client.setServer(api.mqttBroker, api.mqttPort);
-  
+  // Menghubungkan ke MQTT
+  String clientId = "esp32-client-" + String(this->_username) + String(WiFi.macAddress());
   while (!client.connected()) {
-    String client_id = "esp32-client-" + String(username);
-    client_id += String(WiFi.macAddress());
-    Serial.printf("The client %s connects to the MQTT broker\n", client_id.c_str());
-
-    if (client.connect(client_id.c_str(), username, password)) {
-      Serial.println("MQTT broker connected");
-    } else {
-      Serial.print("failed with state ");
+    Serial.printf("Klien %s menghubungkan ke broker MQTT\n", clientId.c_str());
+    if (!client.connect(clientId.c_str(), this->_username, this->_password)) {
+      Serial.print("Gagal dengan status ");
       Serial.print(client.state());
+      delay(2000);
+    } else {
+      Serial.println("Broker MQTT terhubung");
+      client.publish(this->_topic.c_str(), "ESP32 Terhubung ke MQTT");
+      client.subscribe(this->_topic.c_str());
     }
   }
-
-  const char* topic = this->_topic.c_str();
-  client.publish(topic, "ESP32 Connected to MQTT");
-  client.subscribe(topic);
 }

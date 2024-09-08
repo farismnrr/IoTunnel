@@ -12,8 +12,7 @@ void setup() {
   Serial.begin(115200);
   tunnel.connectToWiFi(ssid, password);
   tunnel.getCredentials(mqtt_username, mqtt_password);
-  tunnel.getTopic(virtualPin);
-  tunnel.connectToMQTT(mqtt_username, mqtt_password);
+  tunnel.virtualPinSetup(virtualPin);
 }
 
 void loop() {

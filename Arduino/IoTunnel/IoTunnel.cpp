@@ -2,6 +2,7 @@
 #include "api.h"
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
 
 API api;
 WiFiClient espClient;
@@ -34,6 +35,10 @@ void IoTunnel::virtualPinSetup(const char* virtualPin) {
   String topic = api.getTopic(espClient, virtualPin);
   this->_topic = topic;
 
+  client.setCallback([this, virtualPin](const char* topic, byte *payload, unsigned int length) {
+    this->virtualPinCallback(virtualPin, topic, payload, length);
+  });
+
   // Menghubungkan ke MQTT
   String clientId = "esp32-client-" + String(this->_username) + String(WiFi.macAddress());
   while (!client.connected()) {
@@ -48,4 +53,23 @@ void IoTunnel::virtualPinSetup(const char* virtualPin) {
       client.subscribe(this->_topic.c_str());
     }
   }
+}
+
+int IoTunnel::virtualPinCallback(const char* virtualPin, const char* topic, byte *payload, unsigned int length) {
+  DynamicJsonDocument jsonDoc(length);
+  deserializeJson(jsonDoc, payload, length);
+
+  if (jsonDoc.containsKey("data")) {
+    int value = jsonDoc["data"];
+    this->_virtualPin = virtualPin;
+    this->_virtualPinValue = value;
+    return value;
+  }
+}
+
+int IoTunnel::virtualPinControl(const char* virtualPin, int physicalPin) {
+  if (this->_virtualPin == virtualPin) {
+    return this->_virtualPinValue;
+  }
+  return -1;
 }

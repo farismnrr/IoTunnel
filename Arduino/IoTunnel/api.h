@@ -7,8 +7,8 @@
 class API {
   public:
   	API();
-    bool getCredentials(const char* user, const char* password);
-    String getTopic(WiFiClient client, const char* device);
+    void getCredentials(const char* user, const char* password);
+    String getTopic(WiFiClient client, const char* virtualPin);
     String apiUrl();
 
     const char* mqttBroker = "34.142.222.2";

@@ -11,21 +11,22 @@ API::API() {
   _password = this->_password;
 }
 
-bool API::getCredentials(const char* user, const char* password) {
+void API::getCredentials(const char* user, const char* password) {
   this->_username = user;
   this->_password = password;
 }
 
-String API::getTopic(WiFiClient client, const char* device) {
+String API::getTopic(WiFiClient client, const char* virtualPin) {
   int httpCode;
   String response;
   String auth = "Bearer " + String(this->_password);
   do {
-    http.begin(client, this->_apiUrl + device);
+    http.begin(client, this->_apiUrl + virtualPin);
     http.addHeader("Authorization", auth);
     httpCode = http.GET();
     response = http.getString();
     if (httpCode != 200) {
+        Serial.println(response);
         Serial.println("Error sending request to API:");
         Serial.println(http.errorToString(httpCode));
         delay(2000);
@@ -35,7 +36,7 @@ String API::getTopic(WiFiClient client, const char* device) {
   DynamicJsonDocument jsonDoc(2048);
   deserializeJson(jsonDoc, response);
   String topicId = jsonDoc["data"]["topic_id"];
-	return topicId;
+	return topicId.c_str();
 }
 
 String API::apiUrl() {

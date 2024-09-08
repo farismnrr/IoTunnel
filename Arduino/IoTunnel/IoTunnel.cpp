@@ -46,7 +46,7 @@ void IoTunnel::connectToMQTT(const char* username, const char* password) {
     }
   }
 
-  Serial.println(this->_topic.c_str());
-  client.publish(this->_topic.c_str(), "ESP32 Connected to MQTT");
-  client.subscribe(this->_topic.c_str());
+  const char* topic = this->_topic.c_str();
+  client.publish(topic, "ESP32 Connected to MQTT");
+  client.subscribe(topic);
 }

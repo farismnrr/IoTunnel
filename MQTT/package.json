@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "bun --watch src/server.ts",
-		"build": "bun build src/server.ts --compile --minify --outfile dist/mqtt-server",
+		"build": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/mqtt-server",
 		"deploy": "pm2 start dist/mqtt-server"
 	},
 	"devDependencies": {

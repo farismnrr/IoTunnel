@@ -1,4 +1,4 @@
-POST http://localhost:5000/api/v1/orders/subscription
+GET http://localhost:5001/components/
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer YOUR_API_KEY

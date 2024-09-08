@@ -1,7 +1,7 @@
 import type { ServerRoute } from "@hapi/hapi";
 import MosquittoHandler from "./handler";
 
-const routes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
+const mosquittoRoutes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
 	{
 		method: "GET",
 		path: "/mosquitto/connection",
@@ -19,4 +19,4 @@ const routes: (handler: MosquittoHandler) => ServerRoute[] = handler => [
 	},
 ];
 
-export default routes;
+export default mosquittoRoutes;

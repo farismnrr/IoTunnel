@@ -3,9 +3,11 @@
 
 class IoTunnel {
   public:
-    const char* getBroker();
-    int getPort();
+    void loop();
     void connectToWiFi(const char* ssid, const char* password);
+    void connectToMQTT(const char* username, const char* password);
+
+    const char *topic = "LED";
 };
 
 #endif

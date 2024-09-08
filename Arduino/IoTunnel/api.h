@@ -11,11 +11,11 @@ class API {
     String getTopic(WiFiClient client, const char* virtualPin);
     String apiUrl();
 
-    const char* mqttBroker = "34.142.222.2";
+    const char* mqttBroker = "34.124.156.206";
     int mqttPort = 1883;
+    int apiPort = 5499;
   private:
     String _apiUrl;
-		int _apiPort;
     const char* _username;
     const char* _password;
 };

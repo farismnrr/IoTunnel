@@ -5,8 +5,7 @@
 HTTPClient http;
 
 API::API() {
-	_apiPort = 5000;
-  _apiUrl = String("http://") + String(mqttBroker) + ":" + String(_apiPort) + "/api/v1/components/";
+  _apiUrl = String("http://") + String(mqttBroker) + ":" + String(apiPort) + "/components/";
   _username = this->_username;
   _password = this->_password;
 }

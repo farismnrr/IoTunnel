@@ -27,16 +27,26 @@ void IoTunnel::connectToWiFi(const char* ssid, const char* password) {
   Serial.println("Connected to the Wi-Fi network");
 }
 
-void IoTunnel::virtualPinSetup(const char* virtualPin) {
+void IoTunnel::getTopics(const char* virtualPin) {
+  int idx = -1;
+  for (int i = 0; i < 10; i++) {
+    if (_topics[i] == "") {
+      idx = i;
+      break;
+    }
+  }
+  if (idx != -1) {
+    String topic = api.getTopic(espClient, virtualPin);
+    _topics[idx] = topic;
+    _virtualPins[idx] = virtualPin;
+  }
+}
+
+void IoTunnel::virtualPinSetup() {
   // Konfigurasi MQTT
   client.setServer(api.mqttBroker, api.mqttPort);
-
-  // Mendapatkan topik dari API
-  String topic = api.getTopic(espClient, virtualPin);
-  this->_topic = topic;
-
-  client.setCallback([this, virtualPin](const char* topic, byte *payload, unsigned int length) {
-    this->virtualPinCallback(virtualPin, topic, payload, length);
+  client.setCallback([this](const char* topic, byte *payload, unsigned int length) {
+    this->virtualPinCallback(topic, payload, length);
   });
 
   // Menghubungkan ke MQTT
@@ -49,27 +59,37 @@ void IoTunnel::virtualPinSetup(const char* virtualPin) {
       delay(2000);
     } else {
       Serial.println("Broker MQTT terhubung");
-      client.publish(this->_topic.c_str(), "ESP32 Terhubung ke MQTT");
-      client.subscribe(this->_topic.c_str());
+      for (int i = 0; i < 10; i++) {
+        if (_topics[i] != "") {
+          client.publish(_topics[i].c_str(), "ESP32 Terhubung ke MQTT");
+          client.subscribe(_topics[i].c_str());
+        }
+      }
     }
   }
 }
 
-int IoTunnel::virtualPinCallback(const char* virtualPin, const char* topic, byte *payload, unsigned int length) {
+int IoTunnel::virtualPinCallback(const char* topic, byte *payload, unsigned int length) {
   DynamicJsonDocument jsonDoc(length);
   deserializeJson(jsonDoc, payload, length);
 
   if (jsonDoc.containsKey("data")) {
     int value = jsonDoc["data"];
-    this->_virtualPin = virtualPin;
-    this->_virtualPinValue = value;
-    return value;
+    for (int i = 0; i < 10; i++) {
+      if (_topics[i] == topic) {
+        _virtualPinValues[i] = value;
+        return value;
+      }
+    }
   }
+  return -1;
 }
 
 int IoTunnel::virtualPinControl(const char* virtualPin, int physicalPin) {
-  if (this->_virtualPin == virtualPin) {
-    return this->_virtualPinValue;
+  for (int i = 0; i < 10; i++) {
+    if (_virtualPins[i] == virtualPin) {
+      return _virtualPinValues[i];
+    }
   }
   return -1;
 }

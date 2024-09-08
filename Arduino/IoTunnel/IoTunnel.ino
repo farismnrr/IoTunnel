@@ -18,7 +18,9 @@ void setup() {
   pinMode(ledPin2, OUTPUT);
   tunnel.connectToWiFi(ssid, password);
   tunnel.getCredentials(mqtt_username, mqtt_password);
-  tunnel.virtualPinSetup(virtualPin);
+  tunnel.getTopics(virtualPin);
+  tunnel.getTopics(virtualPin2);
+  tunnel.virtualPinSetup();
 }
 
 void loop() {
@@ -31,10 +33,10 @@ void loop() {
     digitalWrite(ledPin, LOW);
   }
 
-  // int pin2 = tunnel.virtualPinControl(virtualPin2, ledPin2);
-  // if (pin2 == 1) {
-  //   digitalWrite(ledPin2, HIGH);
-  // } else if (pin2 == 0) {
-  //   digitalWrite(ledPin2, LOW);
-  // }
+  int pin2 = tunnel.virtualPinControl(virtualPin2, ledPin2);
+  if (pin2 == 1) {
+    digitalWrite(ledPin2, HIGH);
+  } else if (pin2 == 0) {
+    digitalWrite(ledPin2, LOW);
+  }
 }

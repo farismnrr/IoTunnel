@@ -8,7 +8,8 @@ class IoTunnel {
     void loop();
     void connectToWiFi(const char* ssid, const char* password);
     void getCredentials(const char* username, const char* password);
-    int virtualPinControl(const char* virtualPin, int physicalPin);
+    int virtualPinControl(const char* virtualPin);
+    int virtualPinMonitor(const char* virtualPin, int valuePin);
     void getTopics(const char* virtualPin);
     void virtualPinSetup();
   private:

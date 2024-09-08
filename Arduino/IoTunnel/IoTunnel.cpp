@@ -85,10 +85,23 @@ int IoTunnel::virtualPinCallback(const char* topic, byte *payload, unsigned int 
   return -1;
 }
 
-int IoTunnel::virtualPinControl(const char* virtualPin, int physicalPin) {
+int IoTunnel::virtualPinControl(const char* virtualPin) {
   for (int i = 0; i < 10; i++) {
     if (_virtualPins[i] == virtualPin) {
       return _virtualPinValues[i];
+    }
+  }
+  return -1;
+}
+
+int IoTunnel::virtualPinMonitor(const char* virtualPin, int valuePin) {
+  for (int i = 0; i < 10; i++) {
+    if (_virtualPins[i] == virtualPin) {
+      DynamicJsonDocument jsonDoc(1024);
+      jsonDoc["data"] = valuePin;
+      String payload = jsonDoc.as<String>();
+      client.publish(_topics[i].c_str(), payload.c_str());
+      return _virtualPinValues[i] = valuePin;
     }
   }
   return -1;

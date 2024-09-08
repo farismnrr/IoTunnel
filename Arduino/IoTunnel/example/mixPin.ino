@@ -33,10 +33,10 @@ void loop() {
   analogWrite(ledPin2, potentioValue);
   delay(2000);
   
-  int pin = tunnel.virtualPinControl(virtualPin);
-  if (pin == 1) {
+  int ledValue = tunnel.virtualPinControl(virtualPin);
+  if (ledValue == 1) {
     digitalWrite(ledPin, HIGH);
-  } else if (pin == 0) {
+  } else if (ledValue == 0) {
     digitalWrite(ledPin, LOW);
   }
 }

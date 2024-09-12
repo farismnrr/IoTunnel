@@ -4,6 +4,7 @@ import type {
 	IAdminWithNewPassword,
 	IAuth
 } from "../../../Common/models/types";
+import config from "../../../Infrastructure/settings/config";
 import bcrypt from "bcrypt";
 import AdminRepository from "../../../Infrastructure/repositories/server/admin.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
@@ -54,6 +55,12 @@ class AdminService {
 
 	// Start Admin Service
 	async registerAdmin(payload: IAdminWithOtp): Promise<string> {
+		if (!payload.server_key) {
+			throw new AuthenticationError("Api key is required");
+		}
+		if (payload.server_key !== config.jwt.serverKey) {
+			throw new AuthorizationError("You don't have access to Create new Admin");
+		}
 		const id = `admin-${nanoid(10)}-${Date.now()}`;
 		const password = payload.password;
 		const retypePassword = payload.retype_password;

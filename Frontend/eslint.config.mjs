@@ -1,11 +1,6 @@
-import withNuxt from "./.nuxt/eslint.config.mjs";
-export default [
-  ...withNuxt(),
-  {
-    files: ['**/*.vue'],
+export default {
     rules: {
-      'no-console': 'off', // allow console.log
-      'vue/no-v-html': 'off' // allow <img> tags in Vue files
+        "no-console": "off", // allow console.log
+        "vue/no-v-html": "off" // allow <img> tags in Vue files
     }
-  }
-];
+};

@@ -13,3 +13,5 @@ bun run server.ts
 ```
 
 This project was created using `bun init` in bun v1.1.22. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+
+<!-- TODO: Create a script to reload mosquitto (Read MQTT Basic files, and implement it)-->

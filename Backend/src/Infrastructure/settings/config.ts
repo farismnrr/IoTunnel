@@ -4,6 +4,7 @@ const config = {
 		host: process.env.HOST || "localhost"
 	},
 	jwt: {
+		serverKey: process.env.SERVER_KEY,
 		accessTokenKey: process.env.ACCESS_TOKEN_KEY,
 		refreshTokenKey: process.env.REFRESH_TOKEN_KEY,
 		accessTokenAge: process.env.ACCESS_TOKEN_AGE
@@ -32,7 +33,7 @@ const config = {
 		coreUrl: process.env.MIDTRANS_CORE_URL
 	},
 	mosquitto: {
-		url: process.env.MOSQUITTO_URL,
+		url: process.env.MOSQUITTO_URL
 	},
 	db: {
 		user: process.env.PGUSER,

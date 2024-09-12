@@ -14,12 +14,13 @@ const createServer = async () => {
 		routes: {
 			cors: {
 				origin: ["*"],
+				headers: ["Accept", "Authorization", "Content-Type", "If-None-Match"],
 				credentials: true
 			}
 		}
 	});
 
-	await server.route({
+	server.route({
 		method: "GET",
 		path: "/",
 		handler: function (request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -36,7 +37,7 @@ const handleClientError = (server: Hapi.Server) => {
 		if (response instanceof Error) {
 			const newResponse = h.response({
 				status: "fail",
-				message: response.message
+				errors: response.message
 			});
 			if (response instanceof ClientError) {
 				newResponse.code(response.statusCode);

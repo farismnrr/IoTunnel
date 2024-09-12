@@ -8,19 +8,25 @@ const generateHmacKey = (): string => {
 	return hmac.digest("hex");
 };
 
-const updateEnvFile = (accessTokenKey: string, refreshTokenKey: string): void => {
+const updateEnvFile = (
+	accessTokenKey: string,
+	refreshTokenKey: string,
+	serverKey: string
+): void => {
 	const envFilePath = ".env";
 	const envFileContent = fs.readFileSync(envFilePath, "utf-8");
 	const updatedEnvFileContent = envFileContent
 		.replace(/ACCESS_TOKEN_KEY=.*/, `ACCESS_TOKEN_KEY=${accessTokenKey}`)
 		.replace(/REFRESH_TOKEN_KEY=.*/, `REFRESH_TOKEN_KEY=${refreshTokenKey}`)
+		.replace(/SERVER_KEY=.*/, `SERVER_KEY=${serverKey}`);
 	fs.writeFileSync(envFilePath, updatedEnvFileContent);
 };
 
 const TokenGenerator = (): void => {
 	const accessTokenKey = generateHmacKey();
 	const refreshTokenKey = generateHmacKey();
-	updateEnvFile(accessTokenKey, refreshTokenKey);
+	const serverKey = generateHmacKey();
+	updateEnvFile(accessTokenKey, refreshTokenKey, serverKey);
 };
 
 TokenGenerator();

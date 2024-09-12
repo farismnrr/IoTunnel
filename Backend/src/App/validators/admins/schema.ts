@@ -17,7 +17,8 @@ const RegisterAdminPayloadSchema = Joi.object({
 	otp_code: Joi.string()
 		.length(6)
 		.pattern(/^[0-9]+$/)
-		.required()
+		.required(),
+	server_key: Joi.string().required()
 });
 
 const EditAdminPayloadSchema = Joi.object({

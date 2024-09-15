@@ -8,15 +8,19 @@ import MailRepository from "../../../Infrastructure/repositories/server/mail.rep
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
 import TokenManager from "../../../Common/tokens/manager.token";
 
 const userRepository = new UserRepository();
 const productRepository = new ProductRepository();
 const mailRepository = new MailRepository();
 const authRepository = new AuthRepository();
+const mosquittoRepository = new MosquittoRepository();
+const subscriptionRepository = new SubscriptionRepository();
 
 const userService = new UserService(userRepository, mailRepository, authRepository);
-const productService = new ProductService(productRepository, userRepository, authRepository);
+const productService = new ProductService(productRepository, mosquittoRepository, subscriptionRepository, userRepository, authRepository);
 const userHandler = new UserHandler(userService, productService, UserValidator, TokenManager);
 
 export default {

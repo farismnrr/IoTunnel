@@ -124,7 +124,7 @@ class AdminHandler {
 
 	// Start Admin Auth Handler
 	async loginAdminHandler(request: Request, h: ResponseToolkit) {
-		const payload = request.payload as IAdmin;
+		const payload = request.payload as IAdminWithOtp;
 		this._validator.validateLoginAdminPayload(payload);
 		const adminId = await this._adminService.loginAdmin(payload);
 		const accessToken = this._tokenManager.generateAccessToken({ id: adminId });

@@ -178,6 +178,14 @@ class UserHandler {
 		this._validator.validateUserAuthPayload(payload);
 		this._tokenManager.verifyRefreshToken(payload.refresh_token);
 		await this._userService.logoutUser(payload.refresh_token);
+
+		h.unstate("jwt", {
+			path: "/",
+			isSecure: true,
+			isHttpOnly: true,
+			isSameSite: "Strict"
+		});
+		
 		return h
 			.response({
 				status: "success",

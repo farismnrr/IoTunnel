@@ -23,7 +23,6 @@ const RegisterUserPayloadSchema = Joi.object({
 	otp_code: Joi.string()
 		.length(6)
 		.pattern(/^[0-9]+$/)
-		.required()
 });
 
 const EditUserPayloadSchema = Joi.object({

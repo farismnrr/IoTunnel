@@ -1,4 +1,4 @@
-import type { IAdmin, IAdminWithNewPassword, IAuth } from "../../../Common/models/types";
+import type { IAdmin, IAdminWithNewPassword, IAdminWithOtp, IAuth } from "../../../Common/models/types";
 import { InvariantError } from "../../../Common/errors";
 import {
 	RegisterAdminPayloadSchema,
@@ -10,13 +10,13 @@ import {
 } from "./schema";
 
 const AdminValidator = {
-	validateAdminPayload: (payload: IAdmin) => {
+	validateAdminPayload: (payload: IAdminWithOtp) => {
 		const validationResult = RegisterAdminPayloadSchema.validate(payload);
 		if (validationResult.error) {
 			throw new InvariantError(validationResult.error.message);
 		}
 	},
-	validateLoginAdminPayload: (payload: IAdmin) => {
+	validateLoginAdminPayload: (payload: IAdminWithOtp) => {
 		const validationResult = LoginAdminPayloadSchema.validate(payload);
 		if (validationResult.error) {
 			throw new InvariantError(validationResult.error.message);

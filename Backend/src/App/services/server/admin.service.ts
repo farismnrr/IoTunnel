@@ -91,15 +91,24 @@ class AdminService {
 		return admin;
 	}
 
-	async loginAdmin(payload: IAdmin): Promise<string> {
+	async loginAdmin(payload: IAdminWithOtp): Promise<string> {
 		const admin = await this._adminRepository.getAdminByEmail(payload.email);
 		if (!admin) {
 			throw new NotFoundError("Email not found");
 		}
 
+		const adminOTP = await this._authRepository.getOtpByEmail(payload.email);
+		if (!adminOTP) {
+			throw new NotFoundError("OTP code not found");
+		}
+
 		const isMatch = await bcrypt.compare(payload.password, admin.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Invalid password");
+		}
+
+		if (adminOTP.otp_code !== payload.otp_code) {
+			throw new AuthenticationError("Invalid OTP code");
 		}
 
 		return admin.id;

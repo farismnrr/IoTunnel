@@ -17,8 +17,8 @@ const adminHandler = new AdminHandler(adminService, AdminValidator, TokenManager
 
 export default {
 	name: "admins",
-	version: "1.0.0",
-	description: "Add Admin API",
+	version: "1.0.1",
+	description: "Update Admin with OTP while login",
 	register: (server: Server) => {
 		server.route(routes(adminHandler));
 	}

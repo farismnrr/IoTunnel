@@ -34,7 +34,11 @@ const EditAdminPayloadSchema = Joi.object({
 
 const LoginAdminPayloadSchema = Joi.object({
 	email: Joi.string().email().required(),
-	password: Joi.string().required()
+	password: Joi.string().required(),
+	otp_code: Joi.string()
+		.length(6)
+		.pattern(/^[0-9]+$/)
+		.required()
 });
 
 const ChangePasswordPayloadSchema = Joi.object({

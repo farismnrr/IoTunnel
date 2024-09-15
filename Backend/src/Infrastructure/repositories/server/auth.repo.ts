@@ -67,7 +67,7 @@ class AuthRepository {
 	// Start Admin Auth Repository
 	async addAdminAuth(auth: IAuth): Promise<void> {
 		const createdAt = new Date();
-		await this.deleteAdminAuth(auth.id);
+		await this.deleteAdminAuthByAdminId(auth.id);
 		const adminAuthQuery = {
 			text: `
           		INSERT INTO auths (admin_id, refresh_token, access_token, role, created_at, updated_at) 
@@ -118,12 +118,20 @@ class AuthRepository {
 		};
 		await this._pool.query(adminAuthQuery);
 	}
+
+	async deleteAdminAuthByAdminId(adminId: string): Promise<void> {
+		const adminAuthQuery = {
+			text: `DELETE FROM auths WHERE admin_id = $1`,
+			values: [adminId]
+		};
+		await this._pool.query(adminAuthQuery);
+	}
 	// End Admin Auth Repository
 
 	// Start User Auth Repository
 	async addUserAuth(auth: IAuth): Promise<void> {
 		const createdAt = new Date();
-		await this.deleteUserAuth(auth.id);
+		await this.deleteUserAuthByUserId(auth.id);
 		const userAuthQuery = {
 			text: `
           		INSERT INTO auths (user_id, refresh_token, access_token, role, created_at, updated_at) 
@@ -171,6 +179,14 @@ class AuthRepository {
 		const userAuthQuery = {
 			text: `DELETE FROM auths WHERE refresh_token = $1`,
 			values: [refreshToken]
+		};
+		await this._pool.query(userAuthQuery);
+	}
+
+	async deleteUserAuthByUserId(userId: string): Promise<void> {
+		const userAuthQuery = {
+			text: `DELETE FROM auths WHERE user_id = $1`,
+			values: [userId]
 		};
 		await this._pool.query(userAuthQuery);
 	}

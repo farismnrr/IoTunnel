@@ -4,7 +4,7 @@ import type {
 	IUserWithNewPassword,
 	IAuth
 } from "../../../Common/models/types";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";

@@ -5,7 +5,7 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import config from "../../../Infrastructure/settings/config";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import AdminRepository from "../../../Infrastructure/repositories/server/admin.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";

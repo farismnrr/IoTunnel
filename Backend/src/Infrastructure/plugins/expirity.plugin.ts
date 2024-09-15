@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import Hapi from "@hapi/hapi";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import MosquittoRepository from "../repositories/external/mosquitto.repo";
 
 const ExpirityPlugin = async (server: Hapi.Server) => {

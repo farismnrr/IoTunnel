@@ -1,6 +1,5 @@
 import Hapi from "@hapi/hapi";
 import config from "./Infrastructure/settings/config";
-import MigrationsPlugin from "./Infrastructure/plugins/migration.plugin";
 import ExternalPlugins from "./Infrastructure/plugins/external.plugin";
 import ExpirityPlugin from "./Infrastructure/plugins/expirity.plugin";
 import CustomPlugins from "./Infrastructure/plugins/custom.plugin";
@@ -72,7 +71,6 @@ const handleServerLog = (server: Hapi.Server) => {
 
 const startServer = async () => {
 	const server = await createServer();
-	await MigrationsPlugin(server);
 	await ExternalPlugins(server);
 	await ExpirityPlugin(server);
 	await CustomPlugins(server);

@@ -1,15 +1,38 @@
 # iotunnel
 
-To install dependencies:
+## Postgres
+
+---
+
+-   Update and Install Postgres
 
 ```bash
-bun install
+sudo apt-get update
+sudo apt-get install postgresql
 ```
 
-To run:
+-   Check Postgres Version
 
 ```bash
-bun run src/server.ts
+psql --version
 ```
 
-This project was created using `bun init` in bun v1.1.22. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+-   Initialize Postgres (Change the version number to your current version)
+
+```bash
+sudo pg_ctlcluster 16 main start
+```
+
+-   Create User and Database
+
+```bash
+sudo -u postgres psql -c "CREATE USER iotunnel WITH PASSWORD 'YOUR_DATABASE_PASSWORD';"
+sudo -u postgres psql -c "CREATE DATABASE IoTunnel OWNER iotunnel;"
+```
+
+-   Grant All Privileges to User
+
+```bash
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE IoTunnel TO iotunnel;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON SCHEMA public TO iotunnel;"
+```

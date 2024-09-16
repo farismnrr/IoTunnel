@@ -1,12 +1,17 @@
-import type { IAdmin, IAdminWithNewPassword, IAdminWithOtp, IAuth } from "../../../Common/models/types";
+import type {
+	IAdmin,
+	IAdminWithNewPassword,
+	IAdminWithOtp,
+	IAuth
+} from "../../../Common/models/types";
 import { InvariantError } from "../../../Common/errors";
 import {
-	RegisterAdminPayloadSchema,
-	LoginAdminPayloadSchema,
-	EditAdminPayloadSchema,
-	ChangePasswordPayloadSchema,
 	SendOtpPayloadSchema,
-	AdminAuthPayloadSchema
+	AdminAuthPayloadSchema,
+	EditAdminPayloadSchema,
+	LoginAdminPayloadSchema,
+	RegisterAdminPayloadSchema,
+	ChangePasswordPayloadSchema
 } from "./schema";
 
 const AdminValidator = {

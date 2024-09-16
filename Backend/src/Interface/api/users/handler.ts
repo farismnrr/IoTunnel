@@ -185,7 +185,7 @@ class UserHandler {
 			isHttpOnly: true,
 			isSameSite: "Strict"
 		});
-		
+
 		return h
 			.response({
 				status: "success",

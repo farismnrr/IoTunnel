@@ -1,8 +1,8 @@
 import type { IComponentPayload } from "../../../Common/models/types";
-import ComponentRepository from "../../../Infrastructure/repositories/mqtt/component.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
-import TopicRepository from "../../../Infrastructure/repositories/mqtt/topic.repo";
-import ItemRepository from "../../../Infrastructure/repositories/mqtt/item.repo";
+import ComponentRepository from "../../../Infrastructure/repositories/server/mqtt/component.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import TopicRepository from "../../../Infrastructure/repositories/server/mqtt/topic.repo";
+import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
 import { nanoid } from "nanoid";
 import {
 	NotFoundError,

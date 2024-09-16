@@ -1,24 +1,25 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import AdminHandler from "./handler";
-import AdminService from "../../../App/services/server/admin.service";
-import AdminRepository from "../../../Infrastructure/repositories/server/admin.repo";
 import AdminValidator from "../../../App/validators/admins";
-import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import config from "../../../Infrastructure/settings/config";
 import TokenManager from "../../../Common/tokens/manager.token";
+import AdminService from "../../../App/services/server/admin.service";
+import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
+import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 
-const adminRepository = new AdminRepository();
 const mailRepository = new MailRepository();
 const authRepository = new AuthRepository();
+const adminRepository = new AdminRepository(config.photo.default as string);
 
 const adminService = new AdminService(adminRepository, mailRepository, authRepository);
 const adminHandler = new AdminHandler(adminService, AdminValidator, TokenManager);
 
 export default {
 	name: "admins",
-	version: "1.0.1",
-	description: "Update Admin with OTP while login",
+	version: "1.0.2",
+	description: "Add Admin Photo",
 	register: (server: Server) => {
 		server.route(routes(adminHandler));
 	}

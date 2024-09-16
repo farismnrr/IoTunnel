@@ -5,6 +5,7 @@ dist/
 
 # Certificates
 postgres.pem
+keyfile.json
 
 # Logs
 

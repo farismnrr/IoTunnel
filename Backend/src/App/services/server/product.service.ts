@@ -1,9 +1,9 @@
 import type { IProduct, ITrialWithSubscription } from "../../../Common/models/types";
-import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
+import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
-import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import { nanoid } from "nanoid";
 import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
 

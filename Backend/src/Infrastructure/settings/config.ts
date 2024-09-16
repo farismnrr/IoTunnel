@@ -24,7 +24,7 @@ const config = {
 			"To complete your registration, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to verify your account and get started with IoTunnel",
 		resetPasswordContent:
 			"To reset your password, we've sent the OTP below. This OTP is valid for 5 minutes. Please enter the code to reset your password",
-		otpHtml: "../../../../public/OTP/index.html"
+		otpHtml: "public/OTP/index.html"
 	},
 	midtrans: {
 		serverKey: process.env.MIDTRANS_SERVER_KEY,
@@ -41,6 +41,14 @@ const config = {
 		database: process.env.PGDATABASE,
 		password: process.env.PGPASSWORD,
 		port: process.env.PGPORT
+	},
+	storage: {
+		projectId: process.env.PROJECT_ID,
+		bucketName: process.env.BUCKET_NAME,
+		keyFilename: process.env.KEY_FILENAME
+	},
+	photo: {
+		default: process.env.DEFAULT_PHOTO
 	}
 };
 

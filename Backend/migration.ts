@@ -22,7 +22,7 @@ async function migrate() {
 		];
 
 		for (const migration of migrations) {
-			const filePath = path.resolve(__dirname, `${migration}`);
+			const filePath = path.resolve(`migrations/${migration}`);
 			const fileContent = await fs.promises.readFile(filePath, "utf8");
 			console.log(`Executing migration: ${migration}`);
 			const queries = fileContent.split(`;`);

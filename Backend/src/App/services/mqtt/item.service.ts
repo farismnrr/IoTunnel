@@ -1,6 +1,6 @@
 import type { IItem } from "../../../Common/models/types";
-import ItemRepository from "../../../Infrastructure/repositories/mqtt/item.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import { nanoid } from "nanoid";
 import { InvariantError, AuthorizationError, NotFoundError } from "../../../Common/errors";
 
@@ -19,7 +19,9 @@ class ItemService {
 			throw new AuthorizationError("You are not authorized to add this item");
 		}
 
-		const itemPrefix = ["digital", "analog"].includes(item.pin_type) ? `item-${item.pin_type}` : "";
+		const itemPrefix = ["digital", "analog"].includes(item.pin_type)
+			? `item-${item.pin_type}`
+			: "";
 		const id = `${itemPrefix}-${nanoid(16)}`;
 
 		const itemExists = await this._itemRepository.getItemByName(item.name);

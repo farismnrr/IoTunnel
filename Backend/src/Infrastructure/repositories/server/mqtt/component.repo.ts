@@ -1,6 +1,6 @@
-import type { IComponent } from "../../../Common/models/types";
+import type { IComponent } from "../../../../Common/models/types";
 import { Pool } from "pg";
-import { NotFoundError } from "../../../Common/errors";
+import { NotFoundError } from "../../../../Common/errors";
 
 class ComponentRepository {
 	private pool: Pool;
@@ -42,7 +42,7 @@ class ComponentRepository {
 	}
 
 	async getComponentByItemId(itemId: string): Promise<IComponent[]> {
-        const getComponentByItemIdQuery = {
+		const getComponentByItemIdQuery = {
 			text: `
                 SELECT topic_id, user_id
                 FROM components

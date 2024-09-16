@@ -2,10 +2,10 @@ import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import ComponentHandler from "./handler";
 import ComponentService from "../../../App/services/mqtt/component.service";
-import ComponentRepository from "../../../Infrastructure/repositories/mqtt/component.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
-import TopicRepository from "../../../Infrastructure/repositories/mqtt/topic.repo";
-import ItemRepository from "../../../Infrastructure/repositories/mqtt/item.repo";
+import ComponentRepository from "../../../Infrastructure/repositories/server/mqtt/component.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import TopicRepository from "../../../Infrastructure/repositories/server/mqtt/topic.repo";
+import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
 import ComponentValidator from "../../../App/validators/components";
 
 const componentRepository = new ComponentRepository();

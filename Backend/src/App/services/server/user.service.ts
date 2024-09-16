@@ -5,9 +5,9 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import bcrypt from "bcryptjs";
-import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
-import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,
@@ -87,12 +87,12 @@ class UserService {
 	async loginUser(payload: IUser): Promise<string> {
 		const user = await this._userRepository.getUserByEmail(payload.email);
 		if (!user) {
-			throw new NotFoundError("Email not found");
+			throw new NotFoundError("Email or password is incorrect");
 		}
 
 		const isMatch = await bcrypt.compare(payload.password, user.password);
 		if (!isMatch) {
-			throw new AuthenticationError("Invalid password");
+			throw new AuthenticationError("Email or password is incorrect");
 		}
 
 		return user.id;

@@ -1,4 +1,4 @@
-import type { IItem } from "../../../Common/models/types/entities/item.types";
+import type { IItem } from "../../../../Common/models/types/entities/item.types";
 import { Pool } from "pg";
 
 class ItemRepo {

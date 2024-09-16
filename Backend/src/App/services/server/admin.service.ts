@@ -6,9 +6,9 @@ import type {
 } from "../../../Common/models/types";
 import config from "../../../Infrastructure/settings/config";
 import bcrypt from "bcryptjs";
-import AdminRepository from "../../../Infrastructure/repositories/server/admin.repo";
-import MailRepository from "../../../Infrastructure/repositories/server/mail.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
+import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,
@@ -94,21 +94,21 @@ class AdminService {
 	async loginAdmin(payload: IAdminWithOtp): Promise<string> {
 		const admin = await this._adminRepository.getAdminByEmail(payload.email);
 		if (!admin) {
-			throw new NotFoundError("Email not found");
+			throw new NotFoundError("Email or password or OTP code is incorrect");
 		}
 
 		const adminOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!adminOTP) {
-			throw new NotFoundError("OTP code not found");
+			throw new NotFoundError("Email or password or OTP code is incorrect");
 		}
 
 		const isMatch = await bcrypt.compare(payload.password, admin.password);
 		if (!isMatch) {
-			throw new AuthenticationError("Invalid password");
+			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
 
 		if (adminOTP.otp_code !== payload.otp_code) {
-			throw new AuthenticationError("Invalid OTP code");
+			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
 
 		return admin.id;

@@ -1,12 +1,12 @@
 import type { IUser, IUserWithNewPassword, IAuth } from "../../../Common/models/types";
 import { InvariantError } from "../../../Common/errors";
 import {
-	RegisterUserPayloadSchema,
+	SendOtpPayloadSchema,
+	UserAuthPayloadSchema,
 	EditUserPayloadSchema,
 	LoginUserPayloadSchema,
-	ChangePasswordPayloadSchema,
-	SendOtpPayloadSchema,
-	UserAuthPayloadSchema
+	RegisterUserPayloadSchema,
+	ChangePasswordPayloadSchema
 } from "./schema";
 
 const UserValidator = {
@@ -45,7 +45,7 @@ const UserValidator = {
 		if (validationResult.error) {
 			throw new InvariantError(validationResult.error.message);
 		}
-	},
+	}
 };
 
 export default UserValidator;

@@ -1,4 +1,4 @@
-import type { ITopic } from "../../../Common/models/types";
+import type { ITopic } from "../../../../Common/models/types";
 import { Pool } from "pg";
 
 class TopicRepository {

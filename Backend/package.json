@@ -6,9 +6,9 @@
 		"dev": "bun copy-env && bun generate-token && bun start",
 		"start": "NODE_ENV=production bun --watch src/server.ts",
 		"deploy": "pm2 start dist/backend-server",
-		"migrate": "bun migrations/migration.ts",
+		"migrate": "bun migration.ts",
 		"build:server": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server",
-		"build:migrate": "bun build migrations/migration.ts --compile --minify --outfile dist/migration",
+		"build:migrate": "NODE_ENV=production bun build migration.ts --compile --minify --outfile dist/migration",
 		"lint": "eslint src",
 		"copy-env": "bun -e \"const fs = require('fs'); fs.copyFileSync('.env.example', '.env');\" || cp .env.example .env",
 		"generate-token": "bun src/Infrastructure/settings/token.ts"
@@ -16,9 +16,10 @@
 	"devDependencies": {
 		"@eslint/js": "^9.9.1",
 		"@types/bcrypt": "^5.0.2",
-		"@types/bun": "latest",
 		"@types/bcryptjs": "^2.4.6",
+		"@types/bun": "latest",
 		"@types/eslint__js": "^8.42.3",
+		"@types/multer": "^1.4.12",
 		"@types/nodemailer": "^6.4.15",
 		"@types/pg": "^8.11.7",
 		"@types/uuid": "^10.0.0",
@@ -30,6 +31,7 @@
 		"typescript": "^5.0.0"
 	},
 	"dependencies": {
+		"@google-cloud/storage": "^7.12.1",
 		"@hapi/hapi": "^21.3.10",
 		"@hapi/jwt": "^3.2.0",
 		"auto-bind": "^5.0.1",
@@ -37,6 +39,7 @@
 		"bcryptjs": "^2.4.3",
 		"joi": "^17.13.3",
 		"mock-aws-s3": "^4.0.2",
+		"multer": "^1.4.5-lts.1",
 		"nanoid": "^5.0.7",
 		"nock": "^13.5.5",
 		"nodemailer": "^6.9.14",

@@ -4,13 +4,13 @@ import type {
 	IOrderWithPaymentUrl,
 	ISubscription
 } from "../../../Common/models/types";
-import OrderRepository from "../../../Infrastructure/repositories/server/order.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
-import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
-import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
+import OrderRepository from "../../../Infrastructure/repositories/server/postgres/order.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import { nanoid } from "nanoid";
 import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
 
@@ -85,7 +85,7 @@ class OrderService {
 			id: product.id,
 			price: product.price,
 			quantity: 1,
-			name: product.product_name,
+			name: product.product_name
 		};
 
 		const payment = await this._midtransRepository.createTransaction(

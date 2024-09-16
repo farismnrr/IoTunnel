@@ -47,15 +47,15 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
 			auth: "user_jwt"
 		}
 	},
-    // {
+	// {
 	// 	method: "DELETE",
 	// 	path: "/users/all",
 	// 	handler: handler.deleteAllUsersHandler
 	// },
-    // End User Routes
+	// End User Routes
 
-    // Start User Auth Routes
-    {
+	// Start User Auth Routes
+	{
 		method: "PUT",
 		path: "/users/auth",
 		handler: handler.editUserAuthHandler
@@ -65,7 +65,7 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
 		path: "/users/auth",
 		handler: handler.logoutUserHandler
 	}
-    // End User Auth Routes
+	// End User Auth Routes
 ];
 
 export default routes;

@@ -2,8 +2,8 @@ import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import ItemHandler from "./handler";
 import ItemService from "../../../App/services/mqtt/item.service";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
-import ItemRepository from "../../../Infrastructure/repositories/mqtt/item.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
 import ItemValidator from "../../../App/validators/items";
 
 const itemRepository = new ItemRepository();

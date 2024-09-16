@@ -64,7 +64,7 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
 		method: "DELETE",
 		path: "/admins/auth",
 		handler: handler.logoutAdminHandler
-	},
+	}
 	// End Admin Auth Routes
 ];
 

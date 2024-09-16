@@ -2,18 +2,19 @@ import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import ProductHandler from "./handler";
 import ProductService from "../../../App/services/server/product.service";
-import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
+import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
-import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import ProductValidator from "../../../App/validators/products";
+import config from "../../../Infrastructure/settings/config";
 
 const authRepository = new AuthRepository();
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(config.photo.default as string);
 const productRepository = new ProductRepository();
 const mosquittoRepository = new MosquittoRepository();
-const subscriptionRepository = new SubscriptionRepository(mosquittoRepository);
+const subscriptionRepository = new SubscriptionRepository();
 
 const productService = new ProductService(
 	productRepository,

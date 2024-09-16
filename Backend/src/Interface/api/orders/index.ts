@@ -1,16 +1,17 @@
 import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import OrderHandler from "./handler";
+import config from "../../../Infrastructure/settings/config";
 import OrderService from "../../../App/services/server/order.service";
-import AuthRepository from "../../../Infrastructure/repositories/server/auth.repo";
-import UserRepository from "../../../Infrastructure/repositories/server/user.repo";
-import OrderRepository from "../../../Infrastructure/repositories/server/order.repo";
-import ProductRepository from "../../../Infrastructure/repositories/server/product.repo";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import OrderRepository from "../../../Infrastructure/repositories/server/postgres/order.repo";
+import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
-import SubscriptionRepository from "../../../Infrastructure/repositories/server/subscription.repo";
+import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(config.photo.default as string);
 const authRepository = new AuthRepository();
 const orderRepository = new OrderRepository();
 const productRepository = new ProductRepository();

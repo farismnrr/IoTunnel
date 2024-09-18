@@ -1,5 +1,5 @@
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import type { IComponentPayload } from "../../../Common/models/types";
+import type { IComponentPayload, IAuth } from "../../../Common/models/types";
 import autoBind from "auto-bind";
 import ComponentService from "../../../App/services/mqtt/component.service";
 import ComponentValidator from "../../../App/validators/components";
@@ -15,10 +15,10 @@ class ComponentHandler {
 	}
 
 	async createComponentHandler(request: Request, h: ResponseToolkit) {
-		const apiKey = request.headers.authorization;
+		const { id } = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IComponentPayload;
 		this._validator.validateComponentPayload(payload);
-		const component = await this._componentService.createComponent(payload, apiKey);
+		const component = await this._componentService.createComponent(id, payload);
 		return h
 			.response({
 				status: "success",
@@ -30,16 +30,35 @@ class ComponentHandler {
 			.code(201);
 	}
 
-	async getComponentByUserIdHandler(request: Request, h: ResponseToolkit) {
-		const apiKey = request.headers.authorization;
-		const { itemName } = request.params;
-		const topicId = await this._componentService.getComponentByUserId(itemName, apiKey);
+	async getComponentByProjectIdHandler(request: Request, h: ResponseToolkit) {
+		const { id } = request.auth.credentials as unknown as IAuth;
+		const { projectId } = request.params;
+		const components = await this._componentService.getComponentByProjectId(id, projectId);
 		return h
 			.response({
 				status: "success",
 				message: "Component retrieved successfully",
 				data: {
-					topic_id: topicId
+					components: components
+				}
+			})
+			.code(200);
+	}
+
+	async getComponentByApiKeyHandler(request: Request, h: ResponseToolkit) {
+		const apiKey = request.headers.authorization;
+		const { projectName, itemName } = request.params;
+		const components = await this._componentService.getComponentByApiKey(
+			apiKey,
+			projectName,
+			itemName
+		);
+		return h
+			.response({
+				status: "success",
+				message: "Component retrieved successfully",
+				data: {
+					components: components
 				}
 			})
 			.code(200);

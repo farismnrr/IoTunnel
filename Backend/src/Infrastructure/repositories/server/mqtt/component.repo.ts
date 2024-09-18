@@ -3,17 +3,18 @@ import { Pool } from "pg";
 import { NotFoundError } from "../../../../Common/errors";
 
 class ComponentRepository {
-	private pool: Pool;
+	private readonly _pool: Pool;
 
 	constructor() {
-		this.pool = new Pool();
+		this._pool = new Pool();
 	}
 
 	async addComponent(component: IComponent): Promise<void> {
 		const createdAt = new Date();
 		const componentQuery = `
-            INSERT INTO components (id, name, item_id, topic_id, user_id, created_at, updated_at) 
-            VALUES ($1, $2, $3, $4, $5, $6, $6)
+            INSERT INTO components (id, name, item_id, topic_id, user_id, project_id, created_at, updated_at) 
+
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $7)
             RETURNING id
         `;
 		const values = [
@@ -21,23 +22,23 @@ class ComponentRepository {
 			component.name,
 			component.item_id,
 			component.topic_id,
+			component.project_id,
 			component.user_id,
 			createdAt
 		];
-		const componentResult = await this.pool.query(componentQuery, values);
-		return componentResult.rows[0].id;
+		await this._pool.query(componentQuery, values);
 	}
 
-	async checkComponentItem(itemId: string, userId: string): Promise<boolean> {
+	async checkComponentItem(itemId: string, userId: string, projectId: string): Promise<boolean> {
 		const checkComponentItemQuery = {
 			text: `
                 SELECT COUNT(*)
                 FROM components
-                WHERE item_id = $1 AND user_id = $2
+                WHERE item_id = $1 AND user_id = $2 AND project_id = $3
             `,
-			values: [itemId, userId]
+			values: [itemId, userId, projectId]
 		};
-		const checkComponentItemResult = await this.pool.query(checkComponentItemQuery);
+		const checkComponentItemResult = await this._pool.query(checkComponentItemQuery);
 		return checkComponentItemResult.rows[0].count > 0;
 	}
 
@@ -50,7 +51,7 @@ class ComponentRepository {
             `,
 			values: [itemId]
 		};
-		const getComponentByItemIdResult = await this.pool.query(getComponentByItemIdQuery);
+		const getComponentByItemIdResult = await this._pool.query(getComponentByItemIdQuery);
 		if (!getComponentByItemIdResult.rowCount) {
 			throw new NotFoundError("Component not found");
 		}
@@ -59,13 +60,27 @@ class ComponentRepository {
 
 	async getComponentById(id: string): Promise<IComponent> {
 		const getComponentByIdQuery = `
-            SELECT id, name, item_id, topic_id, user_id
+            SELECT id, name, item_id, topic_id, user_id, project_id
             FROM components
             WHERE id = $1
         `;
 		const values = [id];
-		const getComponentByIdResult = await this.pool.query(getComponentByIdQuery, values);
+		const getComponentByIdResult = await this._pool.query(getComponentByIdQuery, values);
 		return getComponentByIdResult.rows[0];
+	}
+
+	async getComponentByProjectId(projectId: string): Promise<IComponent[]> {
+		const getComponentByProjectIdQuery = `
+            SELECT id, name, item_id, topic_id, user_id, project_id
+            FROM components
+            WHERE project_id = $1
+        `;
+		const values = [projectId];
+		const getComponentByProjectIdResult = await this._pool.query(
+			getComponentByProjectIdQuery,
+			values
+		);
+		return getComponentByProjectIdResult.rows;
 	}
 
 	async updateComponent(id: string, name: string, itemId: string): Promise<void> {
@@ -93,7 +108,7 @@ class ComponentRepository {
 			values: [...values, updatedAt, id]
 		};
 
-		const updateComponentResult = await this.pool.query(updateComponentQuery);
+		const updateComponentResult = await this._pool.query(updateComponentQuery);
 		return updateComponentResult.rows[0].id;
 	}
 
@@ -103,7 +118,7 @@ class ComponentRepository {
             WHERE id = $1
         `;
 		const values = [id];
-		await this.pool.query(deleteComponentQuery, values);
+		await this._pool.query(deleteComponentQuery, values);
 	}
 }
 

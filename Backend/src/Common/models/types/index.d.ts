@@ -1,5 +1,6 @@
 import type { IItem } from "./entities/item.types";
 import type { ITopic } from "./entities/topic.types";
+import type { IProject } from "./entities/project.types";
 import type { ISubscription } from "./entities/subscription.types";
 import type { IComponent, IComponentPayload } from "./entities/component.types";
 import type { IAuth, IOtpCode, IAuthToken } from "./entities/auth.types";
@@ -50,5 +51,6 @@ export type {
 	ITopic,
 	IItem,
 	IComponent,
-	IComponentPayload
+	IComponentPayload,
+	IProject
 };

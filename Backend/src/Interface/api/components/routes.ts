@@ -11,7 +11,12 @@ const routes: (handler: ItemHandler) => ServerRoute[] = handler => [
 	{
 		method: "GET",
 		path: "/components/{itemName}",
-		handler: handler.getComponentByUserIdHandler
+		handler: handler.getComponentByProjectIdHandler
+	},
+	{
+		method: "GET",
+		path: "/components/{projectName}/{itemName}",
+		handler: handler.getComponentByProjectIdHandler
 	},
 	{
 		method: "PATCH",

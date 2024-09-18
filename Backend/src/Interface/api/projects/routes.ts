@@ -7,7 +7,7 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
 		path: "/projects",
 		handler: handler.addProjectHandler,
 		options: {
-			auth: "users_jwt"
+			auth: "user_jwt"
 		}
 	},
 	{
@@ -15,7 +15,7 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
 		path: "/projects",
 		handler: handler.getAllProjectHandler,
 		options: {
-			auth: "users_jwt"
+			auth: "user_jwt"
 		}
 	},
 	{
@@ -23,7 +23,7 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
 		path: "/projects/{projectId}",
 		handler: handler.updateProjectHandler,
 		options: {
-			auth: "users_jwt"
+			auth: "user_jwt"
 		}
 	},
 	{
@@ -31,7 +31,7 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
 		path: "/projects/{projectId}",
 		handler: handler.deleteProjectHandler,
 		options: {
-			auth: "users_jwt"
+			auth: "user_jwt"
 		}
 	}
 ];

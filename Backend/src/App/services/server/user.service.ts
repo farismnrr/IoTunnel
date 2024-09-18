@@ -5,6 +5,7 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import bcrypt from "bcryptjs";
+import config from "../../../Infrastructure/settings/config";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
@@ -32,14 +33,28 @@ class UserService {
 	}
 
 	// Start OTP Service
-	async sendOtpMail(email: string): Promise<number> {
+	async sendOtpMail(email: string, serverKey: string): Promise<number> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to send OTP");
+		}
 		const otpCode = Math.floor(100000 + Math.random() * 900000);
 		await this._mailRepository.sendOtpRegisterMail(email, otpCode);
 		await this._authRepository.addOtp(email, otpCode);
 		return otpCode;
 	}
 
-	async sendOtpResetPasswordMail(email: string): Promise<number> {
+	async sendOtpResetPasswordMail(email: string, serverKey: string): Promise<number> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to send OTP");
+		}
 		const otpCode = Math.floor(100000 + Math.random() * 900000);
 		const user = await this._userRepository.getUserByEmail(email);
 		if (!user) {
@@ -53,7 +68,14 @@ class UserService {
 	// End OTP Service
 
 	// Start User Service
-	async registerUser(payload: IUserWithOtp): Promise<string> {
+	async registerUser(payload: IUserWithOtp, serverKey: string): Promise<string> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to register user");
+		}
 		const id = `user-${nanoid(10)}-${Date.now()}`;
 		const password = payload.password;
 		const retypePassword = payload.retype_password;
@@ -84,7 +106,14 @@ class UserService {
 		return user;
 	}
 
-	async loginUser(payload: IUser): Promise<string> {
+	async loginUser(payload: IUser, serverKey: string): Promise<string> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to login");
+		}
 		const user = await this._userRepository.getUserByEmail(payload.email);
 		if (!user) {
 			throw new NotFoundError("Email or password is incorrect");
@@ -120,7 +149,14 @@ class UserService {
 		}
 	}
 
-	async resetPassword(payload: IUserWithNewPassword): Promise<void> {
+	async resetPassword(payload: IUserWithNewPassword, serverKey: string): Promise<void> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to reset password");
+		}
 		const user = await this._userRepository.getUserByEmail(payload.email);
 		if (!user) {
 			throw new NotFoundError("User not found");
@@ -174,7 +210,14 @@ class UserService {
 		}
 	}
 
-	async editUserAuth(payload: IAuth): Promise<void> {
+	async editUserAuth(payload: IAuth, serverAuth: string): Promise<void> {
+		if (!serverAuth) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverAuth.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to edit user auth");
+		}
 		const userAuth = await this._authRepository.getUserAuth(payload.refresh_token);
 		if (!userAuth) {
 			throw new NotFoundError("User not found");
@@ -182,7 +225,14 @@ class UserService {
 		await this._authRepository.editUserAuth(payload.access_token, payload.refresh_token);
 	}
 
-	async logoutUser(refreshToken: string): Promise<void> {
+	async logoutUser(refreshToken: string, serverAuth: string): Promise<void> {
+		if (!serverAuth) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverAuth.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to logout user");
+		}
 		const userAuth = await this._authRepository.getUserAuth(refreshToken);
 		if (!userAuth) {
 			throw new NotFoundError("User not found");

@@ -9,7 +9,9 @@ const routes: (handler: StorageHandler) => ServerRoute[] = handler => [
 		config: {
 			auth: "admin_jwt",
 			payload: {
-				multipart: true
+				multipart: true,
+				timeout: 10 * 1000,
+				maxBytes: 100 * 1024 * 1024 // 100 MB
 			}
 		}
 	},
@@ -20,7 +22,9 @@ const routes: (handler: StorageHandler) => ServerRoute[] = handler => [
 		config: {
 			auth: "user_jwt",
 			payload: {
-				multipart: true
+				multipart: true,
+				timeout: 10 * 1000,
+				maxBytes: 100 * 1024 * 1024 // 100 MB
 			}
 		}
 	}

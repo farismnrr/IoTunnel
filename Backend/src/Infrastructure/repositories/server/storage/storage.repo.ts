@@ -1,5 +1,6 @@
 import { Storage } from "@google-cloud/storage";
 import multer from "multer";
+import sharp from "sharp";
 
 class StorageRepository {
 	private readonly _storage: Storage;
@@ -16,11 +17,16 @@ class StorageRepository {
 		keyFilename: string;
 	}) {
 		this._storage = new Storage({ projectId, keyFilename });
-		this._multer = multer({ storage: multer.memoryStorage() });
+		this._multer = multer({
+			storage: multer.memoryStorage()
+		});
 		this.bucketName = bucketName;
 	}
 
 	async uploadFileAdmin(file: Express.Multer.File, fileName: string) {
+		if (!file.buffer) {
+			return null;
+		}
 		const bucket = this._storage.bucket(this.bucketName);
 		const fileUpload = bucket.file(`admins-photo/${fileName}`);
 		const [exists] = await fileUpload.exists();
@@ -28,9 +34,12 @@ class StorageRepository {
 			await fileUpload.delete();
 		}
 
+		const imageBuffer = await sharp(file.buffer).resize(250, 250).toBuffer();
+
 		const blobStream = fileUpload.createWriteStream({
 			metadata: {
-				contentType: file.mimetype
+				contentType: file.mimetype,
+				cacheControl: "no-cache"
 			}
 		});
 
@@ -38,18 +47,16 @@ class StorageRepository {
 			throw error;
 		});
 
-		blobStream.on("finish", () => {
-			console.log("File uploaded/updated successfully");
-		});
-
-		const fileBuffer = Buffer.from(file.buffer);
-		blobStream.write(fileBuffer);
+		blobStream.write(imageBuffer);
 		blobStream.end();
 
 		return `https://storage.googleapis.com/${this.bucketName}/admins-photo/${fileName}`;
 	}
 
 	async uploadFileUser(file: Express.Multer.File, fileName: string) {
+		if (!file.buffer) {
+			return null;
+		}
 		const bucket = this._storage.bucket(this.bucketName);
 		const fileUpload = bucket.file(`users-photo/${fileName}`);
 		const [exists] = await fileUpload.exists();
@@ -57,9 +64,12 @@ class StorageRepository {
 			await fileUpload.delete();
 		}
 
+		const imageBuffer = await sharp(file.buffer).resize(250, 250).toBuffer();
+
 		const blobStream = fileUpload.createWriteStream({
 			metadata: {
-				contentType: file.mimetype
+				contentType: file.mimetype,
+				cacheControl: "no-cache"
 			}
 		});
 
@@ -67,12 +77,7 @@ class StorageRepository {
 			throw error;
 		});
 
-		blobStream.on("finish", () => {
-			console.log("File uploaded/updated successfully");
-		});
-
-		const fileBuffer = Buffer.from(file.buffer);
-		blobStream.write(fileBuffer);
+		blobStream.write(imageBuffer);
 		blobStream.end();
 
 		return `https://storage.googleapis.com/${this.bucketName}/users-photo/${fileName}`;

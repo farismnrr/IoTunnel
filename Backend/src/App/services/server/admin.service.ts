@@ -4,8 +4,8 @@ import type {
 	IAdminWithNewPassword,
 	IAuth
 } from "../../../Common/models/types";
-import config from "../../../Infrastructure/settings/config";
 import bcrypt from "bcryptjs";
+import config from "../../../Infrastructure/settings/config";
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
@@ -33,14 +33,28 @@ class AdminService {
 	}
 
 	// Start OTP Service
-	async sendOtpMail(email: string): Promise<number> {
+	async sendOtpMail(email: string, serverKey: string): Promise<number> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to send OTP");
+		}
 		const otpCode = Math.floor(100000 + Math.random() * 900000);
 		await this._mailRepository.sendOtpRegisterMail(email, otpCode);
 		await this._authRepository.addOtp(email, otpCode);
 		return otpCode;
 	}
 
-	async sendOtpResetPasswordMail(email: string): Promise<number> {
+	async sendOtpResetPasswordMail(email: string, serverKey: string): Promise<number> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to send OTP");
+		}
 		const otpCode = Math.floor(100000 + Math.random() * 900000);
 		const admin = await this._adminRepository.getAdminByEmail(email);
 		if (!admin) {
@@ -54,12 +68,13 @@ class AdminService {
 	// End OTP Service
 
 	// Start Admin Service
-	async registerAdmin(payload: IAdminWithOtp): Promise<string> {
-		if (!payload.server_key) {
-			throw new AuthenticationError("Api key is required");
+	async registerAdmin(payload: IAdminWithOtp, serverKey: string): Promise<string> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
 		}
-		if (payload.server_key !== config.jwt.serverKey) {
-			throw new AuthorizationError("You don't have access to Create new Admin");
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to register admin");
 		}
 		const id = `admin-${nanoid(10)}-${Date.now()}`;
 		const password = payload.password;
@@ -67,22 +82,18 @@ class AdminService {
 		if (password !== retypePassword) {
 			throw new AuthenticationError("Password and retype password do not match");
 		}
-
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const adminEmail = await this._adminRepository.getAdminByEmail(payload.email);
 		if (adminEmail) {
 			throw new InvariantError("Email already exists");
 		}
-
 		const adminOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!adminOTP) {
 			throw new NotFoundError("OTP code not found");
 		}
-
 		if (adminOTP.otp_code !== payload.otp_code) {
 			throw new AuthenticationError("Invalid OTP code");
 		}
-
 		const admin = await this._adminRepository.addAdmin({
 			...payload,
 			password: hashedPassword,
@@ -91,15 +102,22 @@ class AdminService {
 		return admin;
 	}
 
-	async loginAdmin(payload: IAdminWithOtp): Promise<string> {
+	async loginAdmin(payload: IAdminWithOtp, serverKey: string): Promise<string> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to login");
+		}
 		const admin = await this._adminRepository.getAdminByEmail(payload.email);
 		if (!admin) {
-			throw new NotFoundError("Email or password or OTP code is incorrect");
+			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
 
 		const adminOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!adminOTP) {
-			throw new NotFoundError("Email or password or OTP code is incorrect");
+			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
 
 		const isMatch = await bcrypt.compare(payload.password, admin.password);
@@ -136,7 +154,14 @@ class AdminService {
 		}
 	}
 
-	async resetPassword(payload: IAdminWithNewPassword): Promise<void> {
+	async resetPassword(payload: IAdminWithNewPassword, serverKey: string): Promise<void> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to reset password");
+		}
 		const admin = await this._adminRepository.getAdminByEmail(payload.email);
 		if (!admin) {
 			throw new NotFoundError("Admin not found");
@@ -166,7 +191,6 @@ class AdminService {
 		if (adminRole !== "admin") {
 			throw new AuthorizationError("You are not authorized to delete this admin");
 		}
-
 		const admin = await this._adminRepository.getAdminById(id);
 		if (!admin) {
 			throw new NotFoundError("Admin not found");
@@ -190,7 +214,14 @@ class AdminService {
 		}
 	}
 
-	async editAdminAuth(payload: IAuth): Promise<void> {
+	async editAdminAuth(payload: IAuth, serverKey: string): Promise<void> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to edit admin auth");
+		}
 		const adminAuth = await this._authRepository.getAdminAuth(payload.refresh_token);
 		if (!adminAuth) {
 			throw new NotFoundError("Admin not found");
@@ -198,12 +229,18 @@ class AdminService {
 		await this._authRepository.editAdminAuth(payload.access_token, payload.refresh_token);
 	}
 
-	async logoutAdmin(refreshToken: string): Promise<void> {
+	async logoutAdmin(refreshToken: string, serverAuth: string): Promise<void> {
+		if (!serverAuth) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverAuth.split(" ")[1];
+		if (apiKey !== config.jwt.serverKey) {
+			throw new AuthorizationError("You are not authorized to logout");
+		}
 		const adminAuth = await this._authRepository.getAdminAuth(refreshToken);
 		if (!adminAuth) {
 			throw new NotFoundError("Admin not found");
 		}
-
 		await this._authRepository.deleteAdminAuth(refreshToken);
 	}
 	// End Admin Auth Service

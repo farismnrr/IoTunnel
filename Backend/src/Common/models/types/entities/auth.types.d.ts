@@ -8,7 +8,7 @@ interface IAuth {
 }
 
 interface IOtpCode {
-    id: string;
+	id: string;
 	admin_id: string;
 	user_id: string;
 	otp_code: number;

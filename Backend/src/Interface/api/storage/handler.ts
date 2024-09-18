@@ -1,16 +1,13 @@
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import type { IAuth } from "../../../Common/models/types";
 import StorageService from "../../../App/services/server/storage.service";
-import StorageValidator from "../../../App/validators/storage";
 import autoBind from "auto-bind";
 
 class StorageHandler {
 	private readonly _storageService: StorageService;
-	private readonly _storageValidator: typeof StorageValidator;
 
-	constructor(storageService: StorageService, storageValidator: typeof StorageValidator) {
+	constructor(storageService: StorageService) {
 		this._storageService = storageService;
-		this._storageValidator = storageValidator;
 		autoBind(this);
 	}
 
@@ -23,7 +20,7 @@ class StorageHandler {
 				status: "success",
 				message: "File uploaded successfully",
 				data: {
-					fileName: uploadedFile
+					file_name: uploadedFile
 				}
 			})
 			.code(200);
@@ -38,7 +35,7 @@ class StorageHandler {
 				status: "success",
 				message: "File uploaded successfully",
 				data: {
-					fileName: uploadedFile
+					file_name: uploadedFile
 				}
 			})
 			.code(200);

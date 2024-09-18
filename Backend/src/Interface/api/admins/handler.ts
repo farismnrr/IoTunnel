@@ -29,8 +29,9 @@ class AdminHandler {
 	// Start OTP Handler
 	async sendOtpMailHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdmin;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateSendOtpPayload(payload);
-		const otpCode = await this._adminService.sendOtpMail(payload.email);
+		const otpCode = await this._adminService.sendOtpMail(payload.email, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -44,8 +45,12 @@ class AdminHandler {
 
 	async sendOtpResetPasswordHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdmin;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateSendOtpPayload(payload);
-		const otpCode = await this._adminService.sendOtpResetPasswordMail(payload.email);
+		const otpCode = await this._adminService.sendOtpResetPasswordMail(
+			payload.email,
+			serverAuth
+		);
 		return h
 			.response({
 				status: "success",
@@ -61,8 +66,9 @@ class AdminHandler {
 	// Start Admin Handler
 	async registerAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithOtp;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateAdminPayload(payload);
-		const admin = await this._adminService.registerAdmin(payload);
+		const admin = await this._adminService.registerAdmin(payload, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -89,8 +95,9 @@ class AdminHandler {
 
 	async changePasswordHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithNewPassword;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateChangePasswordPayload(payload);
-		await this._adminService.resetPassword(payload);
+		await this._adminService.resetPassword(payload, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -125,8 +132,9 @@ class AdminHandler {
 	// Start Admin Auth Handler
 	async loginAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithOtp;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateLoginAdminPayload(payload);
-		const adminId = await this._adminService.loginAdmin(payload);
+		const adminId = await this._adminService.loginAdmin(payload, serverAuth);
 		const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
 		const refreshToken = this._tokenManager.generateRefreshToken({ id: adminId });
 		await this._adminService.addAdminAuth({
@@ -150,13 +158,17 @@ class AdminHandler {
 
 	async editAdminAuthHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAuth;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateAdminAuthPayload(payload);
 		const adminId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
 		const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
-		await this._adminService.editAdminAuth({
-			access_token: accessToken,
-			refresh_token: payload.refresh_token
-		} as IAuth);
+		await this._adminService.editAdminAuth(
+			{
+				access_token: accessToken,
+				refresh_token: payload.refresh_token
+			} as IAuth,
+			serverAuth
+		);
 		return h
 			.response({
 				status: "success",
@@ -170,9 +182,10 @@ class AdminHandler {
 
 	async logoutAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAuth;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateAdminAuthPayload(payload);
 		this._tokenManager.verifyRefreshToken(payload.refresh_token);
-		await this._adminService.logoutAdmin(payload.refresh_token);
+		await this._adminService.logoutAdmin(payload.refresh_token, serverAuth);
 		return h
 			.response({
 				status: "success",

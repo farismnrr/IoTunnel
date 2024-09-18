@@ -1,9 +1,26 @@
+import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
+import { setInterval } from "timers";
+
+function generateAdminKey() {
+	const adminKey = `admin-${nanoid(100)}-${Date.now()}-${uuidv4()}`;
+	return adminKey;
+}
+
+let adminKey = generateAdminKey();
+
+setInterval(() => {
+	adminKey = generateAdminKey();
+	console.log("adminKey updated:", adminKey);
+}, 60 * 60 * 1000);
+
 const config = {
 	server: {
 		port: process.env.PORT || 3000,
 		host: process.env.HOST || "localhost"
 	},
 	jwt: {
+		adminKey: process.env.NODE_ENV === "production" ? adminKey : process.env.ADMIN_KEY,
 		serverKey: process.env.SERVER_KEY,
 		accessTokenKey: process.env.ACCESS_TOKEN_KEY,
 		refreshTokenKey: process.env.REFRESH_TOKEN_KEY,

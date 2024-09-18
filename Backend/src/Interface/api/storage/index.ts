@@ -2,8 +2,8 @@ import type { Server } from "@hapi/hapi";
 import routes from "./routes";
 import StorageHandler from "./handler";
 import config from "../../../Infrastructure/settings/config";
-import StorageValidator from "../../../App/validators/storage";
 import StorageService from "../../../App/services/server/storage.service";
+import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import StorageRepository from "../../../Infrastructure/repositories/server/storage/storage.repo";
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
@@ -16,8 +16,14 @@ const storageRepository = new StorageRepository({
 
 const userRepository = new UserRepository(config.photo.default as string);
 const adminRepository = new AdminRepository(config.photo.default as string);
-const storageService = new StorageService(storageRepository, adminRepository, userRepository);
-const storageHandler = new StorageHandler(storageService, StorageValidator);
+const authRepository = new AuthRepository();
+const storageService = new StorageService(
+	storageRepository,
+	adminRepository,
+	userRepository,
+	authRepository
+);
+const storageHandler = new StorageHandler(storageService);
 
 export default {
 	name: "storages",

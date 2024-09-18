@@ -32,8 +32,9 @@ class UserHandler {
 	// Start OTP Handler
 	async sendOtpMailHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUser;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateSendOtpPayload(payload);
-		const otpCode = await this._userService.sendOtpMail(payload.email);
+		const otpCode = await this._userService.sendOtpMail(payload.email, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -47,8 +48,9 @@ class UserHandler {
 
 	async sendOtpResetPasswordHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUser;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateSendOtpPayload(payload);
-		const otpCode = await this._userService.sendOtpResetPasswordMail(payload.email);
+		const otpCode = await this._userService.sendOtpResetPasswordMail(payload.email, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -64,9 +66,10 @@ class UserHandler {
 	// Start User Handler
 	async registerUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUserWithOtp;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateUserPayload(payload);
 		const trial = await this._productService.addTrialByUserEmail(payload.email);
-		const user = await this._userService.registerUser(payload);
+		const user = await this._userService.registerUser(payload, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -94,8 +97,9 @@ class UserHandler {
 
 	async changePasswordHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUserWithNewPassword;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateChangePasswordPayload(payload);
-		await this._userService.resetPassword(payload);
+		await this._userService.resetPassword(payload, serverAuth);
 		return h
 			.response({
 				status: "success",
@@ -130,8 +134,9 @@ class UserHandler {
 	// Start User Auth Handler
 	async loginUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUser;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateLoginUserPayload(payload);
-		const userId = await this._userService.loginUser(payload);
+		const userId = await this._userService.loginUser(payload, serverAuth);
 		const accessToken = this._tokenManager.generateAccessToken({ id: userId });
 		const refreshToken = this._tokenManager.generateRefreshToken({ id: userId });
 		await this._userService.addUserAuth({
@@ -155,13 +160,17 @@ class UserHandler {
 
 	async editUserAuthHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAuth;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateUserAuthPayload(payload);
 		const userId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
 		const accessToken = this._tokenManager.generateAccessToken({ id: userId });
-		await this._userService.editUserAuth({
-			access_token: accessToken,
-			refresh_token: payload.refresh_token
-		} as IAuth);
+		await this._userService.editUserAuth(
+			{
+				access_token: accessToken,
+				refresh_token: payload.refresh_token
+			} as IAuth,
+			serverAuth
+		);
 		return h
 			.response({
 				status: "success",
@@ -175,9 +184,10 @@ class UserHandler {
 
 	async logoutUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAuth;
+		const serverAuth = request.headers.authorization;
 		this._validator.validateUserAuthPayload(payload);
 		this._tokenManager.verifyRefreshToken(payload.refresh_token);
-		await this._userService.logoutUser(payload.refresh_token);
+		await this._userService.logoutUser(payload.refresh_token, serverAuth);
 
 		h.unstate("jwt", {
 			path: "/",

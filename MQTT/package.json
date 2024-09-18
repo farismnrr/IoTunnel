@@ -3,7 +3,7 @@
 	"module": "server.ts",
 	"type": "module",
 	"scripts": {
-		"start": "bun --watch src/server.ts",
+		"start": "NODE_ENV=production bun --watch src/server.ts",
 		"build": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/mqtt-server",
 		"deploy": "pm2 start dist/mqtt-server"
 	},

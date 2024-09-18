@@ -16,7 +16,8 @@ class ProductHandler {
 
 	// Start Product Handler
 	async getProductsHandler(request: Request, h: ResponseToolkit) {
-		const products = await this._productService.getProducts();
+		const serverKey = request.headers.authorization;
+		const products = await this._productService.getProducts(serverKey);
 		return h
 			.response({
 				status: "success",
@@ -30,7 +31,8 @@ class ProductHandler {
 
 	async getProductByIdHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.params;
-		const product = await this._productService.getProductById(id);
+		const serverKey = request.headers.authorization;
+		const product = await this._productService.getProductById(serverKey, id);
 		return h
 			.response({
 				status: "success",

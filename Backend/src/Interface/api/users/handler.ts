@@ -67,6 +67,7 @@ class UserHandler {
 	async registerUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUserWithOtp;
 		const serverAuth = request.headers.authorization;
+		await this._userService.validateRegisterUserPayload(payload);
 		this._validator.validateUserPayload(payload);
 		const trial = await this._productService.addTrialByUserEmail(payload.email);
 		const user = await this._userService.registerUser(payload, serverAuth);
@@ -85,6 +86,7 @@ class UserHandler {
 	async editUserHandler(request: Request, h: ResponseToolkit) {
 		const user = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IUser;
+		await this._userService.validateEditUserPayload(payload);
 		this._validator.validateEditUserPayload(payload);
 		await this._userService.editUser(user.id, payload);
 		return h
@@ -135,6 +137,7 @@ class UserHandler {
 	async loginUserHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IUser;
 		const serverAuth = request.headers.authorization;
+		await this._userService.validateLoginUserPayload(payload);
 		this._validator.validateLoginUserPayload(payload);
 		const userId = await this._userService.loginUser(payload, serverAuth);
 		const accessToken = this._tokenManager.generateAccessToken({ id: userId });

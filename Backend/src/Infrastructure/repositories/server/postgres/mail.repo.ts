@@ -39,7 +39,6 @@ class MailRepository {
 
 	async sendOtpRegisterMail(to: string, otpCode: number): Promise<void> {
 		const htmlTemplatePath = path.resolve(Config.mail.otpHtml);
-		console.log(htmlTemplatePath);
 		const replacements = {
 			otp_code: otpCode.toString(),
 			website: Config.mail.website,

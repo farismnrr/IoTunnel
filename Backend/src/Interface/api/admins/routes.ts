@@ -64,8 +64,16 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
 		method: "DELETE",
 		path: "/admins/auth",
 		handler: handler.logoutAdminHandler
-	}
+	},
 	// End Admin Auth Routes
+
+	// Start Admin Key Routes
+	{
+		method: "GET",
+		path: "/admins/key",
+		handler: handler.getAdminKeyHandler
+	}
+	// End Admin Key Routes
 ];
 
 export default routes;

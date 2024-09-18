@@ -21,7 +21,8 @@ const productService = new ProductService(
 	mosquittoRepository,
 	subscriptionRepository,
 	userRepository,
-	authRepository
+	authRepository,
+	config.jwt.serverKey as string
 );
 const productHandler = new ProductHandler(productService, ProductValidator);
 

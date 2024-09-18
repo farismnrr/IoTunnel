@@ -20,7 +20,13 @@ const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
 const userRepository = new UserRepository(config.photo.default as string);
 
-const userService = new UserService(userRepository, mailRepository, authRepository);
+const userService = new UserService(
+	userRepository,
+	mailRepository,
+	authRepository,
+	config.jwt.serverKey as string
+);
+
 const productService = new ProductService(
 	productRepository,
 	mosquittoRepository,

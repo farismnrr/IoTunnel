@@ -11,7 +11,6 @@ let adminKey = generateAdminKey();
 
 setInterval(() => {
 	adminKey = generateAdminKey();
-	console.log("adminKey updated:", adminKey);
 }, 60 * 60 * 1000);
 
 const config = {

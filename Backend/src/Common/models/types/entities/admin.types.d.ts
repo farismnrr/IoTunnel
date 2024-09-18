@@ -11,7 +11,7 @@ interface IAdmin {
 
 interface IAdminWithOtp extends IAdmin {
 	otp_code: number;
-	server_key: string;
+	admin_key: string;
 }
 
 type IAdminWithNewPassword = RenameKeys<IAdminWithOtp, "password", "new_password">;

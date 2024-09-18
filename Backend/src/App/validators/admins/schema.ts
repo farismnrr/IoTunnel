@@ -52,7 +52,8 @@ const RegisterAdminPayloadSchema = Joi.object({
 		.length(6)
 		.pattern(/^[0-9]+$/)
 		.required()
-		.error(new Error("OTP code must be a valid OTP code"))
+		.error(new Error("OTP code must be a valid OTP code")),
+	admin_key: Joi.string().required().error(new Error("You are not authorized to register admin"))
 });
 
 const EditAdminPayloadSchema = Joi.object({

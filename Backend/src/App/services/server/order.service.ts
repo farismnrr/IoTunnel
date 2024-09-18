@@ -12,7 +12,7 @@ import MidtransRepository from "../../../Infrastructure/repositories/external/mi
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import { nanoid } from "nanoid";
-import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
+import { NotFoundError, AuthorizationError, ConnectionError, ConflictError } from "../../../Common/errors";
 
 class OrderService {
 	private readonly _orderRepository: OrderRepository;
@@ -22,6 +22,7 @@ class OrderService {
 	private readonly _midtransRepository: MidtransRepository;
 	private readonly _mosquittoRepository: MosquittoRepository;
 	private readonly _subscriptionRepository: SubscriptionRepository;
+
 	constructor(
 		orderRepository: OrderRepository,
 		authRepository: AuthRepository,
@@ -64,7 +65,7 @@ class OrderService {
 
 		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
 		if (subscription) {
-			throw new AuthorizationError(
+			throw new ConflictError(
 				"User already has a subscription, please cancel the existing subscription before subscribing to a new product"
 			);
 		}

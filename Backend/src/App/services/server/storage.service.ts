@@ -25,7 +25,7 @@ class UploadService {
 	async uploadAdminFile(file: Express.Multer.File, adminId: string): Promise<string> {
 		const adminRole = await this._authRepository.getAdminRole(adminId);
 		if (adminRole !== "admin") {
-			throw new AuthorizationError("You are not authorized to add this product");
+			throw new AuthorizationError("You are not authorized to edit admin photo");
 		}
 		const fileName = `profile-${adminId}.jpg`;
 		const uploadedFile = await this._storageRepository.uploadFileAdmin(file, fileName);
@@ -39,7 +39,7 @@ class UploadService {
 	async uploadUserFile(file: Express.Multer.File, userId: string): Promise<string> {
 		const userRole = await this._authRepository.getUserRole(userId);
 		if (userRole !== "user") {
-			throw new AuthorizationError("You are not authorized to add this product");
+			throw new AuthorizationError("You are not authorized to edit user photo");
 		}
 		const fileName = `profile-${userId}.jpg`;
 		const fileUrl = await this._storageRepository.uploadFileUser(file, fileName);

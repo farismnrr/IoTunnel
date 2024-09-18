@@ -13,8 +13,19 @@ const mailRepository = new MailRepository();
 const authRepository = new AuthRepository();
 const adminRepository = new AdminRepository(config.photo.default as string);
 
-const adminService = new AdminService(adminRepository, mailRepository, authRepository);
-const adminHandler = new AdminHandler(adminService, AdminValidator, TokenManager);
+const adminService = new AdminService(
+	adminRepository,
+	mailRepository,
+	authRepository,
+	config.jwt.serverKey as string,
+	config.jwt.adminKey as string
+);
+const adminHandler = new AdminHandler(
+	adminService,
+	AdminValidator,
+	TokenManager,
+	config.jwt.adminKey as string
+);
 
 export default {
 	name: "admins",

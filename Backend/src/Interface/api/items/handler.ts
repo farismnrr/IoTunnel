@@ -31,7 +31,8 @@ class ItemHandler {
 	}
 
 	async getItemsHandler(request: Request, h: ResponseToolkit) {
-		const items = await this._itemService.getItems();
+		const serverKey = request.headers.authorization;
+		const items = await this._itemService.getItems(serverKey);
 		return h.response({
 			status: "success",
 			data: {
@@ -42,7 +43,8 @@ class ItemHandler {
 
 	async getItemByIdHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.params;
-		const item = await this._itemService.getItemById(id);
+		const serverKey = request.headers.authorization;
+		const item = await this._itemService.getItemById(serverKey, id);
 		return h.response({
 			status: "success",
 			data: {

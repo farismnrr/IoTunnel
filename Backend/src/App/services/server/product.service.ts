@@ -5,7 +5,13 @@ import SubscriptionRepository from "../../../Infrastructure/repositories/server/
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import { nanoid } from "nanoid";
-import { NotFoundError, AuthorizationError, ConnectionError } from "../../../Common/errors";
+import {
+	NotFoundError,
+	AuthorizationError,
+	ConnectionError,
+	InvariantError,
+	AuthenticationError
+} from "../../../Common/errors";
 
 class ProductService {
 	private readonly _productRepository: ProductRepository;
@@ -13,18 +19,22 @@ class ProductService {
 	private readonly _subscriptionRepository: SubscriptionRepository;
 	private readonly _userRepository: UserRepository;
 	private readonly _authRepository: AuthRepository;
+	private readonly _serverKey: string;
+
 	constructor(
 		productRepository: ProductRepository,
 		mosquittoRepository: MosquittoRepository,
 		subscriptionRepository: SubscriptionRepository,
 		userRepository: UserRepository,
-		authRepository: AuthRepository
+		authRepository: AuthRepository,
+		serverKey: string
 	) {
 		this._productRepository = productRepository;
 		this._mosquittoRepository = mosquittoRepository;
 		this._subscriptionRepository = subscriptionRepository;
 		this._userRepository = userRepository;
 		this._authRepository = authRepository;
+		this._serverKey = serverKey;
 	}
 
 	// Start Product Service
@@ -42,12 +52,26 @@ class ProductService {
 		return product;
 	}
 
-	async getProducts(): Promise<IProduct[]> {
+	async getProducts(serverKey: string): Promise<IProduct[]> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== this._serverKey) {
+			throw new AuthorizationError("You are not authorized to get products");
+		}
 		const products = await this._productRepository.getProducts();
 		return products;
 	}
 
-	async getProductById(productId: string): Promise<IProduct | null> {
+	async getProductById(serverKey: string, productId: string): Promise<IProduct | null> {
+		if (!serverKey) {
+			throw new AuthenticationError("Unauthorized");
+		}
+		const apiKey = serverKey.split(" ")[1];
+		if (apiKey !== this._serverKey) {
+			throw new AuthorizationError("You are not authorized to get product");
+		}
 		const product = await this._productRepository.getProductById(productId);
 		if (!product) {
 			throw new NotFoundError("Product not found");
@@ -56,6 +80,9 @@ class ProductService {
 	}
 
 	async editProduct(adminId: string, productId: string, payload: IProduct): Promise<void> {
+		if (!payload) {
+			throw new InvariantError("Product details are required");
+		}
 		const product = await this._productRepository.getProductById(productId);
 		if (!product) {
 			throw new NotFoundError("Product not found");

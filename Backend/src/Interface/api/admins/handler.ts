@@ -6,23 +6,26 @@ import type {
 	IAuth
 } from "../../../Common/models/types";
 import autoBind from "auto-bind";
-import AdminService from "../../../App/services/server/admin.service";
 import AdminValidator from "../../../App/validators/admins";
 import TokenManager from "../../../Common/tokens/manager.token";
+import AdminService from "../../../App/services/server/admin.service";
 
 class AdminHandler {
 	private readonly _adminService: AdminService;
 	private readonly _validator: typeof AdminValidator;
 	private readonly _tokenManager: typeof TokenManager;
+	private readonly _adminKey: string;
 
 	constructor(
 		adminService: AdminService,
 		validator: typeof AdminValidator,
-		tokenManager: typeof TokenManager
+		tokenManager: typeof TokenManager,
+		adminKey: string
 	) {
 		this._adminService = adminService;
 		this._validator = validator;
 		this._tokenManager = tokenManager;
+		this._adminKey = adminKey;
 		autoBind(this);
 	}
 
@@ -67,6 +70,7 @@ class AdminHandler {
 	async registerAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithOtp;
 		const serverAuth = request.headers.authorization;
+		await this._adminService.validateRegisterAdminPayload(payload);
 		this._validator.validateAdminPayload(payload);
 		const admin = await this._adminService.registerAdmin(payload, serverAuth);
 		return h
@@ -83,6 +87,7 @@ class AdminHandler {
 	async editAdminHandler(request: Request, h: ResponseToolkit) {
 		const admin = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IAdmin;
+		await this._adminService.validateEditAdminPayload(payload);
 		this._validator.validateEditAdminPayload(payload);
 		await this._adminService.editAdmin(admin.id, payload);
 		return h
@@ -96,6 +101,7 @@ class AdminHandler {
 	async changePasswordHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithNewPassword;
 		const serverAuth = request.headers.authorization;
+		await this._adminService.validateResetPasswordPayload(payload);
 		this._validator.validateChangePasswordPayload(payload);
 		await this._adminService.resetPassword(payload, serverAuth);
 		return h
@@ -133,6 +139,7 @@ class AdminHandler {
 	async loginAdminHandler(request: Request, h: ResponseToolkit) {
 		const payload = request.payload as IAdminWithOtp;
 		const serverAuth = request.headers.authorization;
+		await this._adminService.validateLoginAdminPayload(payload);
 		this._validator.validateLoginAdminPayload(payload);
 		const adminId = await this._adminService.loginAdmin(payload, serverAuth);
 		const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
@@ -194,6 +201,23 @@ class AdminHandler {
 			.code(200);
 	}
 	// End Admin Auth Handler
+
+	// Start Admin Key Handler
+	async getAdminKeyHandler(request: Request, h: ResponseToolkit) {
+		const adminKey = this._adminKey;
+		const serverAuth = request.headers.authorization;
+		await this._adminService.getAdminKey(serverAuth);
+		return h
+			.response({
+				status: "success",
+				message: "Admin key successfully retrieved",
+				data: {
+					admin_key: adminKey
+				}
+			})
+			.code(200);
+	}
+	// End Admin Key Handler
 }
 
 export default AdminHandler;

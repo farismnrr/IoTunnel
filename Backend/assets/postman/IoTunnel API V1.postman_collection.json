@@ -123,7 +123,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{   \r\n    \"first_name\": \"Sabna\",\r\n    \"last_name\": \"Amar\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminNana}}\",\r\n    \"otp_code\": \"{{otpCodeAdminNana}}\"\r\n}",
+									"raw": "{   \r\n    \"first_name\": \"Sabna\",\r\n    \"last_name\": \"Amar\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminNana}}\",\r\n    \"otp_code\": \"{{otpCodeAdminNana}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -284,6 +284,213 @@
 					]
 				},
 				{
+					"name": "Get Admin Key without Authorization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Key with Invalid Authorization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Key with Valid Authorization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"\r",
+									"  pm.expect(responseJson.status).to.equal('success');\r",
+									"  pm.expect(responseJson.message).to.equal('Admin key successfully retrieved');\r",
+									"  pm.expect(responseJson.data).to.have.property('admin_key');\r",
+									"  pm.expect(responseJson.data.admin_key).to.be.a('string');\r",
+									"\r",
+									"  pm.environment.set('adminKey', responseJson.data.admin_key);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Send OTP without Authorization",
 					"event": [
 						{
@@ -318,7 +525,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"pm.environment.set('emailAdminFaris', `farismnrr${Date.now()}@gmail.com`);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -542,7 +749,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.environment.set('emailAdminFaris', `farismnrr${Date.now()}@gmail.com`);"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -634,7 +841,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -712,7 +919,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -790,7 +997,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\"\r\n}",
+							"raw": "{   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -858,7 +1065,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"xxx\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"xxx\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -880,7 +1087,7 @@
 					"response": []
 				},
 				{
-					"name": "Add Admin with Invalid Otp Code Credentials",
+					"name": "Add Admin with Not Found OTP Code",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -926,7 +1133,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{notFoundOtp}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{notFoundOtp}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1008,7 +1215,85 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Admin with Exist Admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 409 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1178,7 +1463,7 @@
 					"response": []
 				},
 				{
-					"name": "Login Admin with Invalid Email Payload",
+					"name": "Login Admin with Invalid Payload",
 					"event": [
 						{
 							"listen": "test",
@@ -1224,7 +1509,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"test.com\",\r\n    \"password\": \"*Test12345\"\r\n}",
+							"raw": "{\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2176,6 +2461,75 @@
 					"response": []
 				},
 				{
+					"name": "Edit Admin Password with Invalid Payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 400 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit Admin Password with Invalid Otp Code Credentials",
 					"event": [
 						{
@@ -2899,15 +3253,82 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
 							"host": [
 								"{{url}}"
 							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
-								"admins",
-								"auth"
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Admin with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##Admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
 							]
 						}
 					},
@@ -2961,74 +3382,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##Admin12345\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{version}}",
-								"admins"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Admin with Valid Refresh Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{refreshTokenAdminFaris}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##Admin1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3505,7 +3858,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Admin without Valid Refresh Token",
+					"name": "Delete Admin with Invalid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -3542,7 +3895,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{refreshTokenAdminNana}}",
+									"value": "xxx",
 									"type": "string"
 								}
 							]
@@ -4523,7 +4876,7 @@
 					"response": []
 				},
 				{
-					"name": "Add User with Invalid Otp Code Credentials",
+					"name": "Add User with Not Found OTP Code",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -4640,6 +4993,84 @@
 									"    pm.expect(responseJson.data.free_trial).to.be.a('boolean');\r",
 									"\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailUserFaris}}\",\r\n    \"phone_number\": \"0123456789\",\r\n    \"otp_code\": \"{{otpCodeUserFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User with Exist User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 409 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -4815,7 +5246,7 @@
 					"response": []
 				},
 				{
-					"name": "Login User with Invalid Email Payload",
+					"name": "Login User with Invalid Payload",
 					"event": [
 						{
 							"listen": "test",
@@ -6501,6 +6932,74 @@
 					"response": []
 				},
 				{
+					"name": "Edit User with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##User1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit User with Invalid Password",
 					"event": [
 						{
@@ -6548,74 +7047,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##User12345\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{version}}",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit User with Valid Refresh Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{refreshTokenUserFaris}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris\",\r\n    \"last_name\": \"Test\",\r\n    \"email\": \"farismnrr_{{$timestamp}}@gmail.com\",\r\n    \"password\": \"##User1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7092,7 +7523,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete User without Valid Refresh Token",
+					"name": "Delete User with Invalid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -7129,7 +7560,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{refreshTokenUserNana}}",
+									"value": "xxx",
 									"type": "string"
 								}
 							]
@@ -7244,6 +7675,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7319,6 +7760,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7366,6 +7817,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7716,6 +8177,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7791,6 +8262,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7838,6 +8319,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7934,6 +8425,63 @@
 			"name": "[No Test] Requirements",
 			"item": [
 				{
+					"name": "Get Admin Key",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.environment.set('adminKey', responseJson.data.admin_key);\r",
+									"} catch (error) {\r",
+									"  console.log(\"Error occurred: \" + error.message);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Send OTP Admin Nana",
 					"event": [
 						{
@@ -7963,6 +8511,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8020,11 +8578,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Sabna\",\r\n    \"last_name\": \"Amar\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminNana}}\",\r\n    \"otp_code\": \"{{otpCodeAdminNana}}\",\r\n    \"server_key\": \"{{serverKey}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Sabna\",\r\n    \"last_name\": \"Amar\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminNana}}\",\r\n    \"otp_code\": \"{{otpCodeAdminNana}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8040,63 +8608,6 @@
 							"path": [
 								"{{version}}",
 								"admins"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Send OTP Admin Nana",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"try {\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.environment.set('otpCodeAdminNana', responseJson.data.otp_code);\r",
-									"} catch (error) {\r",
-									"  console.log(\"Error occurred: \" + error.message);\r",
-									"}"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"{{emailAdminNana}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{version}}",
-								"admins",
-								"otp",
-								"register"
 							]
 						}
 					},
@@ -8124,6 +8635,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8180,6 +8701,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8237,11 +8768,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"server_key\": \"{{serverKey}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8257,63 +8798,6 @@
 							"path": [
 								"{{version}}",
 								"admins"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Send OTP Admin Faris",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"try {\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.environment.set('otpCodeAdminFaris', responseJson.data.otp_code);\r",
-									"} catch (error) {\r",
-									"  console.log(\"Error occurred: \" + error.message);\r",
-									"}"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"{{emailAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{version}}",
-								"admins",
-								"otp",
-								"register"
 							]
 						}
 					},
@@ -8341,6 +8825,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8397,6 +8891,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8454,6 +8958,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8501,6 +9015,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8557,6 +9081,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8614,6 +9148,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8661,6 +9205,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -8736,7 +9290,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/NHQEN/Downloads/pexels-pixabay-45201.jpg"
+									"src": "postman-cloud:///1ef75604-7e6c-4130-b21e-825249dc91f8"
 								}
 							]
 						},
@@ -8806,7 +9360,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "postman-cloud:///1ef51497-4c62-45a0-920a-1ad8d2d7d319"
+									"src": "postman-cloud:///1ef75604-7e6c-4130-b21e-825249dc91f8"
 								}
 							]
 						},
@@ -8948,7 +9502,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "postman-cloud:///1ef51497-4c62-45a0-920a-1ad8d2d7d319"
+									"src": "postman-cloud:///1ef75604-7e6c-4130-b21e-825249dc91f8"
 								}
 							]
 						},
@@ -9018,7 +9572,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "postman-cloud:///1ef51497-4c62-45a0-920a-1ad8d2d7d319"
+									"src": "postman-cloud:///1ef75604-7e6c-4130-b21e-825249dc91f8"
 								}
 							]
 						},
@@ -9147,7 +9701,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{accessTokenAdminFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -9160,12 +9714,12 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "postman-cloud:///1ef51497-4c62-45a0-920a-1ad8d2d7d319"
+									"src": "postman-cloud:///1ef75604-7e6c-4130-b21e-825249dc91f8"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/storages/admin",
+							"raw": "{{url}}:{{port}}/{{version}}/storages/user",
 							"host": [
 								"{{url}}"
 							],
@@ -9173,7 +9727,7 @@
 							"path": [
 								"{{version}}",
 								"storages",
-								"admin"
+								"user"
 							]
 						}
 					},
@@ -9624,7 +10178,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product_name\": \"Basic Plan\"\r\n}",
+							"raw": "{\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -9838,6 +10392,114 @@
 					"response": []
 				},
 				{
+					"name": "Get All Products without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get All Products",
 					"event": [
 						{
@@ -9882,6 +10544,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -9893,6 +10565,116 @@
 							"path": [
 								"{{version}}",
 								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
 							]
 						}
 					},
@@ -9931,6 +10713,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -9990,6 +10782,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -10070,6 +10872,75 @@
 					"response": []
 				},
 				{
+					"name": "Edit Product with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_name\": \"Basic Plan\",\r\n    \"description\": \"Basic package providing access to the IoT platform for 1 month.\",\r\n    \"price\": 110000,\r\n    \"duration\": \"1 month\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit Product with User Authorization",
 					"event": [
 						{
@@ -10108,75 +10979,6 @@
 								{
 									"key": "token",
 									"value": "{{accessTokenUserFaris}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"product_name\": \"Basic Plan\",\r\n    \"description\": \"Basic package providing access to the IoT platform for 1 month.\",\r\n    \"price\": 110000,\r\n    \"duration\": \"1 month\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{version}}",
-								"products",
-								"{{idProduct}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Product with Valid Refresh Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{refreshTokenAdminFaris}}",
 									"type": "string"
 								}
 							]
@@ -10923,6 +11725,114 @@
 					"response": []
 				},
 				{
+					"name": "Get All Items without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/items",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Items with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/items",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get All Items",
 					"event": [
 						{
@@ -10962,6 +11872,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -10973,6 +11893,116 @@
 							"path": [
 								"{{version}}",
 								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
 							]
 						}
 					},
@@ -11011,6 +12041,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -11061,6 +12101,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -12288,25 +13338,27 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('it should response 403 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(403);\r",
-									"});\r",
+									"if (pm.response.status === 409) {\r",
+									"    pm.test('it should response 409 status code', () => {\r",
+									"        pm.expect(pm.response).to.have.status(409);\r",
+									"    });\r",
 									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
+									"    pm.test('response Content-Type header should have application/json value', () => {\r",
+									"        pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"    }); \r",
 									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
+									"    pm.test('response body should an object', () => {\r",
+									"        const responseJson = pm.response.json();\r",
+									"        pm.expect(responseJson).to.be.an('object');\r",
+									"    });\r",
 									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
+									"    pm.test('response body have correct property and value', () => {\r",
+									"        const responseJson = pm.response.json();\r",
 									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
+									"        pm.expect(responseJson.status).to.equal('fail');\r",
+									"        pm.expect(responseJson.errors).to.be.a('string');\r",
+									"    });\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -12423,7 +13475,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"VIRTUAL_DIGITAL_PIN_1\",\r\n    \"pin_type\": \"digital\"\r\n}",
+									"raw": "{\r\n    \"name\": \"VIRTUAL_ANALOG_PIN_1\",\r\n    \"pin_type\": \"analog\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -12464,6 +13516,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -12511,6 +13573,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -12568,6 +13640,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -12615,6 +13697,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -13732,7 +14824,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Component by Valid Payload Copy 6",
+					"name": "Update Component by Valid Payload",
 					"event": [
 						{
 							"listen": "test",
@@ -14099,7 +15191,64 @@
 			"name": "[No Test] Component",
 			"item": [
 				{
-					"name": "Send OTP Admin Faris Copy",
+					"name": "Get Admin Key",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.environment.set('adminKey', responseJson.data.admin_key);\r",
+									"} catch (error) {\r",
+									"  console.log(\"Error occurred: \" + error.message);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send OTP Admin Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14128,6 +15277,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -14156,7 +15315,7 @@
 					"response": []
 				},
 				{
-					"name": "Add Admin Faris Copy",
+					"name": "Add Admin Faris",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -14185,11 +15344,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\"\r\n}",
+							"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\",\r\n    \"admin_key\": \"{{adminKey}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14211,7 +15380,7 @@
 					"response": []
 				},
 				{
-					"name": "Login Admin Faris Copy",
+					"name": "Login Admin Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14232,11 +15401,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"password\": \"*Test12345\"\r\n}",
+							"raw": "{\r\n    \"email\": \"{{emailAdminFaris}}\",\r\n    \"password\": \"*Test12345\",\r\n    \"otp_code\": \"{{otpCodeAdminFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14259,7 +15438,7 @@
 					"response": []
 				},
 				{
-					"name": "Send OTP User Faris Copy",
+					"name": "Send OTP User Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14288,6 +15467,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -14316,7 +15505,7 @@
 					"response": []
 				},
 				{
-					"name": "Add User Faris Copy",
+					"name": "Add User Faris",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -14345,6 +15534,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -14371,7 +15570,7 @@
 					"response": []
 				},
 				{
-					"name": "Login User Faris Copy",
+					"name": "Login User Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14392,6 +15591,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -14419,7 +15628,7 @@
 					"response": []
 				},
 				{
-					"name": "Add Item Copy",
+					"name": "Add Item",
 					"event": [
 						{
 							"listen": "test",
@@ -14484,7 +15693,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Item Copy",
+					"name": "Get Item",
 					"event": [
 						{
 							"listen": "test",
@@ -14503,6 +15712,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{serverKey}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -14521,7 +15740,7 @@
 					"response": []
 				},
 				{
-					"name": "Claim Trial Faris Copy",
+					"name": "Claim Trial Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14562,7 +15781,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Trial Faris Copy",
+					"name": "Get Trial Faris",
 					"event": [
 						{
 							"listen": "test",
@@ -14608,7 +15827,7 @@
 					"response": []
 				},
 				{
-					"name": "Add Component with Valid Payload Faris Copy",
+					"name": "Add Component",
 					"event": [
 						{
 							"listen": "test",
@@ -14663,7 +15882,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Component with Faris Authorization Copy",
+					"name": "Get Component",
 					"event": [
 						{
 							"listen": "test",

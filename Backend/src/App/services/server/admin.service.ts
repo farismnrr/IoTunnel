@@ -175,6 +175,25 @@ class AdminService {
 		return admin.id;
 	}
 
+	async getAdminById(id: string): Promise<IAdmin> {
+		const adminRole = await this._authRepository.getAdminRole(id);
+		if (adminRole !== "admin") {
+			throw new AuthorizationError("You are not authorized to get this admin");
+		}
+		const admin = await this._adminRepository.getAdminById(id);
+		if (!admin) {
+			throw new NotFoundError("Admin not found");
+		}
+		const adminWithoutPassword = {
+			id: admin.id,
+			email: admin.email,
+			first_name: admin.first_name,
+			last_name: admin.last_name,
+			photo: admin.photo
+		};
+		return adminWithoutPassword as IAdmin;
+	}
+
 	async validateEditAdminPayload(payload: IAdmin): Promise<void> {
 		if (!payload.password) {
 			throw new InvariantError("Password is required");

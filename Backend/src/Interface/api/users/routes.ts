@@ -27,6 +27,14 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
 		handler: handler.loginUserHandler
 	},
 	{
+		method: "GET",
+		path: "/users",
+		handler: handler.getUserByIdHandler,
+		options: {
+			auth: "user_jwt"
+		}
+	},
+	{
 		method: "PATCH",
 		path: "/users/reset",
 		handler: handler.changePasswordHandler

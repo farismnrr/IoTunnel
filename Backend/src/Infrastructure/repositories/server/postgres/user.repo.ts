@@ -46,7 +46,7 @@ class UserRepository {
 	async getUserById(id: string): Promise<IUser | null> {
 		const userQuery = {
 			text: `
-                SELECT id, first_name, last_name, password, email, phone_number, photo, created_at, updated_at
+                SELECT id, first_name, last_name, password, email, phone_number, photo
                 FROM users
                 WHERE id = $1
             `,
@@ -60,7 +60,7 @@ class UserRepository {
 	async getUserByEmail(email: string): Promise<IUser | null> {
 		const userQuery = {
 			text: `
-                SELECT id, first_name, last_name, password, email, phone_number, photo, created_at, updated_at
+                SELECT id, first_name, last_name, password, email, phone_number, photo
                 FROM users
                 WHERE email = $1
             `,

@@ -27,6 +27,14 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
 		handler: handler.loginAdminHandler
 	},
 	{
+		method: "GET",
+		path: "/admins",
+		handler: handler.getAdminByIdHandler,
+		options: {
+			auth: "admin_jwt"
+		}
+	},
+	{
 		method: "PATCH",
 		path: "/admins/reset",
 		handler: handler.changePasswordHandler

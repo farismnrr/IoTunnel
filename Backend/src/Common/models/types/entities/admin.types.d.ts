@@ -7,6 +7,7 @@ interface IAdmin {
 	password: string;
 	retype_password: string;
 	email: string;
+	photo: string;
 }
 
 interface IAdminWithOtp extends IAdmin {

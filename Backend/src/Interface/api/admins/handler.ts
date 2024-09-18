@@ -84,6 +84,20 @@ class AdminHandler {
 			.code(201);
 	}
 
+	async getAdminByIdHandler(request: Request, h: ResponseToolkit) {
+		const admin = request.auth.credentials as unknown as IAuth;
+		const adminData = await this._adminService.getAdminById(admin.id);
+		return h
+			.response({
+				status: "success",
+				message: "Admin fetched successfully",
+				data: {
+					admin: adminData
+				}
+			})
+			.code(200);
+	}
+
 	async editAdminHandler(request: Request, h: ResponseToolkit) {
 		const admin = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IAdmin;

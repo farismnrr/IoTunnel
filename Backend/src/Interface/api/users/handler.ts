@@ -83,6 +83,20 @@ class UserHandler {
 			.code(201);
 	}
 
+	async getUserByIdHandler(request: Request, h: ResponseToolkit) {
+		const user = request.auth.credentials as unknown as IAuth;
+		const userData = await this._userService.getUserById(user.id);
+		return h
+			.response({
+				status: "success",
+				message: "User fetched successfully",
+				data: {
+					user: userData
+				}
+			})
+			.code(200);
+	}
+
 	async editUserHandler(request: Request, h: ResponseToolkit) {
 		const user = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IUser;

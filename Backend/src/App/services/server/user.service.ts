@@ -157,6 +157,26 @@ class UserService {
 		return user.id;
 	}
 
+	async getUserById(id: string): Promise<IUser> {
+		const userRole = await this._authRepository.getUserRole(id);
+		if (userRole !== "user") {
+			throw new AuthorizationError("You are not authorized to get this user");
+		}
+		const user = await this._userRepository.getUserById(id);
+		if (!user) {
+			throw new NotFoundError("User not found");
+		}
+		const userWithoutPassword = {
+			id: user.id,
+			email: user.email,
+			first_name: user.first_name,
+			last_name: user.last_name,
+			phone_number: user.phone_number,
+			photo: user.photo
+		};
+		return userWithoutPassword as IUser;
+	}
+
 	async validateEditUserPayload(payload: IUser): Promise<void> {
 		if (!payload.password) {
 			throw new InvariantError("Password is required");

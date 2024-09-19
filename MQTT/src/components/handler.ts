@@ -12,8 +12,8 @@ class ComponentsHandler {
 
     async getUserTopicsByComponent(request: Request, h: ResponseToolkit) {
 		const apiKey = request.headers.authorization;
-		const { componentName } = request.params;
-		const topics = await this._componentsService.getUserTopicsByComponent(apiKey, componentName);
+		const { projectName, itemName } = request.params;
+		const topics = await this._componentsService.getUserTopicsByComponent(apiKey, projectName, itemName);
 		return h
 			.response({
 				status: "success",

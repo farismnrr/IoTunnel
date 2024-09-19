@@ -18,6 +18,7 @@ async function migrate() {
 			`create-orders-table.sql`,
 			`create-subscriptions-table.sql`,
 			`create-topics-table.sql`,
+			`create-projects-table.sql`,
 			`create-components-table.sql`
 		];
 

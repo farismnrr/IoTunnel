@@ -1,7 +1,7 @@
 import config from "../utils/config";
 
 class ComponentsRepository {
-	async getUserTopicsByComponent(apiKey: string, componentName: string): Promise<string> {
+	async getUserTopicsByComponent(apiKey: string, projectName: string, itemName: string): Promise<string> {
 		const options = {
 			method: "GET",
 			headers: {
@@ -10,7 +10,7 @@ class ComponentsRepository {
 				Authorization: apiKey,
 			},
 		};
-		const response = await fetch(`${config.mosquitto.apiUrl}/api/v1/components/${componentName}`, options);
+		const response = await fetch(`${config.mosquitto.apiUrl}/api/v1/components/${projectName}/${itemName}`, options);
 		if (response.status !== 200) {
 			console.log(response);
 			console.log("Failed to fetch user topics by component");

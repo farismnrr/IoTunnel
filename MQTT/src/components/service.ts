@@ -7,11 +7,11 @@ class ComponentsService {
 		this._componentsRepository = componentsRepository;
 	}
 
-	async getUserTopicsByComponent(apiKey: string, componentName: string): Promise<string> {
+	async getUserTopicsByComponent(apiKey: string, projectName: string, itemName: string): Promise<string> {
 		if (!apiKey) {
 			throw new Error("API key is required");
 		}
-		const topics = await this._componentsRepository.getUserTopicsByComponent(apiKey, componentName);
+		const topics = await this._componentsRepository.getUserTopicsByComponent(apiKey, projectName, itemName);
 		if (!topics) {
 			throw new Error("Failed to get user topics by component");
 		}

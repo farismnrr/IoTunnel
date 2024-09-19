@@ -16,7 +16,7 @@ const routes: (handler: ItemHandler) => ServerRoute[] = handler => [
 	{
 		method: "GET",
 		path: "/components/{projectName}/{itemName}",
-		handler: handler.getComponentByProjectIdHandler
+		handler: handler.getComponentByApiKeyHandler
 	},
 	{
 		method: "PATCH",

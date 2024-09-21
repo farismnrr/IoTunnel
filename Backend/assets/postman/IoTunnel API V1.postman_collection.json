@@ -13,6 +13,63 @@
 					"name": "[No Test] Requirements",
 					"item": [
 						{
+							"name": "Get Admin Key",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('adminKey', responseJson.data.admin_key);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/admins/key",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"admins",
+										"key"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Send OTP",
 							"event": [
 								{
@@ -253,6 +310,196 @@
 									"path": [
 										"{{version}}",
 										"admins",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send OTP User Faris",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('otpCodeUserFaris', responseJson.data.otp_code);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set('emailUserFaris', `farismnrr${Date.now()}@gmail.com`);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{emailUserFaris}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"users",
+										"otp",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add User Faris",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"first_name\": \"Faris Munir\",\r\n    \"last_name\": \"Mahdi\",\r\n    \"password\": \"*Test12345\",\r\n    \"retype_password\": \"*Test12345\",\r\n    \"email\": \"{{emailUserFaris}}\",\r\n    \"phone_number\": \"0123456789\",\r\n    \"otp_code\": \"{{otpCodeUserFaris}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/users",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login User Faris",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
+											"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
+											"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
+											"} catch (error) {\r",
+											"    console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{emailUserFaris}}\",\r\n    \"password\": \"*Test12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"users",
 										"login"
 									]
 								}
@@ -2255,6 +2502,248 @@
 								"admins",
 								"otp",
 								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin with User Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin with Valid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should respond with 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Admin fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.have.property('admin');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('id');\r",
+									"    pm.expect(responseJson.data.admin.id).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('email');\r",
+									"    pm.expect(responseJson.data.admin.email).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('first_name');\r",
+									"    pm.expect(responseJson.data.admin.first_name).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('last_name');\r",
+									"    pm.expect(responseJson.data.admin.last_name).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('photo');\r",
+									"    pm.expect(responseJson.data.admin.photo).to.be.a('string');\r",
+									"    pm.expect(responseJson.data).to.have.property('source');\r",
+									"    pm.expect(responseJson.data.source).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenAdminFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
 							]
 						}
 					},
@@ -5917,6 +6406,261 @@
 					"response": []
 				},
 				{
+					"name": "Get User without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User with Admin Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenAdminFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User with Valid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should respond with 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('status');\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('message');\r",
+									"    pm.expect(responseJson.message).to.equal('User fetched successfully');\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('data');\r",
+									"    pm.expect(responseJson.data).to.have.property('user');\r",
+									"    pm.expect(responseJson.data.user).to.have.property('id');\r",
+									"    pm.expect(responseJson.data.user.id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('email');\r",
+									"    pm.expect(responseJson.data.user.email).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('first_name');\r",
+									"    pm.expect(responseJson.data.user.first_name).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('last_name');\r",
+									"    pm.expect(responseJson.data.user.last_name).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('phone_number');\r",
+									"    pm.expect(responseJson.data.user.phone_number).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('photo');\r",
+									"    pm.expect(responseJson.data.user.photo).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data).to.have.property('source');\r",
+									"    pm.expect(responseJson.data.source).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit User Password without Authorization",
 					"event": [
 						{
@@ -9522,6 +10266,78 @@
 					"response": []
 				},
 				{
+					"name": "Get Admin with Valid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should respond with 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Admin fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.have.property('admin');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('id');\r",
+									"    pm.expect(responseJson.data.admin.id).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('email');\r",
+									"    pm.expect(responseJson.data.admin.email).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('first_name');\r",
+									"    pm.expect(responseJson.data.admin.first_name).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('last_name');\r",
+									"    pm.expect(responseJson.data.admin.last_name).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.admin).to.have.property('photo');\r",
+									"    pm.expect(responseJson.data.admin.photo).to.be.a('string');\r",
+									"    pm.expect(responseJson.data).to.have.property('source');\r",
+									"    pm.expect(responseJson.data.source).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenAdminFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit User Profile Photo with Admin Authorization",
 					"event": [
 						{
@@ -9728,6 +10544,91 @@
 								"{{version}}",
 								"storages",
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User with Valid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should respond with 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('status');\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('message');\r",
+									"    pm.expect(responseJson.message).to.equal('User fetched successfully');\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.property('data');\r",
+									"    pm.expect(responseJson.data).to.have.property('user');\r",
+									"    pm.expect(responseJson.data.user).to.have.property('id');\r",
+									"    pm.expect(responseJson.data.user.id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('email');\r",
+									"    pm.expect(responseJson.data.user.email).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('first_name');\r",
+									"    pm.expect(responseJson.data.user.first_name).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('last_name');\r",
+									"    pm.expect(responseJson.data.user.last_name).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('phone_number');\r",
+									"    pm.expect(responseJson.data.user.phone_number).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data.user).to.have.property('photo');\r",
+									"    pm.expect(responseJson.data.user.photo).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(responseJson.data).to.have.property('source');\r",
+									"    pm.expect(responseJson.data.source).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"users"
 							]
 						}
 					},
@@ -12739,7 +13640,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{accessTokenAdminNana}}",
+									"value": "{{accessTokenAdminFaris}}",
 									"type": "string"
 								}
 							]
@@ -13276,25 +14177,30 @@
 									"    pm.expect(responseJson.data).to.be.an('object');\r",
 									"\r",
 									"    if (responseJson.data.transaction_status === 'pending'){\r",
+									"        pm.expect(responseJson.status).to.equal('success');\r",
+									"        pm.expect(responseJson.message).to.equal('Order fetched successfully');\r",
+									"        pm.expect(responseJson.data).to.be.an('object');\r",
 									"        pm.expect(responseJson.data.token).to.be.a('string');\r",
 									"        pm.expect(responseJson.data.redirect_url).to.be.a('string');\r",
 									"        pm.expect(responseJson.data.transaction_status).to.equal('pending');\r",
 									"    } else {\r",
-									"        pm.expect(responseJson.data.product).to.be.an('object');\r",
-									"        pm.expect(responseJson.data.product.id).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.product.product_name).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.product.description).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.product.price).to.be.a('number');\r",
-									"        pm.expect(responseJson.data.product.duration).to.be.a('string');\r",
+									"        pm.expect(responseJson.status).to.be.a('string');\r",
+									"        pm.expect(responseJson.message).to.be.a('string');\r",
+									"        pm.expect(responseJson.data).to.be.an('object');\r",
 									"\r",
-									"        pm.expect(responseJson.data.subscription).to.be.an('object');\r",
-									"        pm.expect(responseJson.data.subscription.id).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.subscription.user_id).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.subscription.product_id).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.subscription.trial_id).to.be.null;\r",
-									"        pm.expect(responseJson.data.subscription.api_key).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.subscription.subscription_start_date).to.be.a('string');\r",
-									"        pm.expect(responseJson.data.subscription.subscription_end_date).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order).to.be.an('object');\r",
+									"        pm.expect(responseJson.data.order.id).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order.payment_type).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order.transaction_status).to.be.a('string');\r",
+									"\r",
+									"        pm.expect(responseJson.data.order.product).to.be.an('object');\r",
+									"        pm.expect(responseJson.data.order.product.id).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order.product.product_name).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order.product.description).to.be.a('string');\r",
+									"        pm.expect(responseJson.data.order.product.price).to.be.a('number');\r",
+									"        pm.expect(responseJson.data.order.product.duration).to.be.a('string');\r",
+									"\r",
+									"        pm.expect(responseJson.data.source).to.be.a('string');\r",
 									"    }\r",
 									"});"
 								],
@@ -13426,123 +14332,11 @@
 			]
 		},
 		{
-			"name": "Components",
+			"name": "Projects",
 			"item": [
 				{
 					"name": "[No Test] Requirements",
 					"item": [
-						{
-							"name": "Add Item",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"try {\r",
-											"  const responseJson = pm.response.json();\r",
-											"  pm.environment.set('idItem', responseJson.data.item_id);\r",
-											"} catch (error) {\r",
-											"  console.log(\"Error occurred: \" + error.message);\r",
-											"}"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{accessTokenAdminFaris}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"VIRTUAL_ANALOG_PIN_1\",\r\n    \"pin_type\": \"analog\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}:{{port}}/{{version}}/items",
-									"host": [
-										"{{url}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"{{version}}",
-										"items"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Item",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"try {\r",
-											"  const responseJson = pm.response.json();\r",
-											"  pm.environment.set('itemName', responseJson.data.item.name);\r",
-											"} catch (error) {\r",
-											"  console.log(\"Error occurred: \" + error.message);\r",
-											"}"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{serverKey}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-									"host": [
-										"{{url}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"{{version}}",
-										"items",
-										"{{idItem}}"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "Send OTP",
 							"event": [
@@ -13734,6 +14528,118 @@
 							"response": []
 						},
 						{
+							"name": "Add Item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('idItem', responseJson.data.item_id);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessTokenAdminFaris}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"VIRTUAL_ANALOG_PIN_1_{{$timestamp}}\",\r\n    \"pin_type\": \"analog\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/items",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('itemName', responseJson.data.item.name);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"items",
+										"{{idItem}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Claim Trial Faris",
 							"event": [
 								{
@@ -13910,6 +14816,2015 @@
 					]
 				},
 				{
+					"name": "Add Project without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Project with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Project with Invalid Payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 400 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Project with Valid Payload and Faris Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 201 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project added successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project_id).to.be.a('string');\r",
+									"\r",
+									"    pm.environment.set('projectIdFaris', responseJson.data.project_id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Project with Valid Payload and Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 201 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project added successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project_id).to.be.a('string');\r",
+									"\r",
+									"    pm.environment.set('projectIdNana', responseJson.data.project_id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects with Faris Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.projects).to.be.an('array');\r",
+									"\r",
+									"    responseJson.data.projects.forEach(project => {\r",
+									"        pm.expect(project).to.be.an('object');\r",
+									"        pm.expect(project.id).to.be.a('string');\r",
+									"        pm.expect(project.name).to.be.a('string');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.projects).to.be.an('array');\r",
+									"\r",
+									"    responseJson.data.projects.forEach(project => {\r",
+									"        pm.expect(project).to.be.an('object');\r",
+									"        pm.expect(project.id).to.be.a('string');\r",
+									"        pm.expect(project.name).to.be.a('string');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project Faris With Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project with Not Found Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project with Faris Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project.id).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.project.name).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project fetched successfully');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.project.id).to.be.a('string');\r",
+									"    pm.expect(responseJson.data.project.name).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project Faris with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project with Not Found Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project with Invalid Payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 400 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project with Faris Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project updated successfully');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project updated successfully');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the update of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project with Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xxx",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project Faris with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 403 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project with Not Found Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project with Faris Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project deleted successfully');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project with Nana Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.equal('Project deleted successfully');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserNana}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Components",
+			"item": [
+				{
+					"name": "[No Test] Requirements Copy",
+					"item": [
+						{
+							"name": "Login User Faris",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
+											"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
+											"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
+											"} catch (error) {\r",
+											"    console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{emailUserFaris}}\",\r\n    \"password\": \"*Test12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login User Nana",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.environment.set('idUserNana', responseJson.data.user_id);\r",
+											"    pm.environment.set('accessTokenUserNana', responseJson.data.access_token);\r",
+											"    pm.environment.set('refreshTokenUserNana', responseJson.data.refresh_token);\r",
+											"} catch (error) {\r",
+											"    console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{serverKey}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{emailUserNana}}\",\r\n    \"password\": \"*Test12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Project Faris",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('projectIdFaris', responseJson.data.project_id);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessTokenUserFaris}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/projects",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Project Nana",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.environment.set('projectIdNana', responseJson.data.project_id);\r",
+											"} catch (error) {\r",
+											"  console.log(\"Error occurred: \" + error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessTokenUserNana}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/{{version}}/projects",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"{{version}}",
+										"projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Add Component without Authorization",
 					"event": [
 						{
@@ -13949,7 +16864,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"xxx\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14008,7 +16923,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14017,7 +16932,75 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"xxx\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"xxx\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/components",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"components"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Component with Not Found Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{notFoundId}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14076,7 +17059,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14148,7 +17131,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserNana}}",
+									"value": "{{accessTokenUserNana}}",
 									"type": "string"
 								}
 							]
@@ -14157,7 +17140,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdNana}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14220,7 +17203,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14229,7 +17212,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14289,7 +17272,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/{{itemName}}",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
 							"host": [
 								"{{url}}"
 							],
@@ -14297,6 +17280,7 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdFaris}}",
 								"{{itemName}}"
 							]
 						}
@@ -14304,7 +17288,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Component with Not Found Component Id",
+					"name": "Get Component with Not Found Item Name",
 					"event": [
 						{
 							"listen": "test",
@@ -14349,7 +17333,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/xxx",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/xxx",
 							"host": [
 								"{{url}}"
 							],
@@ -14357,7 +17341,69 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdFaris}}",
 								"xxx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Component with Not Found Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiKeyUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/components/xxx/{{itemName}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"components",
+								"xxx",
+								"{{itemName}}"
 							]
 						}
 					},
@@ -14410,7 +17456,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/{{itemName}}",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdNana}}/{{itemName}}",
 							"host": [
 								"{{url}}"
 							],
@@ -14418,6 +17464,7 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdNana}}",
 								"{{itemName}}"
 							]
 						}
@@ -14471,7 +17518,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/{{itemName}}",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
 							"host": [
 								"{{url}}"
 							],
@@ -14479,6 +17526,7 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdFaris}}",
 								"{{itemName}}"
 							]
 						}
@@ -14525,7 +17573,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14548,7 +17596,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Component with Nana Authorization",
+					"name": "Update Component Faris with Nana Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -14585,7 +17633,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserNana}}",
+									"value": "{{accessTokenUserNana}}",
 									"type": "string"
 								}
 							]
@@ -14594,7 +17642,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14654,7 +17702,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14663,7 +17711,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14671,7 +17719,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/xxx",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{notFoundId}}",
 							"host": [
 								"{{url}}"
 							],
@@ -14679,7 +17727,7 @@
 							"path": [
 								"{{version}}",
 								"components",
-								"xxx"
+								"{{notFoundId}}"
 							]
 						}
 					},
@@ -14723,7 +17771,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14732,7 +17780,76 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"xxx\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"xxx\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Component with Not Found Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"xxx\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14792,7 +17909,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14861,7 +17978,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -14870,7 +17987,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button for Motor\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -14930,6 +18047,15 @@
 						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
 							"host": [
@@ -14983,13 +18109,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserNana}}",
+									"value": "{{accessTokenUserNana}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
 							"host": [
@@ -15043,13 +18178,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/xxx",
 							"host": [
@@ -15060,6 +18204,75 @@
 								"{{version}}",
 								"components",
 								"xxx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Component with Invalid Payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 400 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
 							]
 						}
 					},
@@ -15103,13 +18316,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
 						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
 							"host": [
@@ -15171,7 +18393,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/{{itemName}}",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
 							"host": [
 								"{{url}}"
 							],
@@ -15179,6 +18401,7 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdFaris}}",
 								"{{itemName}}"
 							]
 						}
@@ -15827,6 +19050,108 @@
 					"response": []
 				},
 				{
+					"name": "Add Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.environment.set('projectIdFaris', responseJson.data.project_id);\r",
+									"} catch (error) {\r",
+									"  console.log(\"Error occurred: \" + error.message);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"smartfarm\",\r\n    \"description\": \"This is the description of smartfarm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.environment.set('projectName', responseJson.data.project.name);\r",
+									"} catch (error) {\r",
+									"  console.log(\"Error occurred: \" + error.message);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add Component",
 					"event": [
 						{
@@ -15851,7 +19176,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{apiKeyUserFaris}}",
+									"value": "{{accessTokenUserFaris}}",
 									"type": "string"
 								}
 							]
@@ -15860,7 +19185,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\"\r\n}",
+							"raw": "{\r\n    \"name\": \"LED Button\",\r\n    \"item_name\": \"{{itemName}}\",\r\n    \"project_id\": \"{{projectIdFaris}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -15909,7 +19234,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/components/{{itemName}}",
+							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
 							"host": [
 								"{{url}}"
 							],
@@ -15917,7 +19242,127 @@
 							"path": [
 								"{{version}}",
 								"components",
+								"{{projectIdFaris}}",
 								"{{itemName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Get Subscription without Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 401 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.errors).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subscription with Valid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body has correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"    pm.expect(responseJson.data).to.include('days');\r",
+									"    pm.expect(responseJson.data).to.include('hours');\r",
+									"    pm.expect(responseJson.data).to.include('minutes');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessTokenUserFaris}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{version}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{version}}",
+								"subscriptions"
 							]
 						}
 					},

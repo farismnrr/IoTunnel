@@ -11,6 +11,7 @@ import MailRepository from "../../../Infrastructure/repositories/server/postgres
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 
 const mailRepository = new MailRepository();
@@ -18,12 +19,13 @@ const authRepository = new AuthRepository();
 const productRepository = new ProductRepository();
 const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
+const redisRepository = new RedisRepository();
 const userRepository = new UserRepository(config.photo.default as string);
-
 const userService = new UserService(
 	userRepository,
 	mailRepository,
 	authRepository,
+	redisRepository,
 	config.jwt.serverKey as string
 );
 
@@ -32,7 +34,9 @@ const productService = new ProductService(
 	mosquittoRepository,
 	subscriptionRepository,
 	userRepository,
-	authRepository
+	authRepository,
+	redisRepository,
+	config.jwt.serverKey as string
 );
 const userHandler = new UserHandler(userService, productService, UserValidator, TokenManager);
 

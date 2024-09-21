@@ -2,6 +2,7 @@ import StorageRepository from "../../../Infrastructure/repositories/server/stora
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import { UnsupportedMediaTypeError, AuthorizationError } from "../../../Common/errors";
 
 class UploadService {
@@ -9,17 +10,19 @@ class UploadService {
 	private _adminRepository: AdminRepository;
 	private _userRepository: UserRepository;
 	private _authRepository: AuthRepository;
-
+	private _redisRepository: RedisRepository;
 	constructor(
 		storageRepository: StorageRepository,
 		adminRepository: AdminRepository,
 		userRepository: UserRepository,
-		authRepository: AuthRepository
+		authRepository: AuthRepository,
+		redisRepository: RedisRepository
 	) {
 		this._storageRepository = storageRepository;
 		this._adminRepository = adminRepository;
 		this._userRepository = userRepository;
 		this._authRepository = authRepository;
+		this._redisRepository = redisRepository;
 	}
 
 	async uploadAdminFile(file: Express.Multer.File, adminId: string): Promise<string> {
@@ -33,6 +36,7 @@ class UploadService {
 			throw new UnsupportedMediaTypeError("File must be an image");
 		}
 		await this._adminRepository.editAdminPhoto(adminId, uploadedFile as string);
+		await this._redisRepository.delete(`admin:${adminId}`);
 		return uploadedFile as string;
 	}
 
@@ -47,6 +51,7 @@ class UploadService {
 			throw new UnsupportedMediaTypeError("File must be an image");
 		}
 		await this._userRepository.editUserPhoto(userId, fileUrl as string);
+		await this._redisRepository.delete(`user:${userId}`);
 		return fileUrl as string;
 	}
 }

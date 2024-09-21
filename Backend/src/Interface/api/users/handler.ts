@@ -90,9 +90,7 @@ class UserHandler {
 			.response({
 				status: "success",
 				message: "User fetched successfully",
-				data: {
-					user: userData
-				}
+				data: userData
 			})
 			.code(200);
 	}

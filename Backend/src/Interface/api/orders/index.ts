@@ -9,6 +9,7 @@ import OrderRepository from "../../../Infrastructure/repositories/server/postgre
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
 import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 
 const userRepository = new UserRepository(config.photo.default as string);
@@ -18,6 +19,7 @@ const productRepository = new ProductRepository();
 const midtransRepository = new MidtransRepository();
 const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
+const redisRepository = new RedisRepository();
 
 const orderService = new OrderService(
 	orderRepository,
@@ -26,7 +28,8 @@ const orderService = new OrderService(
 	productRepository,
 	midtransRepository,
 	mosquittoRepository,
-	subscriptionRepository
+	subscriptionRepository,
+	redisRepository
 );
 const orderHandler = new OrderHandler(orderService);
 

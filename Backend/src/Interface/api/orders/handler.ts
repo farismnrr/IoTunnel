@@ -49,6 +49,18 @@ class OrderHandler {
 			})
 			.code(200);
 	}
+
+	async getSubscriptionsTimeRemainingHandler(request: Request, h: ResponseToolkit) {
+		const user = request.auth.credentials as unknown as IAuth;
+		const timeRemaining = await this._orderService.getSubscriptionsTimeRemaining(user.id);
+		return h
+			.response({
+				status: "success",
+				message: "Subscription time remaining fetched successfully",
+				data: timeRemaining
+			})
+			.code(200);
+	}
 }
 
 export default OrderHandler;

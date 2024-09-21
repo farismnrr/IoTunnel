@@ -91,9 +91,7 @@ class AdminHandler {
 			.response({
 				status: "success",
 				message: "Admin fetched successfully",
-				data: {
-					admin: adminData
-				}
+				data: adminData
 			})
 			.code(200);
 	}

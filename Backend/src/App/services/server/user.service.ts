@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,
@@ -21,17 +22,19 @@ class UserService {
 	private readonly _userRepository: UserRepository;
 	private readonly _mailRepository: MailRepository;
 	private readonly _authRepository: AuthRepository;
+	private readonly _redisRepository: RedisRepository;
 	private readonly _serverKey: string;
-
 	constructor(
 		userRepository: UserRepository,
 		mailRepository: MailRepository,
 		authRepository: AuthRepository,
+		redisRepository: RedisRepository,
 		serverKey: string
 	) {
 		this._userRepository = userRepository;
 		this._mailRepository = mailRepository;
 		this._authRepository = authRepository;
+		this._redisRepository = redisRepository;
 		this._serverKey = serverKey;
 	}
 
@@ -109,21 +112,19 @@ class UserService {
 		if (userEmail) {
 			throw new ConflictError("Email already exists");
 		}
-
 		const userOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!userOTP) {
 			throw new NotFoundError("OTP code not found");
 		}
-
 		if (userOTP.otp_code !== payload.otp_code) {
 			throw new AuthenticationError("Invalid OTP code");
 		}
-
 		const user = await this._userRepository.addUser({
 			...payload,
 			password: hashedPassword,
 			id
 		});
+		await this._redisRepository.delete(`user:${id}`);
 		return user;
 	}
 
@@ -148,16 +149,22 @@ class UserService {
 		if (!user) {
 			throw new NotFoundError("Email or password is incorrect");
 		}
-
 		const isMatch = await bcrypt.compare(payload.password, user.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Email or password is incorrect");
 		}
-
+		await this._redisRepository.delete(`user:${user.id}`);
 		return user.id;
 	}
 
-	async getUserById(id: string): Promise<IUser> {
+	async getUserById(id: string): Promise<{ user: IUser; source: string }> {
+		const cachedUser = await this._redisRepository.get(`user:${id}`);
+		if (cachedUser) {
+			return {
+				user: JSON.parse(cachedUser),
+				source: "cache"
+			};
+		}
 		const userRole = await this._authRepository.getUserRole(id);
 		if (userRole !== "user") {
 			throw new AuthorizationError("You are not authorized to get this user");
@@ -174,7 +181,11 @@ class UserService {
 			phone_number: user.phone_number,
 			photo: user.photo
 		};
-		return userWithoutPassword as IUser;
+		await this._redisRepository.set(`user:${id}`, userWithoutPassword);
+		return {
+			user: userWithoutPassword as IUser,
+			source: "database"
+		};
 	}
 
 	async validateEditUserPayload(payload: IUser): Promise<void> {
@@ -188,21 +199,19 @@ class UserService {
 		if (userRole !== "user") {
 			throw new AuthorizationError("You are not authorized to edit this user");
 		}
-
 		const user = await this._userRepository.getUserById(id);
 		if (!user) {
 			throw new NotFoundError("User not found");
 		}
-
 		const isMatch = await bcrypt.compare(payload.password, user.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Invalid password");
 		}
-
 		const editedUser = await this._userRepository.editUser(id, payload);
 		if (!editedUser) {
 			throw new InvariantError("Failed to edit user");
 		}
+		await this._redisRepository.delete(`user:${id}`);
 	}
 
 	async validateResetPasswordPayload(payload: IUserWithNewPassword): Promise<void> {
@@ -235,18 +244,16 @@ class UserService {
 		if (!user) {
 			throw new NotFoundError("User not found");
 		}
-
 		const userOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!userOTP) {
 			throw new NotFoundError("OTP code not found");
 		}
-
 		if (userOTP.otp_code !== payload.otp_code) {
 			throw new AuthenticationError("Invalid OTP code");
-		}
-
+		}	
 		const hashedPassword = await bcrypt.hash(payload.new_password, 10);
 		await this._userRepository.editUserPassword(user.id, hashedPassword);
+		await this._redisRepository.delete(`user:${user.id}`);
 	}
 
 	async deleteUserById(id: string): Promise<void> {
@@ -254,13 +261,14 @@ class UserService {
 		if (userRole !== "user") {
 			throw new AuthorizationError("You are not authorized to delete this user");
 		}
-
 		const user = await this._userRepository.getUserById(id);
 		if (!user) {
 			throw new NotFoundError("User not found");
 		}
+		await this._redisRepository.delete(`user:${id}`);
 		await this._userRepository.deleteUserById(id);
 	}
+
 
 	async deleteAllUsers(apiKey: string): Promise<void> {
 		if (apiKey !== process.env.API_KEY) {

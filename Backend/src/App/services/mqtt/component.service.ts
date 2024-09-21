@@ -5,6 +5,7 @@ import TopicRepository from "../../../Infrastructure/repositories/server/mqtt/to
 import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
 import ProjectRepository from "../../../Infrastructure/repositories/server/mqtt/project.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import { nanoid } from "nanoid";
 import {
 	NotFoundError,
@@ -20,6 +21,7 @@ class ComponentService {
 	private readonly _itemRepository: ItemRepository;
 	private readonly _projectRepository: ProjectRepository;
 	private readonly _userRepository: UserRepository;
+	private readonly _redisRepository: RedisRepository;
 
 	constructor(
 		componentRepository: ComponentRepository,
@@ -27,7 +29,8 @@ class ComponentService {
 		topicRepository: TopicRepository,
 		itemRepository: ItemRepository,
 		projectRepository: ProjectRepository,
-		userRepository: UserRepository
+		userRepository: UserRepository,
+		redisRepository: RedisRepository
 	) {
 		this._componentRepository = componentRepository;
 		this._subscriptionRepository = subscriptionRepository;
@@ -35,6 +38,7 @@ class ComponentService {
 		this._itemRepository = itemRepository;
 		this._projectRepository = projectRepository;
 		this._userRepository = userRepository;
+		this._redisRepository = redisRepository;
 	}
 
 	async createComponent(userId: string, component: IComponentPayload): Promise<string> {
@@ -73,6 +77,7 @@ class ComponentService {
 			user_id: user.id,
 			project_id: project.id
 		});
+		await this._redisRepository.delete(`component:${project.id}-${item.name}`);
 		return id;
 	}
 
@@ -80,11 +85,20 @@ class ComponentService {
 		apiKey: string,
 		projectId: string,
 		itemName: string
-	): Promise<string> {
+	): Promise<{ topic_id: string; source: string }> {
 		if (!apiKey) {
 			throw new AuthenticationError("Api Key is required");
 		}
 		apiKey = apiKey.split(" ")[1];
+		const componentCache = await this._redisRepository.get(
+			`component:${projectId}-${itemName}`
+		);
+		if (componentCache) {
+			return {
+				topic_id: JSON.parse(componentCache),
+				source: "cache"
+			};
+		}
 		const item = await this._itemRepository.getItemByName(itemName);
 		if (!item) {
 			throw new NotFoundError("Pin not Used");
@@ -110,7 +124,11 @@ class ComponentService {
 		if (!topicId) {
 			throw new NotFoundError("Topic not found");
 		}
-		return topicId;
+		await this._redisRepository.set(`component:${projectId}-${itemName}`, topicId);
+		return {
+			topic_id: topicId,
+			source: "database"
+		};
 	}
 
 	async getComponentByProjectId(userId: string, projectId: string): Promise<IComponent[]> {
@@ -160,10 +178,12 @@ class ComponentService {
 		if (component.user_id !== subscription.user_id) {
 			throw new AuthorizationError("You are not allowed to update this component");
 		}
+		await this._redisRepository.delete(`component:${project.id}-${item.name}`);
 		await this._componentRepository.updateComponent(id, payload.name, item.id);
 	}
 
-	async deleteComponent(id: string, userId: string): Promise<void> {
+
+	async deleteComponent(id: string, userId: string, payload: IComponentPayload): Promise<void> {
 		const user = await this._userRepository.getUserById(userId);
 		if (!user) {
 			throw new NotFoundError("User not found");
@@ -179,6 +199,7 @@ class ComponentService {
 		if (component.user_id !== subscription.user_id) {
 			throw new AuthorizationError("You are not allowed to delete this component");
 		}
+		await this._redisRepository.delete(`component:${payload.project_id}-${payload.item_name}`);
 		await this._topicRepository.deleteTopicById(component.topic_id);
 		await this._componentRepository.deleteComponent(id);
 	}

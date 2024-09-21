@@ -6,4 +6,9 @@ const ComponentPayloadSchema = Joi.object({
 	project_id: Joi.string().required().error(new Error("Project id is required"))
 });
 
-export { ComponentPayloadSchema };
+const DeleteComponentPayloadSchema = Joi.object({
+	project_id: Joi.string().required().error(new Error("Project id is required")),
+	item_name: Joi.string().required().error(new Error("Item name is required"))
+});
+
+export { ComponentPayloadSchema, DeleteComponentPayloadSchema };

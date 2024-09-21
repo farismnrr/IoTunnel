@@ -10,12 +10,14 @@ import UserRepository from "../../../Infrastructure/repositories/server/postgres
 import ProjectRepository from "../../../Infrastructure/repositories/server/mqtt/project.repo";
 import ComponentRepository from "../../../Infrastructure/repositories/server/mqtt/component.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 
 const componentRepository = new ComponentRepository();
 const subscriptionRepository = new SubscriptionRepository();
 const topicRepository = new TopicRepository();
 const itemRepository = new ItemRepository();
 const projectRepository = new ProjectRepository();
+const redisRepository = new RedisRepository();
 const userRepository = new UserRepository(config.photo.default as string);
 const componentService = new ComponentService(
 	componentRepository,
@@ -23,7 +25,8 @@ const componentService = new ComponentService(
 	topicRepository,
 	itemRepository,
 	projectRepository,
-	userRepository
+	userRepository,
+	redisRepository
 );
 const componentHandler = new ComponentHandler(componentService, ComponentValidator);
 

@@ -57,9 +57,7 @@ class ComponentHandler {
 			.response({
 				status: "success",
 				message: "Component retrieved successfully",
-				data: {
-					topic_id: components
-				}
+				data: components
 			})
 			.code(200);
 	}
@@ -81,7 +79,9 @@ class ComponentHandler {
 	async deleteComponentHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.auth.credentials as unknown as IAuth;
 		const { componentId } = request.params;
-		await this._componentService.deleteComponent(componentId, id);
+		const payload = request.payload as IComponentPayload;
+		this._validator.validateDeleteComponentPayload(payload);
+		await this._componentService.deleteComponent(componentId, id, payload);
 		return h
 			.response({
 				status: "success",

@@ -65,6 +65,10 @@ const config = {
 	},
 	photo: {
 		default: process.env.DEFAULT_PHOTO
+	},
+	redis: {
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT
 	}
 };
 

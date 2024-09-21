@@ -97,9 +97,7 @@ class ProductHandler {
 			.response({
 				status: "success",
 				message: "Trial fetched successfully",
-				data: {
-					trial
-				}
+				data: trial
 			})
 			.code(200);
 	}

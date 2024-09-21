@@ -43,7 +43,7 @@ class UserRepository {
 		return userResult.rows[0].id;
 	}
 
-	async getUserById(id: string): Promise<IUser | null> {
+	async getUserById(id: string): Promise<IUser> {
 		const userQuery = {
 			text: `
                 SELECT id, first_name, last_name, password, email, phone_number, photo
@@ -54,7 +54,7 @@ class UserRepository {
 		};
 
 		const userResult = await this._pool.query(userQuery);
-		return userResult.rows[0] || null;
+		return userResult.rows[0];
 	}
 
 	async getUserByEmail(email: string): Promise<IUser | null> {

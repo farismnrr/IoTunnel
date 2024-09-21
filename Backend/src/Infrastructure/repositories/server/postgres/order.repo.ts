@@ -42,6 +42,17 @@ class OrderRepo {
 		return orderResult.rows[0];
 	}
 
+	async getOrderByUserId(userId: string): Promise<IOrder> {
+		const orderQuery = {
+			text: `
+                SELECT id FROM orders WHERE user_id = $1
+            `,
+			values: [userId]
+		};
+		const orderResult = await this._pool.query(orderQuery);
+		return orderResult.rows[0];
+	}
+
 	async editOrderStatus(orderId: string, status: string): Promise<string> {
 		const updatedAt = new Date();
 		const orderQuery = {

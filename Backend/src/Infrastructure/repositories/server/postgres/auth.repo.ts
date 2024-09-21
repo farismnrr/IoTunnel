@@ -78,17 +78,13 @@ class AuthRepository {
 		await this._pool.query(adminAuthQuery);
 	}
 
-	async getAdminAuth(refreshToken: string): Promise<IAuth | null> {
+	async getAdminAuth(refreshToken: string): Promise<string | null> {
 		const adminAuthQuery = {
-			text: `
-				SELECT admin_id, refresh_token, access_token, role 
-				FROM auths 
-				WHERE refresh_token = $1
-			`,
+			text: `SELECT admin_id FROM auths WHERE refresh_token = $1`,
 			values: [refreshToken]
 		};
 		const adminAuthResult = await this._pool.query(adminAuthQuery);
-		return adminAuthResult.rows[0] || null;
+		return adminAuthResult.rows[0]?.admin_id || null;
 	}
 
 	async getAdminRole(adminId: string): Promise<string | null> {

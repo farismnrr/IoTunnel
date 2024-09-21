@@ -75,6 +75,24 @@ class SubscriptionRepository {
 		return subscriptionResult.rows[0];
 	}
 
+	async getSubscriptionEndDate(userId: string): Promise<string | null> {
+		const subscriptionQuery = {
+			text: `
+				SELECT 
+					subscription_end_date 
+				FROM subscriptions
+				WHERE user_id = $1
+			`,
+			values: [userId]
+		};
+
+		const subscriptionResult = await this._pool.query(subscriptionQuery);
+		if (!subscriptionResult.rows.length) {
+			return null;
+		}
+		return subscriptionResult.rows[0].subscription_end_date;
+	}
+
 	async getSubscriptionByApiKey(apiKey: string): Promise<ISubscription> {
 		const subscriptionQuery = {
 			text: `

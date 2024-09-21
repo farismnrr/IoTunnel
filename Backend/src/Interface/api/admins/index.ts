@@ -8,15 +8,18 @@ import AdminService from "../../../App/services/server/admin.service";
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 
 const mailRepository = new MailRepository();
 const authRepository = new AuthRepository();
+const redisRepository = new RedisRepository();
 const adminRepository = new AdminRepository(config.photo.default as string);
 
 const adminService = new AdminService(
 	adminRepository,
 	mailRepository,
 	authRepository,
+	redisRepository,
 	config.jwt.serverKey as string,
 	config.jwt.adminKey as string
 );

@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/postgres/mail.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
+import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import { nanoid } from "nanoid";
 import {
 	InvariantError,
@@ -21,19 +22,21 @@ class AdminService {
 	private readonly _adminRepository: AdminRepository;
 	private readonly _mailRepository: MailRepository;
 	private readonly _authRepository: AuthRepository;
+	private readonly _redisRepository: RedisRepository;
 	private readonly _serverKey: string;
 	private readonly _adminKey: string;
-
 	constructor(
 		adminRepository: AdminRepository,
 		mailRepository: MailRepository,
 		authRepository: AuthRepository,
+		redisRepository: RedisRepository,
 		serverKey: string,
 		adminKey: string
 	) {
 		this._adminRepository = adminRepository;
 		this._mailRepository = mailRepository;
 		this._authRepository = authRepository;
+		this._redisRepository = redisRepository;
 		this._serverKey = serverKey;
 		this._adminKey = adminKey;
 	}
@@ -130,6 +133,7 @@ class AdminService {
 			password: hashedPassword,
 			id
 		});
+		await this._redisRepository.delete(`admin:${id}`);
 		return admin;
 	}
 
@@ -157,25 +161,29 @@ class AdminService {
 		if (!admin) {
 			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
-
 		const adminOTP = await this._authRepository.getOtpByEmail(payload.email);
 		if (!adminOTP) {
 			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
-
 		const isMatch = await bcrypt.compare(payload.password, admin.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
-
 		if (adminOTP.otp_code !== payload.otp_code) {
 			throw new AuthenticationError("Email or password or OTP code is incorrect");
 		}
-
+		await this._redisRepository.delete(`admin:${admin.id}`);
 		return admin.id;
 	}
 
-	async getAdminById(id: string): Promise<IAdmin> {
+	async getAdminById(id: string): Promise<{ admin: IAdmin; source: string }> {
+		const adminCache = await this._redisRepository.get(`admin:${id}`);
+		if (adminCache) {
+			return {
+				admin: JSON.parse(adminCache),
+				source: "cache"
+			};
+		}
 		const adminRole = await this._authRepository.getAdminRole(id);
 		if (adminRole !== "admin") {
 			throw new AuthorizationError("You are not authorized to get this admin");
@@ -191,7 +199,11 @@ class AdminService {
 			last_name: admin.last_name,
 			photo: admin.photo
 		};
-		return adminWithoutPassword as IAdmin;
+		await this._redisRepository.set(`admin:${id}`, adminWithoutPassword);
+		return {
+			admin: adminWithoutPassword as IAdmin,
+			source: "database"
+		};
 	}
 
 	async validateEditAdminPayload(payload: IAdmin): Promise<void> {
@@ -205,21 +217,19 @@ class AdminService {
 		if (adminRole !== "admin") {
 			throw new AuthorizationError("You are not authorized to edit this admin");
 		}
-
 		const admin = await this._adminRepository.getAdminById(id);
 		if (!admin) {
 			throw new NotFoundError("Admin not found");
 		}
-
 		const isMatch = await bcrypt.compare(payload.password, admin.password);
 		if (!isMatch) {
 			throw new AuthenticationError("Invalid password");
 		}
-
 		const editedAdmin = await this._adminRepository.editAdmin(id, payload);
 		if (!editedAdmin) {
 			throw new InvariantError("Failed to edit admin");
 		}
+		await this._redisRepository.delete(`admin:${id}`);
 	}
 
 	async validateResetPasswordPayload(payload: IAdminWithNewPassword): Promise<void> {
@@ -263,6 +273,7 @@ class AdminService {
 		}
 
 		const hashedPassword = await bcrypt.hash(payload.new_password, 10);
+		await this._redisRepository.delete(`admin:${admin.id}`);
 		await this._adminRepository.editAdminPassword(admin.id, hashedPassword);
 	}
 
@@ -275,6 +286,7 @@ class AdminService {
 		if (!admin) {
 			throw new NotFoundError("Admin not found");
 		}
+		await this._redisRepository.delete(`admin:${id}`);
 		await this._adminRepository.deleteAdminById(id);
 	}
 

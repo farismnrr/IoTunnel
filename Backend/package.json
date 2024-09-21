@@ -14,7 +14,7 @@
 		"generate-token": "bun src/Infrastructure/settings/token.ts"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.10.0",
+		"@eslint/js": "^9.11.0",
 		"@types/bcrypt": "^5.0.2",
 		"@types/bcryptjs": "^2.4.6",
 		"@types/bun": "latest",
@@ -23,7 +23,7 @@
 		"@types/nodemailer": "^6.4.16",
 		"@types/pg": "^8.11.10",
 		"@types/uuid": "^10.0.0",
-		"eslint": "^9.10.0",
+		"eslint": "^9.11.0",
 		"globals": "^15.9.0",
 		"typescript-eslint": "^8.6.0"
 	},
@@ -45,6 +45,7 @@
 		"nock": "^13.5.5",
 		"nodemailer": "^6.9.15",
 		"pg": "^8.13.0",
+		"redis": "^4.7.0",
 		"sharp": "^0.33.5"
 	}
 }

@@ -41,12 +41,6 @@ const CustomPlugin = async (server: Hapi.Server) => {
 			}
 		},
 		{
-			plugin: components,
-			routes: {
-				prefix: "/api/v1"
-			}
-		},
-		{
 			plugin: storage,
 			routes: {
 				prefix: "/api/v1"
@@ -54,6 +48,12 @@ const CustomPlugin = async (server: Hapi.Server) => {
 		},
 		{
 			plugin: projects,
+			routes: {
+				prefix: "/api/v1"
+			}
+		},
+		{
+			plugin: components,
 			routes: {
 				prefix: "/api/v1"
 			}

@@ -8,40 +8,40 @@ class ProjectRepository {
 		this._pool = new Pool();
 	}
 
-	async addProject(project: IProject): Promise<void> {
+	async addProject(id: string, userId: string, project: IProject): Promise<void> {
 		const createdAt = new Date();
 		const projectQuery = {
 			text: `
-                INSERT INTO projects (id, name, description, created_at, updated_at) 
-                VALUES ($1, $2, $3, $4, $4) 
+                INSERT INTO projects (id, name, description, user_id, created_at, updated_at) 
+                VALUES ($1, $2, $3, $4, $5, $5) 
             `,
-			values: [project.id, project.name, project.description, createdAt]
+			values: [id, project.name, project.description, userId, createdAt]
 		};
 		await this._pool.query(projectQuery);
 	}
 
 	async getProjectById(id: string): Promise<IProject | null> {
 		const projectQuery = {
-			text: "SELECT id, name, description FROM projects WHERE id = $1",
+			text: "SELECT id, name, description, user_id FROM projects WHERE id = $1",
 			values: [id]
 		};
 		const projectResult = await this._pool.query(projectQuery);
 		return projectResult.rows[0] || null;
 	}
 
-    async getProjectsByUserId(userId: string): Promise<IProject[]> {
-        const projectQuery = {
-            text: "SELECT id, name, description FROM projects WHERE user_id = $1",
-            values: [userId]
-        };
-        const projectResult = await this._pool.query(projectQuery);
-        return projectResult.rows;
-    }
-    
-	async getProjectByName(name: string): Promise<IProject | null> {
+	async getProjectsByUserId(userId: string): Promise<IProject[]> {
 		const projectQuery = {
-			text: "SELECT id, name, description FROM projects WHERE name = $1",
-			values: [name]
+			text: "SELECT id, name, description, user_id FROM projects WHERE user_id = $1",
+			values: [userId]
+		};
+		const projectResult = await this._pool.query(projectQuery);
+		return projectResult.rows;
+	}
+
+	async getProjectByName(name: string, userId: string): Promise<IProject | null> {
+		const projectQuery = {
+			text: "SELECT id, name, description, user_id FROM projects WHERE name = $1 AND user_id = $2",
+			values: [name, userId]
 		};
 		const projectResult = await this._pool.query(projectQuery);
 		return projectResult.rows[0] || null;
@@ -62,16 +62,13 @@ class ProjectRepository {
 			values.push(project.description);
 		}
 
-		const updateProjectQuery = {
-			text: `
-                UPDATE projects 
-                SET ${fields.join(", ")}, updated_at = $${index++} 
-                WHERE id = $${index}
-            `,
-			values: [...values, updatedAt, id]
-		};
+		const query = `
+			UPDATE projects 
+			SET ${fields.join(", ")}, updated_at = $${index++} 
+			WHERE id = $${index}
+		`;
 
-		await this._pool.query(updateProjectQuery);
+		await this._pool.query(query, [...values, updatedAt, id]);
 	}
 
 	async deleteProject(id: string): Promise<void> {

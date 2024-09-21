@@ -7,43 +7,44 @@
 		"start": "NODE_ENV=production bun --watch src/server.ts",
 		"deploy": "pm2 start dist/backend-server",
 		"migrate": "bun migration.ts",
-		"build:server": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server",
+		"build:server": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server --platform=linux-x64",
 		"build:migrate": "NODE_ENV=production bun build migration.ts --compile --minify --outfile dist/migration",
 		"lint": "eslint src",
 		"copy-env": "bun -e \"const fs = require('fs'); fs.copyFileSync('.env.example', '.env');\" || cp .env.example .env",
 		"generate-token": "bun src/Infrastructure/settings/token.ts"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.9.1",
+		"@eslint/js": "^9.10.0",
 		"@types/bcrypt": "^5.0.2",
 		"@types/bcryptjs": "^2.4.6",
 		"@types/bun": "latest",
 		"@types/eslint__js": "^8.42.3",
 		"@types/multer": "^1.4.12",
-		"@types/nodemailer": "^6.4.15",
-		"@types/pg": "^8.11.7",
+		"@types/nodemailer": "^6.4.16",
+		"@types/pg": "^8.11.10",
 		"@types/uuid": "^10.0.0",
-		"eslint": "^9.6.0",
+		"eslint": "^9.10.0",
 		"globals": "^15.9.0",
-		"typescript-eslint": "^8.3.0"
+		"typescript-eslint": "^8.6.0"
 	},
 	"peerDependencies": {
-		"typescript": "^5.0.0"
+		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"@google-cloud/storage": "^7.12.1",
+		"@google-cloud/storage": "^7.13.0",
 		"@hapi/hapi": "^21.3.10",
 		"@hapi/jwt": "^3.2.0",
 		"auto-bind": "^5.0.1",
 		"aws-sdk": "^2.1691.0",
 		"bcryptjs": "^2.4.3",
+		"jimp": "^1.6.0",
 		"joi": "^17.13.3",
 		"mock-aws-s3": "^4.0.2",
 		"multer": "^1.4.5-lts.1",
 		"nanoid": "^5.0.7",
 		"nock": "^13.5.5",
-		"nodemailer": "^6.9.14",
-		"pg": "^8.12.0",
+		"nodemailer": "^6.9.15",
+		"pg": "^8.13.0",
 		"sharp": "^0.33.5"
 	}
 }

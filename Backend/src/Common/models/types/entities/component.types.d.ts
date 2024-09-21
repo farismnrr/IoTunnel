@@ -11,7 +11,7 @@ interface IComponentPayload {
     id: string;
     name: string;
     item_name: string;
-    project_name: string;
+    project_id: string;
     api_key: string;
 }
 

@@ -51,7 +51,7 @@ class ComponentService {
 		if (!subscription) {
 			throw new NotFoundError("Subscription not found");
 		}
-		const project = await this._projectRepository.getProjectByName(component.project_name);
+		const project = await this._projectRepository.getProjectById(component.project_id);
 		if (!project) {
 			throw new NotFoundError("Project not found");
 		}
@@ -81,7 +81,7 @@ class ComponentService {
 
 	async getComponentByApiKey(
 		apiKey: string,
-		projectName: string,
+		projectId: string,
 		itemName: string
 	): Promise<string> {
 		if (!apiKey) {
@@ -96,7 +96,7 @@ class ComponentService {
 		if (!subscription) {
 			throw new NotFoundError("Subscription not found");
 		}
-		const project = await this._projectRepository.getProjectByName(projectName);
+		const project = await this._projectRepository.getProjectById(projectId);
 		if (!project) {
 			throw new NotFoundError("Project not found");
 		}
@@ -125,6 +125,10 @@ class ComponentService {
 		if (!subscription) {
 			throw new NotFoundError("Subscription not found");
 		}
+		const project = await this._projectRepository.getProjectById(projectId);
+		if (!project) {
+			throw new NotFoundError("Project not found");
+		}
 		const components = await this._componentRepository.getComponentByProjectId(projectId);
 		if (!components || components.length === 0) {
 			throw new NotFoundError("Component not found");
@@ -132,18 +136,25 @@ class ComponentService {
 		return components;
 	}
 
-	async updateComponent(id: string, payload: IComponentPayload, apiKey: string): Promise<void> {
-		if (!apiKey) {
-			throw new AuthenticationError("Api Key is required");
+	async updateComponent(id: string, userId: string, payload: IComponentPayload): Promise<void> {
+		const user = await this._userRepository.getUserById(userId);
+		if (!user) {
+			throw new NotFoundError("User not found");
 		}
-		apiKey = apiKey.split(" ")[1];
+		if (!payload) {
+			throw new InvariantError("Payload is required");
+		}
+		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
+		if (!subscription) {
+			throw new NotFoundError("Subscription not found");
+		}
+		const project = await this._projectRepository.getProjectById(payload.project_id);
+		if (!project) {
+			throw new NotFoundError("Project not found");
+		}
 		const item = await this._itemRepository.getItemByName(payload.item_name);
 		if (!item) {
 			throw new NotFoundError("Item not found");
-		}
-		const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(apiKey);
-		if (!subscription) {
-			throw new NotFoundError("Subscription not found");
 		}
 		const component = await this._componentRepository.getComponentById(id);
 		if (!component) {
@@ -155,18 +166,18 @@ class ComponentService {
 		await this._componentRepository.updateComponent(id, payload.name, item.id);
 	}
 
-	async deleteComponent(id: string, apiKey: string): Promise<void> {
-		if (!apiKey) {
-			throw new AuthenticationError("Api Key is required");
+	async deleteComponent(id: string, userId: string): Promise<void> {
+		const user = await this._userRepository.getUserById(userId);
+		if (!user) {
+			throw new NotFoundError("User not found");
 		}
-		apiKey = apiKey.split(" ")[1];
+		const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
+		if (!subscription) {
+			throw new NotFoundError("Subscription not found");
+		}
 		const component = await this._componentRepository.getComponentById(id);
 		if (!component) {
 			throw new NotFoundError("Component not found");
-		}
-		const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(apiKey);
-		if (!subscription) {
-			throw new NotFoundError("Subscription not found");
 		}
 		if (component.user_id !== subscription.user_id) {
 			throw new AuthorizationError("You are not allowed to delete this component");

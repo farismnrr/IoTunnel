@@ -19,6 +19,14 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
 		}
 	},
 	{
+		method: "GET",
+		path: "/projects/{projectId}",
+		handler: handler.getProjectsByIdHandler,
+		options: {
+			auth: "user_jwt"
+		}
+	},
+	{
 		method: "PUT",
 		path: "/projects/{projectId}",
 		handler: handler.updateProjectHandler,

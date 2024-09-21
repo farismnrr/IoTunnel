@@ -17,6 +17,7 @@ class ProjectHandler {
 	async addProjectHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.auth.credentials as unknown as IAuth;
 		const payload = request.payload as IProject;
+		await this._projectService.validateAddProjectPayload(payload);
 		this._validator.validateProjectPayload(payload);
 		const project = await this._projectService.addProject(id, payload);
 		return h
@@ -32,12 +33,28 @@ class ProjectHandler {
 
 	async getAllProjectHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.auth.credentials as unknown as IAuth;
-		const projects = await this._projectService.getProjects(id);
+		const projects = await this._projectService.getProjectByUserId(id);
 		return h
 			.response({
 				status: "success",
+				message: "Project fetched successfully",
 				data: {
 					projects: projects
+				}
+			})
+			.code(200);
+	}
+
+	async getProjectsByIdHandler(request: Request, h: ResponseToolkit) {
+		const { id } = request.auth.credentials as unknown as IAuth;
+		const { projectId } = request.params;
+		const project = await this._projectService.getProjectById(projectId, id);
+		return h
+			.response({
+				status: "success",
+				message: "Project fetched successfully",
+				data: {
+					project: project
 				}
 			})
 			.code(200);
@@ -48,14 +65,11 @@ class ProjectHandler {
 		const { projectId } = request.params;
 		const payload = request.payload as IProject;
 		this._validator.validateUpdateProjectPayload(payload);
-		const project = await this._projectService.updateProject(id, payload, projectId);
+		await this._projectService.updateProject(projectId, id, payload);
 		return h
 			.response({
 				status: "success",
-				message: "Project updated successfully",
-				data: {
-					project_id: project
-				}
+				message: "Project updated successfully"
 			})
 			.code(200);
 	}
@@ -63,7 +77,7 @@ class ProjectHandler {
 	async deleteProjectHandler(request: Request, h: ResponseToolkit) {
 		const { id } = request.auth.credentials as unknown as IAuth;
 		const { projectId } = request.params;
-		await this._projectService.deleteProject(id, projectId);
+		await this._projectService.deleteProject(projectId, id);
 		return h
 			.response({
 				status: "success",

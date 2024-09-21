@@ -6,27 +6,39 @@ const routes: (handler: ItemHandler) => ServerRoute[] = handler => [
 	{
 		method: "POST",
 		path: "/components",
-		handler: handler.createComponentHandler
+		handler: handler.createComponentHandler,
+		options: {
+			auth: "user_jwt"
+		}
 	},
 	{
 		method: "GET",
-		path: "/components/{itemName}",
-		handler: handler.getComponentByProjectIdHandler
+		path: "/components/{projectId}",
+		handler: handler.getComponentByProjectIdHandler,
+		options: {
+			auth: "user_jwt"
+		}
 	},
 	{
 		method: "GET",
-		path: "/components/{projectName}/{itemName}",
+		path: "/components/{projectId}/{itemName}",
 		handler: handler.getComponentByApiKeyHandler
 	},
 	{
 		method: "PATCH",
-		path: "/components/{id}",
-		handler: handler.updateComponentHandler
+		path: "/components/{componentId}",
+		handler: handler.updateComponentHandler,
+		options: {
+			auth: "user_jwt"
+		}
 	},
 	{
 		method: "DELETE",
-		path: "/components/{id}",
-		handler: handler.deleteComponentHandler
+		path: "/components/{componentId}",
+		handler: handler.deleteComponentHandler,
+		options: {
+			auth: "user_jwt"
+		}
 	}
 	// End Item Routes
 ];

@@ -11,22 +11,23 @@ class ComponentRepository {
 
 	async addComponent(component: IComponent): Promise<void> {
 		const createdAt = new Date();
-		const componentQuery = `
-            INSERT INTO components (id, name, item_id, topic_id, user_id, project_id, created_at, updated_at) 
-
+		const componentQuery = {
+			text: `
+            INSERT INTO components (id, name, item_id, topic_id, project_id, user_id, created_at, updated_at) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $7)
             RETURNING id
-        `;
-		const values = [
-			component.id,
-			component.name,
-			component.item_id,
-			component.topic_id,
-			component.project_id,
-			component.user_id,
-			createdAt
-		];
-		await this._pool.query(componentQuery, values);
+        `,
+			values: [
+				component.id,
+				component.name,
+				component.item_id,
+				component.topic_id,
+				component.project_id,
+				component.user_id,
+				createdAt
+			]
+		};
+		await this._pool.query(componentQuery);
 	}
 
 	async checkComponentItem(itemId: string, userId: string, projectId: string): Promise<boolean> {
@@ -45,7 +46,7 @@ class ComponentRepository {
 	async getComponentByItemId(itemId: string): Promise<IComponent[]> {
 		const getComponentByItemIdQuery = {
 			text: `
-                SELECT topic_id, user_id
+                SELECT topic_id, user_id, project_id
                 FROM components
                 WHERE item_id = $1
             `,
@@ -59,27 +60,28 @@ class ComponentRepository {
 	}
 
 	async getComponentById(id: string): Promise<IComponent> {
-		const getComponentByIdQuery = `
-            SELECT id, name, item_id, topic_id, user_id, project_id
-            FROM components
-            WHERE id = $1
-        `;
-		const values = [id];
-		const getComponentByIdResult = await this._pool.query(getComponentByIdQuery, values);
+		const getComponentByIdQuery = {
+			text: `
+				SELECT id, name, item_id, topic_id, user_id, project_id
+				FROM components
+				WHERE id = $1
+			`,
+			values: [id]
+		};
+		const getComponentByIdResult = await this._pool.query(getComponentByIdQuery);
 		return getComponentByIdResult.rows[0];
 	}
 
 	async getComponentByProjectId(projectId: string): Promise<IComponent[]> {
-		const getComponentByProjectIdQuery = `
-            SELECT id, name, item_id, topic_id, user_id, project_id
-            FROM components
-            WHERE project_id = $1
-        `;
-		const values = [projectId];
-		const getComponentByProjectIdResult = await this._pool.query(
-			getComponentByProjectIdQuery,
-			values
-		);
+		const getComponentByProjectIdQuery = {
+			text: `
+				SELECT id, name, item_id, topic_id, user_id, project_id
+				FROM components
+				WHERE project_id = $1
+			`,
+			values: [projectId]
+		};
+		const getComponentByProjectIdResult = await this._pool.query(getComponentByProjectIdQuery);
 		return getComponentByProjectIdResult.rows;
 	}
 
@@ -103,13 +105,11 @@ class ComponentRepository {
                 UPDATE components 
                 SET ${fields.join(", ")}, updated_at = $${index++} 
                 WHERE id = $${index}
-				RETURNING id
             `,
 			values: [...values, updatedAt, id]
 		};
 
-		const updateComponentResult = await this._pool.query(updateComponentQuery);
-		return updateComponentResult.rows[0].id;
+		await this._pool.query(updateComponentQuery);
 	}
 
 	async deleteComponent(id: string): Promise<void> {

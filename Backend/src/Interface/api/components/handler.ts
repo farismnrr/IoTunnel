@@ -47,10 +47,10 @@ class ComponentHandler {
 
 	async getComponentByApiKeyHandler(request: Request, h: ResponseToolkit) {
 		const apiKey = request.headers.authorization;
-		const { projectName, itemName } = request.params;
+		const { projectId, itemName } = request.params;
 		const components = await this._componentService.getComponentByApiKey(
 			apiKey,
-			projectName,
+			projectId,
 			itemName
 		);
 		return h
@@ -58,18 +58,18 @@ class ComponentHandler {
 				status: "success",
 				message: "Component retrieved successfully",
 				data: {
-					components: components
+					topic_id: components
 				}
 			})
 			.code(200);
 	}
 
 	async updateComponentHandler(request: Request, h: ResponseToolkit) {
-		const apiKey = request.headers.authorization;
+		const { id } = request.auth.credentials as unknown as IAuth;
+		const { componentId } = request.params;
 		const payload = request.payload as IComponentPayload;
-		const { id } = request.params;
 		this._validator.validateComponentPayload(payload);
-		await this._componentService.updateComponent(id, payload, apiKey);
+		await this._componentService.updateComponent(componentId, id, payload);
 		return h
 			.response({
 				status: "success",
@@ -79,9 +79,9 @@ class ComponentHandler {
 	}
 
 	async deleteComponentHandler(request: Request, h: ResponseToolkit) {
-		const apiKey = request.headers.authorization;
-		const { id } = request.params;
-		await this._componentService.deleteComponent(id, apiKey);
+		const { id } = request.auth.credentials as unknown as IAuth;
+		const { componentId } = request.params;
+		await this._componentService.deleteComponent(componentId, id);
 		return h
 			.response({
 				status: "success",

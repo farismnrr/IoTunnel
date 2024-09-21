@@ -2,6 +2,7 @@ import type { WebhookResponse } from "../utils/models";
 import { exec } from "child_process";
 import MosquittoRepository from "./repository";
 import util from "util";
+import config from "../utils/config";
 const execPromise = util.promisify(exec);
 
 class MosquittoService {
@@ -65,6 +66,16 @@ class MosquittoService {
         }
     }
 
+    async getMosquittoUser(apiKey: string): Promise<string[]> {
+        if (!apiKey) {
+            throw new Error("API key is required");
+        }
+        if (apiKey !== config.server.key) {
+            throw new Error("Invalid API key");
+        }
+        return await this._mosquittoRepository.getMosquittoUser();
+    }
+
     async postPassword(apiKey: string): Promise<void> {
         if (!apiKey) {
             throw new Error("API key is required");
@@ -77,7 +88,9 @@ class MosquittoService {
         if (!apiKey) {
             throw new Error("API key is required");
         }
-
+        if (apiKey !== config.server.key) {
+            throw new Error("Invalid API key");
+        }
         await this.deleteMosquittoPassword(userId);
     }
 }

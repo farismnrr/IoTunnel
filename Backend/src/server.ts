@@ -72,10 +72,10 @@ const handleServerLog = (server: Hapi.Server) => {
 const startServer = async () => {
 	const server = await createServer();
 	await ExternalPlugins(server);
-	await ExpirityPlugin(server);
 	await CustomPlugins(server);
 	handleClientError(server);
 	handleServerLog(server);
+	await ExpirityPlugin(server);
 
 	await server.start();
 	console.log(`Server running at ${server.info.uri}`);

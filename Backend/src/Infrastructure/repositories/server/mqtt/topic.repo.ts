@@ -1,4 +1,3 @@
-import type { ITopic } from "../../../../Common/models/types";
 import { Pool } from "pg";
 
 class TopicRepository {
@@ -8,32 +7,29 @@ class TopicRepository {
 	}
 
 	// Start Topic Repository
-	async addTopic(topic: ITopic): Promise<string> {
+	async addTopic(id: string): Promise<string> {
 		const createdAt = new Date();
 		const topicQuery = {
 			text: `
 				INSERT INTO topics (
 					id, 
-					subscription_id, 
 					created_at, 
 					updated_at
-				) VALUES ($1, $2, $3, $3) RETURNING *
+				) VALUES ($1, $2, $2) RETURNING id
 				`,
-			values: [topic.id, topic.subscription_id, createdAt]
+			values: [id, createdAt]
 		};
 		const result = await this._pool.query(topicQuery);
 		return result.rows[0].id;
 	}
 
-	async deleteTopicByApiKey(apiKey: string): Promise<void> {
+	async deleteTopicById(id: string): Promise<void> {
 		const deleteQuery = {
 			text: `
 				DELETE FROM topics 
-                WHERE subscription_id = (
-                    SELECT id FROM subscriptions WHERE api_key = $1
-                )
+                WHERE id = $1
 			`,
-			values: [apiKey]
+			values: [id]
 		};
 		await this._pool.query(deleteQuery);
 	}

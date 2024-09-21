@@ -38,6 +38,28 @@ class MosquittoRepository {
 		}
 	}
 
+	async getMosquittoUser(api_key: string): Promise<string[]> {
+		try {
+			const options = {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: api_key
+				}
+			};
+			const response = await fetch(`${Config.mosquitto.url}/mosquitto/user`, options);
+			if (response.status !== 200) {
+				throw new ConnectionError("Failed to get Mosquitto User");
+			}
+			const data = await response.json();
+			return data.data.user_id;
+		} catch (error) {
+			console.error("Failed to get Mosquitto User:", error);
+			throw error;
+		}
+	}
+
 	async deleteMosquittoUrl(api_key: string, user_id: string): Promise<void> {
 		try {
 			const options = {

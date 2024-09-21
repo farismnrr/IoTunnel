@@ -8,6 +8,11 @@ const mosquittoRoutes: (handler: MosquittoHandler) => ServerRoute[] = handler =>
 		handler: handler.getServerConnection,
 	},
 	{
+		method: "GET",
+		path: "/mosquitto/user",
+		handler: handler.getMosquittoUser,
+	},
+	{
 		method: "POST",
 		path: "/mosquitto/password",
 		handler: handler.postPassword,

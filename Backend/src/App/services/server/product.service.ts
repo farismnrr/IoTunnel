@@ -175,8 +175,8 @@ class ProductService {
 		});
 
 		const createdAt = new Date();
-		const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
-		// const trialEndDate = new Date(createdAt.getTime() + 1 * 60 * 1000);
+		// const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
+		const trialEndDate = new Date(createdAt.getTime() + 5 * 60 * 1000);
 		await this._subscriptionRepository.addSubscription(userId, {
 			id: `subscription-${trial.id}-${Date.now()}`,
 			trial_id: trial.id,

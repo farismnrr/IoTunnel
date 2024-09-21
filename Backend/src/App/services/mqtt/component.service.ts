@@ -64,17 +64,14 @@ class ComponentService {
 			throw new InvariantError("Pin already Used");
 		}
 		const topicId = `topic-${nanoid(16)}`;
-		await this._topicRepository.addTopic({
-			id: topicId,
-			subscription_id: subscription.id as string
-		});
+		await this._topicRepository.addTopic(topicId);
 		await this._componentRepository.addComponent({
 			id,
 			name: component.name,
 			item_id: item.id,
-			topic_id: topicId as string,
-			user_id: subscription.user_id as string,
-			project_id: project.id as string
+			topic_id: topicId,
+			user_id: user.id,
+			project_id: project.id
 		});
 		return id;
 	}
@@ -182,6 +179,7 @@ class ComponentService {
 		if (component.user_id !== subscription.user_id) {
 			throw new AuthorizationError("You are not allowed to delete this component");
 		}
+		await this._topicRepository.deleteTopicById(component.topic_id);
 		await this._componentRepository.deleteComponent(id);
 	}
 }

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import Hapi from "@hapi/hapi";
-import bcrypt from "bcryptjs";
+import Config from "../../Infrastructure/settings/config";
 import MosquittoRepository from "../repositories/external/mosquitto.repo";
 
 const ExpirityPlugin = async (server: Hapi.Server) => {
@@ -10,28 +10,37 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 			register: async () => {
 				const pool = new Pool();
 				const mosquittoRepository = new MosquittoRepository();
+				const serverKey = Config.jwt.serverKey as string;
 
-				async function deleteSubscription(): Promise<void> {
-					const currentTime = new Date();
-					const getSubscriptionQuery = {
-						text: `SELECT user_id FROM subscriptions WHERE subscription_end_date < $1`,
-						values: [currentTime]
-					};
-					const subscription = await pool.query(getSubscriptionQuery); // <-- Array
-					if (!subscription.rowCount) {
-						return;
-					}
+				async function deleteMosquittoUser(): Promise<void> {
 					const connection = await mosquittoRepository.getMosquittoConnection();
 					if (connection !== 200) {
 						console.error("Failed to get Mosquitto Connection");
 						return;
 					}
-					subscription.rows.forEach(async row => {
-						const hashedUserId = await bcrypt.hash(row.user_id, 10);
-						await mosquittoRepository.deleteMosquittoUrl(hashedUserId, row.user_id); // <-- Single ID
-						console.log(`Mosquitto Password deleted from ${row.user_id}`);
-					});
+					const user = await mosquittoRepository.getMosquittoUser(serverKey); // <-- Array
+					if (user.length === 0) {
+						console.log("No user found");
+					}
+					for (const userId of user) {
+						if (!userId) {
+							return;
+						}
+						const subscriptionQuery = {
+							text: `SELECT user_id FROM subscriptions WHERE user_id = $1`,
+							values: [userId]
+						};
+						const subscription = await pool.query(subscriptionQuery);
+						if (!subscription.rowCount) {
+							await mosquittoRepository.deleteMosquittoUrl(serverKey, userId);
+							console.log(`Mosquitto Password deleted for user: ${userId}`);
+							return;
+						}
+					}
+				}
 
+				async function deleteSubscription(): Promise<void> {
+					const currentTime = new Date();
 					const subscriptionQuery = {
 						text: `DELETE FROM subscriptions WHERE subscription_end_date < $1`,
 						values: [currentTime]
@@ -49,6 +58,7 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
 				}
 
 				setInterval(async () => {
+					await deleteMosquittoUser();
 					await deleteSubscription();
 					await deleteOtp();
 				}, 1 * 1000);

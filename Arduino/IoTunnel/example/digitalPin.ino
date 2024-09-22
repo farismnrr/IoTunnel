@@ -2,13 +2,13 @@
 
 IoTunnel tunnel;
 
-const char *ssid = "Galaxy A51 16E8";
-const char *password = "kkhc9039";
-const char *mqtt_username = "user-gdgwerflfV-1725850125135";
-const char *mqtt_password = "key-YOl3Yx_R6TpIKwer-trial-MwWpxKkgFQrCrYYn-4gOkF-1725850148061";
-const char *virtualPin = "VIRTUAL_DIGITAL_PIN_1";
-const char *projectId = "project-oJ30vvO5LRBKzik5";
-const int ledPin = 13;
+const char *ssid = "";
+const char *password = "";
+const char *mqtt_username = "";
+const char *mqtt_password = "";
+const char *virtualPin = "";
+const char *projectId = "";
+const int ledPin = 2;
 
 void setup() {
   Serial.begin(115200);
@@ -22,7 +22,7 @@ void setup() {
 void loop() {
   tunnel.loop();
 
-  int pin = tunnel.virtualPinControl(projectId, virtualPin);
+  int pin = tunnel.virtualPinControl(virtualPin);
   if (pin == 1) {
     digitalWrite(ledPin, HIGH);
   } else if (pin == 0) {

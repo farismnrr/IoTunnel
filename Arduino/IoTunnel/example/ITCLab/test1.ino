@@ -17,12 +17,12 @@
 float cel, cel1, degC, degC1;
 const float batas_suhu_atas = 55;
 
-const char *ssid = "MDK NEW";
-const char *password = "13141157";
-const char *mqtt_username = "user-x8MJuQ2oln-1725878908224";
-const char *mqtt_password = "key-FuLAOB3M43kyFKMW-trial-jjt0RTD5lfxUloVC-TXGes-1725878909043";
-const char *virtualPin = "VIRTUAL_ANALOG_PIN_1";
-const char *projectId = "project-oJ30vvO5LRBKzik5";
+const char *ssid = "";
+const char *password = "";
+const char *mqtt_username = "";
+const char *mqtt_password = "";
+const char *virtualPin = "";
+const char *projectId = "";
 
 IoTunnel tunnel;
 

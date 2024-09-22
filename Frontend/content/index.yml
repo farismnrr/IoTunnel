@@ -9,7 +9,7 @@ button:
         router: "/"
     getStarted:
         text: "Get Started"
-        router: "/signin"
+        router: "#Pricing"
     tryItOut:
         text: "Try it out"
         router: "/signin"

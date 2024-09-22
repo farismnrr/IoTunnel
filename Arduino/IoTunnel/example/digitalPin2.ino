@@ -8,6 +8,7 @@ const char *mqtt_username = "user-_LQgOkC8Wz-1725768867080";
 const char *mqtt_password = "key-7VWrZ5WYufMMUIb8-trial-4Kxv3iPDpwy1rYjZ-p-8J0-1725768878693";
 const char *virtualPin = "VIRTUAL_DIGITAL_PIN_1";
 const char *virtualPin2 = "VIRTUAL_DIGITAL_PIN_2";
+const char *projectId = "project-oJ30vvO5LRBKzik5";
 
 const int ledPin = 13;
 const int ledPin2 = 12;
@@ -18,10 +19,11 @@ void setup() {
   pinMode(ledPin2, OUTPUT);
   tunnel.connectToWiFi(ssid, password);
   tunnel.getCredentials(mqtt_username, mqtt_password);
-  tunnel.getTopics(virtualPin);
-  tunnel.getTopics(virtualPin2);
+  tunnel.getTopics(projectId, virtualPin);
+  tunnel.getTopics(projectId, virtualPin2);
   tunnel.virtualPinSetup();
 }
+
 
 void loop() {
   tunnel.loop();

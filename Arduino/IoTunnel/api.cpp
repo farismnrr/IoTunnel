@@ -5,7 +5,7 @@
 HTTPClient http;
 
 API::API() {
-  _apiUrl = String("http://") + String(mqttBroker) + ":" + String(apiPort) + "/components/";
+  _apiUrl = String("http://") + String(mqttBroker) + ":" + String(apiPort) + "/components";
   _username = this->_username;
   _password = this->_password;
 }
@@ -15,12 +15,12 @@ void API::getCredentials(const char* user, const char* password) {
   this->_password = password;
 }
 
-String API::getTopic(WiFiClient client, const char* virtualPin) {
+String API::getTopic(WiFiClient client, const char* projectId, const char* virtualPin) {
   int httpCode;
   String response;
   String auth = "Bearer " + String(this->_password);
   do {
-    http.begin(client, this->_apiUrl + virtualPin);
+    http.begin(client, this->_apiUrl + "/" + projectId + "/" + virtualPin);
     http.addHeader("Authorization", auth);
     httpCode = http.GET();
     response = http.getString();

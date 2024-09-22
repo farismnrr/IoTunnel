@@ -22,22 +22,22 @@ const subscriptionRepository = new SubscriptionRepository();
 const redisRepository = new RedisRepository();
 
 const orderService = new OrderService(
-	orderRepository,
-	authRepository,
-	userRepository,
-	productRepository,
-	midtransRepository,
-	mosquittoRepository,
-	subscriptionRepository,
-	redisRepository
+    orderRepository,
+    authRepository,
+    userRepository,
+    productRepository,
+    midtransRepository,
+    mosquittoRepository,
+    subscriptionRepository,
+    redisRepository
 );
 const orderHandler = new OrderHandler(orderService);
 
 export default {
-	name: "orders",
-	version: "1.1.0",
-	description: "Implement Payment Gateway",
-	register: (server: Server) => {
-		server.route(routes(orderHandler));
-	}
+    name: "orders",
+    version: "1.1.0",
+    description: "Implement Payment Gateway",
+    register: (server: Server) => {
+        server.route(routes(orderHandler));
+    }
 };

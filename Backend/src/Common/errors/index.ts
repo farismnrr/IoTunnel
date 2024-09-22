@@ -8,12 +8,12 @@ import AuthorizationError from "./entities/authorization.error";
 import AuthenticationError from "./entities/authentication.error";
 
 export {
-	AuthenticationError,
-	InvariantError,
-	AuthorizationError,
-	NotFoundError,
-	ConnectionError,
-	UnsupportedMediaTypeError,
-	ConflictError
+    AuthenticationError,
+    InvariantError,
+    AuthorizationError,
+    NotFoundError,
+    ConnectionError,
+    UnsupportedMediaTypeError,
+    ConflictError
 };
 export default ClientError;

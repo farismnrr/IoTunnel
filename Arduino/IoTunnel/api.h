@@ -8,10 +8,10 @@ class API {
   public:
   	API();
     void getCredentials(const char* user, const char* password);
-    String getTopic(WiFiClient client, const char* virtualPin);
+    String getTopic(WiFiClient client, const char* projectId, const char* virtualPin);
     String apiUrl();
 
-    const char* mqttBroker = "34.1.199.101";
+    const char* mqttBroker = "35.213.141.232";
     int mqttPort = 1883;
     int apiPort = 5499;
   private:

@@ -1,50 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const LogPlugin = {
-	ServerRequestLog(request: any) {
-		request.plugins.startTime = process.hrtime();
-	},
+    ServerRequestLog(request: any) {
+        request.plugins.startTime = process.hrtime();
+    },
 
-	ServerResponseLog(request: any, h: any) {
-		const start = request.plugins.startTime;
-		const end = process.hrtime(start);
-		const responseTimeNs = end[0] * 1e9 + end[1];
+    ServerResponseLog(request: any, h: any) {
+        const start = request.plugins.startTime;
+        const end = process.hrtime(start);
+        const responseTimeNs = end[0] * 1e9 + end[1];
 
-		const method = request.method.toUpperCase();
-		const paddedMethod = method.length < 6 ? method.padEnd(6, " ") : method;
+        const method = request.method.toUpperCase();
+        const paddedMethod = method.length < 6 ? method.padEnd(6, " ") : method;
 
-		let responseTime;
-		let unit;
+        let responseTime;
+        let unit;
 
-		if (responseTimeNs < 1e3) {
-			responseTime = responseTimeNs;
-			unit = "ns";
-		} else if (responseTimeNs < 1e6) {
-			responseTime = responseTimeNs / 1e3;
-			unit = "μs";
-		} else if (responseTimeNs < 1e9) {
-			responseTime = responseTimeNs / 1e6;
-			unit = "ms";
-		} else if (responseTimeNs < 1e12) {
-			responseTime = responseTimeNs / 1e9;
-			unit = "s";
-		} else {
-			responseTime = responseTimeNs / 1e12;
-			unit = "Ms";
-		}
+        if (responseTimeNs < 1e3) {
+            responseTime = responseTimeNs;
+            unit = "ns";
+        } else if (responseTimeNs < 1e6) {
+            responseTime = responseTimeNs / 1e3;
+            unit = "μs";
+        } else if (responseTimeNs < 1e9) {
+            responseTime = responseTimeNs / 1e6;
+            unit = "ms";
+        } else if (responseTimeNs < 1e12) {
+            responseTime = responseTimeNs / 1e9;
+            unit = "s";
+        } else {
+            responseTime = responseTimeNs / 1e12;
+            unit = "Ms";
+        }
 
-		const response = request.response;
-		const statusCode = response.isBoom ? response.output.statusCode : response.statusCode;
+        const response = request.response;
+        const statusCode = response.isBoom ? response.output.statusCode : response.statusCode;
 
-		console.log(
-			`[ Bun - Hapi ] Code: ${statusCode} | Time: ${unit === "s" ? " " : ""}${responseTime
-				.toFixed()
-				.padStart(3, " ")}${unit} | ${paddedMethod}\t${request.path}`
-		);
+        console.log(
+            `[ Bun - Hapi ] Code: ${statusCode} | Time: ${unit === "s" ? " " : ""}${responseTime
+                .toFixed()
+                .padStart(3, " ")}${unit} | ${paddedMethod}\t${request.path}`
+        );
 
-		if (response.isBoom && response.output.statusCode === 404) {
-			return h
-				.response(
-					`<!DOCTYPE html>
+        if (response.isBoom && response.output.statusCode === 404) {
+            return h
+                .response(
+                    `<!DOCTYPE html>
 						<html lang="en">
 						<head>
 							<meta charset="UTF-8">
@@ -62,10 +62,10 @@ const LogPlugin = {
 						</body>
 						</html>
 					`
-				)
-				.code(404);
-		}
-	}
+                )
+                .code(404);
+        }
+    }
 };
 
 export default LogPlugin;

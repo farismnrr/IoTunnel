@@ -20,21 +20,21 @@ const projectRepository = new ProjectRepository();
 const redisRepository = new RedisRepository();
 const userRepository = new UserRepository(config.photo.default as string);
 const componentService = new ComponentService(
-	componentRepository,
-	subscriptionRepository,
-	topicRepository,
-	itemRepository,
-	projectRepository,
-	userRepository,
-	redisRepository
+    componentRepository,
+    subscriptionRepository,
+    topicRepository,
+    itemRepository,
+    projectRepository,
+    userRepository,
+    redisRepository
 );
 const componentHandler = new ComponentHandler(componentService, ComponentValidator);
 
 export default {
-	name: "components",
-	version: "1.0.1",
-	description: "Change Component Authorization from Api Key to JWT",
-	register: (server: Server) => {
-		server.route(routes(componentHandler));
-	}
+    name: "components",
+    version: "1.0.1",
+    description: "Change Component Authorization from Api Key to JWT",
+    register: (server: Server) => {
+        server.route(routes(componentHandler));
+    }
 };

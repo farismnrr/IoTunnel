@@ -10,27 +10,27 @@ import UserRepository from "../../../Infrastructure/repositories/server/postgres
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 
 const storageRepository = new StorageRepository({
-	projectId: config.storage.projectId as string,
-	keyFilename: config.storage.keyFilename as string,
-	bucketName: config.storage.bucketName as string
+    projectId: config.storage.projectId as string,
+    keyFilename: config.storage.keyFilename as string,
+    bucketName: config.storage.bucketName as string
 });
 const userRepository = new UserRepository(config.photo.default as string);
 const adminRepository = new AdminRepository(config.photo.default as string);
 const redisRepository = new RedisRepository();
 const authRepository = new AuthRepository();
 const storageService = new StorageService(
-	storageRepository,
-	adminRepository,
-	userRepository,
-	authRepository,
-	redisRepository
+    storageRepository,
+    adminRepository,
+    userRepository,
+    authRepository,
+    redisRepository
 );
 const storageHandler = new StorageHandler(storageService);
 
 export default {
-	name: "storages",
-	version: "1.0.0",
-	register: async (server: Server) => {
-		server.route(routes(storageHandler));
-	}
+    name: "storages",
+    version: "1.0.0",
+    register: async (server: Server) => {
+        server.route(routes(storageHandler));
+    }
 };

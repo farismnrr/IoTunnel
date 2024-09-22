@@ -1,0 +1,15 @@
+[Unit]
+Description=Backend Server
+After=network.target
+
+[Service]
+ExecStart=/home/g21081010064/backend-server
+WorkingDirectory=/home/g21081010064
+Restart=always
+User=g21081010064
+Environment=NODE_ENV=production
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

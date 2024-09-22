@@ -13,10 +13,10 @@ const itemService = new ItemService(itemRepository, authRepository, config.jwt.s
 const itemHandler = new ItemHandler(itemService, ItemValidator);
 
 export default {
-	name: "items",
-	version: "1.0.0",
-	description: "Add Item API",
-	register: (server: Server) => {
-		server.route(routes(itemHandler));
-	}
+    name: "items",
+    version: "1.0.0",
+    description: "Add Item API",
+    register: (server: Server) => {
+        server.route(routes(itemHandler));
+    }
 };

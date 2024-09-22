@@ -13,14 +13,19 @@ const projectRepository = new ProjectRepository();
 const subscriptionRepository = new SubscriptionRepository();
 const authRepository = new AuthRepository();
 const userRepository = new UserRepository(config.photo.default as string);
-const projectService = new ProjectService(projectRepository, authRepository, userRepository, subscriptionRepository);
+const projectService = new ProjectService(
+    projectRepository,
+    authRepository,
+    userRepository,
+    subscriptionRepository
+);
 const projectHandler = new ProjectHandler(projectService, ProjectValidator);
 
 export default {
-	name: "projects",
-	description: "API for managing projects",
-	version: "1.0.0",
-	register: async (server: Server) => {
-		server.route(routes(projectHandler));
-	}
+    name: "projects",
+    description: "API for managing projects",
+    version: "1.0.0",
+    register: async (server: Server) => {
+        server.route(routes(projectHandler));
+    }
 };

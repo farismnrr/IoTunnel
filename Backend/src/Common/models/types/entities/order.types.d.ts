@@ -2,12 +2,12 @@ import { IProduct } from "./product.types";
 import { ISubscription } from "./subscription.types";
 
 interface IOrder {
-	id: string;
-	user_id: string;
+    id: string;
+    user_id: string;
     product_id: string;
-	status: string;
-	token: string;
-	payment_url: string;
+    status: string;
+    token: string;
+    payment_url: string;
 }
 
 interface ITransaction {
@@ -45,11 +45,20 @@ interface IPaymentStatus {
 }
 
 interface IOrderData {
-	id: string;
-	payment_type: string;
-	transaction_status: string;
-	product: IProduct;
-	subscription: ISubscription | null;
+    id: string;
+    payment_type: string;
+    transaction_status: string;
+    product: IProduct;
+    subscription: ISubscription | null;
 }
 
-export type { IOrder, ITransaction, ICustomer, IOrderItem, IPayment, IPaymentStatus, IOrderWithPaymentUrl, IOrderData };
+export type {
+    IOrder,
+    ITransaction,
+    ICustomer,
+    IOrderItem,
+    IPayment,
+    IPaymentStatus,
+    IOrderWithPaymentUrl,
+    IOrderData
+};

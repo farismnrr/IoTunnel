@@ -22,6 +22,7 @@ const char *password = "13141157";
 const char *mqtt_username = "user-x8MJuQ2oln-1725878908224";
 const char *mqtt_password = "key-FuLAOB3M43kyFKMW-trial-jjt0RTD5lfxUloVC-TXGes-1725878909043";
 const char *virtualPin = "VIRTUAL_ANALOG_PIN_1";
+const char *projectId = "project-oJ30vvO5LRBKzik5";
 
 IoTunnel tunnel;
 
@@ -29,7 +30,7 @@ void setup() {
   Serial.begin(115200);
   tunnel.connectToWiFi(ssid, password);
   tunnel.getCredentials(mqtt_username, mqtt_password);
-  tunnel.getTopics(virtualPin);
+  tunnel.getTopics(projectId, virtualPin);
   tunnel.virtualPinSetup();
 }
 

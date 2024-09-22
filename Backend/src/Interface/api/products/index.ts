@@ -18,21 +18,21 @@ const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
 const redisRepository = new RedisRepository();
 const productService = new ProductService(
-	productRepository,
-	mosquittoRepository,
-	subscriptionRepository,
-	userRepository,
-	authRepository,
-	redisRepository,
-	config.jwt.serverKey as string
+    productRepository,
+    mosquittoRepository,
+    subscriptionRepository,
+    userRepository,
+    authRepository,
+    redisRepository,
+    config.jwt.serverKey as string
 );
 const productHandler = new ProductHandler(productService, ProductValidator);
 
 export default {
-	name: "products",
-	version: "1.0.0",
-	description: "Add Product API",
-	register: (server: Server) => {
-		server.route(routes(productHandler));
-	}
+    name: "products",
+    version: "1.0.0",
+    description: "Add Product API",
+    register: (server: Server) => {
+        server.route(routes(productHandler));
+    }
 };

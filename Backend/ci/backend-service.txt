@@ -1,5 +1,0 @@
-sudo systemctl daemon-reload
-sudo systemctl enable run-backend-mqtt.service
-sudo systemctl start run-backend-mqtt.service
-
-sudo systemctl status run-backend-mqtt.service

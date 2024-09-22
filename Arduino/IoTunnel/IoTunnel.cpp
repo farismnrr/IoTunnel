@@ -27,19 +27,21 @@ void IoTunnel::connectToWiFi(const char* ssid, const char* password) {
   Serial.println("Connected to the Wi-Fi network");
 }
 
-void IoTunnel::getTopics(const char* virtualPin) {
+void IoTunnel::getTopics(const char* projectId, const char* virtualPin) {
   int idx = -1;
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < _limitIndex; i++) {
     if (_topics[i] == "") {
       idx = i;
       break;
     }
   }
   if (idx != -1) {
-    String topic = api.getTopic(espClient, virtualPin);
+    String topic = api.getTopic(espClient, projectId, virtualPin);
     _topics[idx] = topic;
+    _projectId[idx] = projectId;
     _virtualPins[idx] = virtualPin;
   }
+
 }
 
 void IoTunnel::virtualPinSetup() {
@@ -59,9 +61,10 @@ void IoTunnel::virtualPinSetup() {
       delay(2000);
     } else {
       Serial.println("Broker MQTT terhubung");
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < _limitIndex; i++) {
         if (_topics[i] != "") {
           client.publish(_topics[i].c_str(), "ESP32 Terhubung ke MQTT");
+
           client.subscribe(_topics[i].c_str());
         }
       }
@@ -75,7 +78,7 @@ int IoTunnel::virtualPinCallback(const char* topic, byte *payload, unsigned int 
 
   if (jsonDoc.containsKey("data")) {
     int value = jsonDoc["data"];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < _limitIndex; i++) {
       if (_topics[i] == topic) {
         _virtualPinValues[i] = value;
         return value;
@@ -85,18 +88,18 @@ int IoTunnel::virtualPinCallback(const char* topic, byte *payload, unsigned int 
   return -1;
 }
 
-int IoTunnel::virtualPinControl(const char* virtualPin) {
-  for (int i = 0; i < 10; i++) {
-    if (_virtualPins[i] == virtualPin) {
+int IoTunnel::virtualPinControl(const char* projectId, const char* virtualPin) {
+  for (int i = 0; i < _limitIndex; i++) {
+    if (_projectId[i] == projectId && _virtualPins[i] == virtualPin) {
       return _virtualPinValues[i];
     }
   }
   return -1;
 }
 
-int IoTunnel::virtualPinMonitor(const char* virtualPin, int valuePin) {
-  for (int i = 0; i < 10; i++) {
-    if (_virtualPins[i] == virtualPin) {
+int IoTunnel::virtualPinMonitor(const char* projectId, const char* virtualPin, int valuePin) {
+  for (int i = 0; i < _limitIndex; i++) {
+    if (_projectId[i] == projectId && _virtualPins[i] == virtualPin) {
       DynamicJsonDocument jsonDoc(1024);
       jsonDoc["data"] = valuePin;
       String payload = jsonDoc.as<String>();

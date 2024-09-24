@@ -4,10 +4,10 @@ import { Dialog, DialogPanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const navigation = [
-    { name: "Product", href: "#" },
-    { name: "Features", href: "#" },
-    { name: "Marketplace", href: "#" },
-    { name: "Company", href: "#" }
+    { name: "Features", href: "#Features" },
+    { name: "Pricing", href: "#Pricing" },
+    { name: "Testimonials", href: "#Testimonials" },
+    { name: "Contact", href: "#Contact" }
 ];
 
 const mobileMenuOpen = ref(false);
@@ -43,7 +43,10 @@ const mobileMenuOpen = ref(false);
                 </NuxtLink>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <NuxtLink to="#" class="text-sm font-semibold leading-6 text-gray-900">
+                <NuxtLink
+                    to="/users/auth/signin"
+                    class="text-sm font-semibold leading-6 text-gray-900"
+                >
                     Log in <span aria-hidden="true">&rarr;</span>
                 </NuxtLink>
             </div>
@@ -81,7 +84,7 @@ const mobileMenuOpen = ref(false);
                         </div>
                         <div class="py-6">
                             <NuxtLink
-                                to="#"
+                                to="/users/auth/signin"
                                 class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                             >
                                 Log in

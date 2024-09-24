@@ -1,5 +1,5 @@
 <template>
-    <section class="py-24">
+    <section class="py-24" id="Testimonials">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
                 <h1 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">

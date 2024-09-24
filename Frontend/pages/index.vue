@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import NavBar from "@/components/LandingPage/NavBar.vue";
-import Hero from "@/components/LandingPage/Hero.vue";
-import Features from "@/components/LandingPage/Feature.vue";
-import Pricing from "@/components/LandingPage/Pricing.vue";
-// import Testiomonials from "~/components/ui/LandingPage/Testiomonials.vue";
-// import QnA from "~/components/ui/LandingPage/QnA.vue";
-// import FooterBar from "~/components/ui/LandingPage/FooterBar.vue";
+import NavBar from "~/components/LandingPage/NavBar.vue";
+import Hero from "~/components/LandingPage/Hero.vue";
+import Feature from "~/components/LandingPage/Feature.vue";
+import Pricing from "~/components/LandingPage/Pricing.vue";
+import Testimonials from "~/components/LandingPage/Testimonials.vue";
+import CTA from "~/components/CTA.vue";
+import Contact from "~/components/LandingPage/Contact.vue";
+import Footer from "~/components/LandingPage/Footer.vue";
 </script>
 
 <template>
     <header>
         <NavBar />
     </header>
-    <main class="dark:bg-gray-800">
+    <main>
         <Hero />
-        <Features />
+        <Feature />
         <Pricing />
-        <!-- <Testiomonials /> -->
-        <!-- <QnA /> -->
+        <Testimonials />
+        <CTA />
+        <Contact />
     </main>
-    <footer class="dark:bg-gray-800">
-        <!-- <FooterBar /> -->
+    <footer>
+        <Footer />
     </footer>
 </template>

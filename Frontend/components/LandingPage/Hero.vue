@@ -1,40 +1,93 @@
-<script setup lang="ts">
-const { data } = await useAsyncData("content", () => queryContent("/").findOne());
-</script>
-
 <template>
-    <section class="pt-36 px-4" id="Home">
-        <div class="text-center space-y-4">
-            <h1 class="text-gray-800 dark:text-white font-bold text-4xl md:text-5xl">
-                {{ data.hero.title }}
-                <span
-                    class="text-primary-500 hover:text-primary-600 dark:text-primary-500 dark:hover:text-primary-400"
+    <section class="relative isolate px-6 pt-14 lg:px-8">
+        <div
+            class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+            aria-hidden="true"
+        >
+            <div
+                class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-400 to-primary-500 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                style="
+                    clip-path: polygon(
+                        74.1% 44.1%,
+                        100% 61.6%,
+                        97.5% 26.9%,
+                        85.5% 0.1%,
+                        80.7% 2%,
+                        72.5% 32.5%,
+                        60.2% 62.4%,
+                        52.4% 68.1%,
+                        47.5% 58.3%,
+                        45.2% 34.5%,
+                        27.5% 76.7%,
+                        0.1% 64.9%,
+                        17.9% 100%,
+                        27.6% 76.8%,
+                        76.1% 97.7%,
+                        74.1% 44.1%
+                    );
+                "
+            />
+        </div>
+        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+            <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+                <div
+                    class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
                 >
-                    {{ data.hero.subtitle }}
-                </span>
-            </h1>
-            <p class="text-gray-500 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
-                {{ data.hero.description }}
-            </p>
-        </div>
-        <div class="mt-12 justify-center items-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex">
-            <a
-                :href="data.button.getStarted.router"
-                class="px-10 py-3.5 w-full bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-500 text-white text-center rounded-md shadow-md block sm:w-auto"
-            >
-                {{ data.button.getStarted.text }}
-            </a>
-            <a
-                :href="data.button.tryItOut.router"
-                class="px-10 py-3.5 w-full text-gray-500 dark:text-gray-300 text-center border rounded-md duration-300 hover:text-primary-600 dark:hover:text-primary-400 hover:shadow dark:hover:shadow-none block sm:w-auto"
-            >
-                {{ data.button.tryItOut.text }}
-            </a>
-        </div>
-        <div class="max-w-screen-xl mx-auto gap-12 md:px-8 pb-12">
-            <div class="mt-14">
-                <img :src="data.hero.image" class="w-full shadow-lg rounded-lg border" alt="" />
+                    Announcing our next round of funding.
+                    <NuxtLink to="#" class="font-semibold text-primary-600">
+                        <span class="absolute inset-0" aria-hidden="true" />Read more
+                        <span aria-hidden="true">&rarr;</span>
+                    </NuxtLink>
+                </div>
             </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                    Data to enrich your online business
+                </h1>
+                <p class="mt-6 text-lg leading-8 text-gray-600">
+                    Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat
+                    commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
+                </p>
+                <div class="mt-10 flex items-center justify-center gap-x-6">
+                    <NuxtLink
+                        to="#"
+                        class="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+                    >
+                        Get started
+                    </NuxtLink>
+                    <NuxtLink to="#" class="text-sm font-semibold leading-6 text-gray-900">
+                        Learn more <span aria-hidden="true">→</span>
+                    </NuxtLink>
+                </div>
+            </div>
+        </div>
+        <div
+            class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+            aria-hidden="true"
+        >
+            <div
+                class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-primary-400 to-primary-500 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                style="
+                    clip-path: polygon(
+                        74.1% 44.1%,
+                        100% 61.6%,
+                        97.5% 26.9%,
+                        85.5% 0.1%,
+                        80.7% 2%,
+                        72.5% 32.5%,
+                        60.2% 62.4%,
+                        52.4% 68.1%,
+                        47.5% 58.3%,
+                        45.2% 34.5%,
+                        27.5% 76.7%,
+                        0.1% 64.9%,
+                        17.9% 100%,
+                        27.6% 76.8%,
+                        76.1% 97.7%,
+                        74.1% 44.1%
+                    );
+                "
+            />
         </div>
     </section>
 </template>

@@ -1,98 +1,95 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
+import { Dialog, DialogPanel } from "@headlessui/vue";
+import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 
-const { data } = await useAsyncData("content", () => queryContent("/").findOne());
-const isOpen = ref(false);
-function toggleMenuOpen() {
-    isOpen.value = !isOpen.value;
-}
+const navigation = [
+    { name: "Product", href: "#" },
+    { name: "Features", href: "#" },
+    { name: "Marketplace", href: "#" },
+    { name: "Company", href: "#" }
+];
 
-const isSticky = ref(true);
+const mobileMenuOpen = ref(false);
 </script>
 
 <template>
-    <nav
-        :class="{ sticky: isSticky }"
-        class="bg-white dark:bg-gray-800 w-full border-b md:border-0 md:static"
-    >
-        <div class="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
-            <div class="flex items-center justify-between py-3 md:py-5 md:block">
-                <a :href="data.button.home.router" class="flex mr-4">
-                    <img src="@/assets/logo.svg" class="mr-1 h-10" alt="IoTunnel Logo" />
-                    <span
-                        class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                    >
-                        {{ data.title }}
-                    </span>
-                </a>
-                <div class="md:hidden">
+    <div class="absolute inset-x-0 top-0 z-50">
+        <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <div class="flex lg:flex-1">
+                <NuxtLink to="/" class="-m-1.5 p-1.5">
+                    <span class="sr-only">IoTunnel</span>
+                    <img class="h-10 w-auto" src="/icons/logo.svg" alt="IoTunnel" />
+                </NuxtLink>
+            </div>
+            <div class="flex lg:hidden">
+                <button
+                    type="button"
+                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                    @click="mobileMenuOpen = true"
+                >
+                    <span class="sr-only">Open main menu</span>
+                    <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+                </button>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-12">
+                <NuxtLink
+                    v-for="item in navigation"
+                    :key="item.name"
+                    :to="item.href"
+                    class="text-sm font-semibold leading-6 text-gray-900"
+                >
+                    {{ item.name }}
+                </NuxtLink>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                <NuxtLink to="#" class="text-sm font-semibold leading-6 text-gray-900">
+                    Log in <span aria-hidden="true">&rarr;</span>
+                </NuxtLink>
+            </div>
+        </nav>
+        <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
+            <div class="fixed inset-0 z-50" />
+            <DialogPanel
+                class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+            >
+                <div class="flex items-center justify-between">
+                    <NuxtLink to="/" class="-m-1.5 p-1.5">
+                        <span class="sr-only">IoTunnel</span>
+                        <img class="h-10 w-auto" src="/icons/logo.svg" alt="IoTunnel" />
+                    </NuxtLink>
                     <button
-                        class="text-gray-700 dark:text-gray-200 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
-                        @click="toggleMenuOpen()"
+                        type="button"
+                        class="-m-2.5 rounded-md p-2.5 text-gray-700"
+                        @click="mobileMenuOpen = false"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-6 w-6"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            :class="[isOpen ? 'block' : 'hidden']"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            :class="[isOpen ? 'hidden' : 'block']"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4 8h16M4 16h16"
-                            />
-                        </svg>
+                        <span class="sr-only">Close menu</span>
+                        <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                     </button>
                 </div>
-            </div>
-            <div
-                class="flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0"
-                :class="[isOpen ? 'block' : 'hidden']"
-            >
-                <ul class="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                    <li
-                        v-for="link in data.navigation"
-                        :key="link.title"
-                        class="text-gray-600 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-200"
-                    >
-                        <a :href="link.router">
-                            {{ link.title }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="hidden md:inline-block">
-                <a
-                    :href="data.button.signIn.router"
-                    class="py-3 px-4 text-gray-600 dark:text-white hover:text-primary-600 dark:hover:text-primary-200"
-                >
-                    {{ data.button.signIn.text }}
-                </a>
-            </div>
-        </div>
-    </nav>
+                <div class="mt-6 flow-root">
+                    <div class="-my-6 divide-y divide-gray-500/10">
+                        <div class="space-y-2 py-6">
+                            <NuxtLink
+                                v-for="item in navigation"
+                                :key="item.name"
+                                :to="item.href"
+                                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                {{ item.name }}
+                            </NuxtLink>
+                        </div>
+                        <div class="py-6">
+                            <NuxtLink
+                                to="#"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Log in
+                            </NuxtLink>
+                        </div>
+                    </div>
+                </div>
+            </DialogPanel>
+        </Dialog>
+    </div>
 </template>
-
-<style scoped>
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-}
-</style>

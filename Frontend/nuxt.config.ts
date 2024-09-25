@@ -8,5 +8,10 @@ export default defineNuxtConfig({
             apiUrl: `${process.env.API_URL}/api/${process.env.API_VERSION}`
         }
     },
-    modules: ["@nuxtjs/tailwindcss", "@nuxt/eslint", "@pinia/nuxt"]
+    modules: [
+        "@nuxtjs/tailwindcss",
+        "@nuxt/eslint",
+        "@pinia/nuxt",
+        "pinia-plugin-persistedstate/nuxt"
+    ]
 });

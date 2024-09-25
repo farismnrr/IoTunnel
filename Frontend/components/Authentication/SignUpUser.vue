@@ -14,11 +14,6 @@ const toastOptions = {
     autoClose: 1000
 };
 
-const externalLinks = ref({
-    home: "/",
-    signIn: "/users/auth/signin"
-});
-
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
@@ -70,6 +65,11 @@ const signup = async () => {
             toast.info("Unexpected response", toastOptions);
     }
 };
+
+const externalLinks = ref({
+    home: "/",
+    signIn: "/users/auth/signin"
+});
 </script>
 
 <template>

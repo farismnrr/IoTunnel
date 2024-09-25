@@ -2,8 +2,10 @@
 import "vue3-toastify/dist/index.css";
 import { toast } from "vue3-toastify";
 import { useRuntimeConfig } from "#app";
+import { useAuthStore } from "~/stores/auth";
 import createAuthentication from "~/composables/Authentication";
 
+const authStore = useAuthStore();
 const config = useRuntimeConfig();
 const authentication = createAuthentication(config);
 
@@ -11,14 +13,6 @@ const toastOptions = {
     position: toast.POSITION.TOP_CENTER,
     autoClose: 1000
 };
-
-const externalLinks = ref({
-    home: "/",
-    dasboard: "/test",
-    signUp: "/users/auth/signup",
-    signWithGoogle: "#",
-    resetPassword: "#"
-});
 
 const email = ref("");
 const password = ref("");
@@ -33,12 +27,21 @@ const signin = async () => {
             toast.error(signinResponse.errors ?? "Unexpected error", toastOptions);
             break;
         case "success":
+            authStore.setAccessToken(signinResponse.data?.access_token ?? "");
             navigateTo(externalLinks.value.dasboard);
             break;
         default:
             toast.info("Unexpected response", toastOptions);
     }
 };
+
+const externalLinks = ref({
+    home: "/",
+    dasboard: "/test",
+    signUp: "/users/auth/signup",
+    signWithGoogle: "#",
+    resetPassword: "#"
+});
 </script>
 
 <template>

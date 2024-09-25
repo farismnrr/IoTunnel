@@ -1,45 +1,27 @@
 <script setup lang="ts">
-import axios from "axios";
-import { useRuntimeConfig } from "#app";
-const config = useRuntimeConfig();
+import { useAuthStore } from "~/stores/auth";
+import { computed, onMounted } from "vue";
 
-async function getUrlSIgnin(owner: string): Promise<string> {
-    const url = `${config.public.apiUrl}/${owner}`;
-    return url;
-}
-
-const user = ref<any | null>(null);
-
-async function getUser() {
-    try {
-        const url = await getUrlSIgnin("users");
-        const response = await axios.get(url, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${config.public.apiSecret}`
-            }
-        });
-        user.value = response.data;
-    } catch (error: any) {
-        const response = error.response;
-        return response.data;
-    }
-}
+const authStore = useAuthStore();
+const accessToken = computed(() => authStore.accessToken);
 
 const logout = async () => {
+    authStore.deleteAccessToken();
     navigateTo("/");
 };
 
-onMounted(async () => {
-    await getUser();
+onMounted(() => {
+    if (!accessToken.value) {
+        navigateTo("/");
+    }
 });
 </script>
 
 <template>
     <div>
         <h1>You are logged in</h1>
-        <h2>User Data:</h2>
-        <p>{{ user }}</p>
+        <h2>Access Token:</h2>
+        <p>{{ accessToken }}</p>
         <button
             @click.prevent="logout"
             type="submit"

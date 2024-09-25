@@ -84,7 +84,7 @@ interface BaseResponseSignin {
 }
 
 interface SigninData {
-    accessToken: string;
+    access_token: string;
 }
 
 interface UserSigninData extends SigninData {

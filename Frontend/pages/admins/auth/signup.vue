@@ -3,5 +3,7 @@ import SignUpAdmin from "~/components/Authentication/SignUpAdmin.vue";
 </script>
 
 <template>
-    <SignUpAdmin />
+    <main>
+        <SignUpAdmin />
+    </main>
 </template>

@@ -2,5 +2,11 @@
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: true },
-    modules: ["@nuxtjs/tailwindcss", "@nuxt/eslint"]
+    runtimeConfig: {
+        public: {
+            apiSecret: process.env.API_SECRET,
+            apiUrl: `${process.env.API_URL}/api/${process.env.API_VERSION}`
+        }
+    },
+    modules: ["@nuxtjs/tailwindcss", "@nuxt/eslint", "@pinia/nuxt"]
 });

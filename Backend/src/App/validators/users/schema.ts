@@ -47,6 +47,7 @@ const RegisterUserPayloadSchema = Joi.object({
         .required()
         .error(new Error("Phone number must be a valid phone number")),
     otp_code: Joi.string()
+        .required()
         .length(6)
         .pattern(/^[0-9]+$/)
         .error(new Error("OTP code must be a valid OTP code"))

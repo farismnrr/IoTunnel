@@ -75,6 +75,12 @@ class UserService {
 
     // Start User Service
     async validateRegisterUserPayload(payload: IUserWithOtp): Promise<void> {
+        if (!payload.first_name) {
+            throw new InvariantError("First name is required");
+        }
+        if (!payload.last_name) {
+            throw new InvariantError("Last name is required");
+        }
         if (!payload.email) {
             throw new InvariantError("Email is required");
         }
@@ -87,14 +93,11 @@ class UserService {
         if (payload.password !== payload.retype_password) {
             throw new AuthenticationError("Password and retype password do not match");
         }
-        if (!payload.first_name) {
-            throw new InvariantError("First name is required");
-        }
-        if (!payload.last_name) {
-            throw new InvariantError("Last name is required");
-        }
         if (!payload.phone_number) {
             throw new InvariantError("Phone number is required");
+        }
+        if (!payload.otp_code) {
+            throw new InvariantError("OTP code is required");
         }
     }
 

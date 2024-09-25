@@ -1,12 +1,79 @@
 <script setup lang="ts">
+import "vue3-toastify/dist/index.css";
+import { toast } from "vue3-toastify";
+import { useRuntimeConfig } from "#app";
+import createVerification from "~/composables/Verification";
+import createAuthentication from "~/composables/Authentication";
+
+const config = useRuntimeConfig();
+const verification = createVerification(config);
+const authentication = createAuthentication(config);
+
+const toastOptions = {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 1000
+};
+
 const externalLinks = ref({
     home: "/",
     signIn: "/users/auth/signin"
 });
+
+const firstName = ref("");
+const lastName = ref("");
+const email = ref("");
+const password = ref("");
+const passwordConfirmation = ref("");
+const phoneNumber = ref("");
+const otp = ref("");
+const isLoading = ref(false);
+
+const sendOtp = async () => {
+    isLoading.value = true;
+    try {
+        const otpResponse = await verification.otp.sendOtpUser(email.value);
+        switch (otpResponse.status) {
+            case "fail":
+                toast.error(otpResponse.errors ?? "Unexpected error", toastOptions);
+                break;
+            case "success":
+                toast.success("OTP sent successfully", toastOptions);
+                break;
+            default:
+                toast.info("Unexpected response", toastOptions);
+        }
+    } catch (error) {
+        toast.error("An error occurred while sending OTP", toastOptions);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const signup = async () => {
+    const signupResponse = await authentication.signup.signupUser({
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        password: password.value,
+        retypePassword: passwordConfirmation.value,
+        phoneNumber: phoneNumber.value,
+        otpCode: otp.value
+    });
+    switch (signupResponse.status) {
+        case "fail":
+            toast.error(signupResponse.errors ?? "Unexpected error", toastOptions);
+            break;
+        case "success":
+            navigateTo(externalLinks.value.signIn);
+            break;
+        default:
+            toast.info("Unexpected response", toastOptions);
+    }
+};
 </script>
 
 <template>
-    <div
+    <section
         class="w-full min-h-screen bg-gradient-to-r from-primary-100 to-white sm:px-4 flex justify-center"
     >
         <div class="w-full space-y-6 text-gray-600 sm:max-w-md mb-8">
@@ -34,6 +101,7 @@ const externalLinks = ref({
                             <label class="font-medium">First Name</label>
                             <input
                                 type="text"
+                                v-model="firstName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -41,6 +109,7 @@ const externalLinks = ref({
                             <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
+                                v-model="lastName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -50,6 +119,7 @@ const externalLinks = ref({
                         <label class="font-medium">Email</label>
                         <input
                             type="email"
+                            v-model="email"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -57,6 +127,7 @@ const externalLinks = ref({
                         <label class="font-medium">Password</label>
                         <input
                             type="password"
+                            v-model="password"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -64,6 +135,7 @@ const externalLinks = ref({
                         <label class="font-medium">Re-enter Password</label>
                         <input
                             type="password"
+                            v-model="passwordConfirmation"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -71,27 +143,55 @@ const externalLinks = ref({
                         <label class="font-medium">Phone Number</label>
                         <input
                             type="text"
+                            v-model="phoneNumber"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
-                    <div class="grid grid-cols-[70%_27%] gap-3">
+                    <div class="grid grid-cols-[65%_32%] gap-3">
                         <div class="flex flex-col">
                             <label class="font-medium">OTP (Email Verification)</label>
                             <input
                                 type="text"
+                                v-model="otp"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
                         <div class="flex flex-col">
                             <button
+                                @click.prevent="sendOtp"
                                 type="submit"
-                                class="w-full mt-7 px-3 py-3 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
+                                :disabled="isLoading"
+                                class="w-full mt-7 px-3 py-3 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150 flex items-center justify-center"
                             >
-                                Send OTP
+                                <span v-if="!isLoading">Send OTP</span>
+                                <span v-else class="flex items-center">
+                                    <svg
+                                        class="animate-spin h-5 w-5 mr-3 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            class="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            stroke-width="4"
+                                        ></circle>
+                                        <path
+                                            class="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        ></path>
+                                    </svg>
+                                    Sending...
+                                </span>
                             </button>
                         </div>
                     </div>
                     <button
+                        @click.prevent="signup"
                         type="submit"
                         class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
@@ -113,5 +213,5 @@ const externalLinks = ref({
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 const externalLinks = ref({
     home: "/",
     dasboard: "#",
@@ -7,7 +8,7 @@ const externalLinks = ref({
 });
 </script>
 <template>
-    <main
+    <section
         class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
     >
         <div class="w-full space-y-6 text-gray-600 sm:max-w-md">
@@ -60,5 +61,5 @@ const externalLinks = ref({
                 </NuxtLink>
             </div>
         </div>
-    </main>
+    </section>
 </template>

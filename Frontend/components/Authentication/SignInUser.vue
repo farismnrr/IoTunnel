@@ -1,14 +1,48 @@
 <script setup lang="ts">
+import "vue3-toastify/dist/index.css";
+import { toast } from "vue3-toastify";
+import { useRuntimeConfig } from "#app";
+import createAuthentication from "~/composables/Authentication";
+
+const config = useRuntimeConfig();
+const authentication = createAuthentication(config);
+
+const toastOptions = {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 1000
+};
+
 const externalLinks = ref({
     home: "/",
-    dasboard: "#",
+    dasboard: "/test",
     signUp: "/users/auth/signup",
     signWithGoogle: "#",
     resetPassword: "#"
 });
+
+const email = ref("");
+const password = ref("");
+
+const signin = async () => {
+    const signinResponse = await authentication.signin.signinUser({
+        email: email.value,
+        password: password.value
+    });
+    switch (signinResponse.status) {
+        case "fail":
+            toast.error(signinResponse.errors ?? "Unexpected error", toastOptions);
+            break;
+        case "success":
+            navigateTo(externalLinks.value.dasboard);
+            break;
+        default:
+            toast.info("Unexpected response", toastOptions);
+    }
+};
 </script>
+
 <template>
-    <main
+    <section
         class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
     >
         <div class="w-full space-y-6 text-gray-600 sm:max-w-md">
@@ -58,6 +92,7 @@ const externalLinks = ref({
                         <label class="font-medium">Email</label>
                         <input
                             type="email"
+                            v-model="email"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -65,12 +100,14 @@ const externalLinks = ref({
                         <label class="font-medium">Password</label>
                         <input
                             type="password"
+                            v-model="password"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
                     <button
-                        class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
+                        @click.prevent="signin"
                         type="submit"
+                        class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
                         Sign in
                     </button>
@@ -82,5 +119,5 @@ const externalLinks = ref({
                 </NuxtLink>
             </div>
         </div>
-    </main>
+    </section>
 </template>

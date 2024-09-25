@@ -14,20 +14,22 @@ const toastOptions = {
     autoClose: 1000
 };
 
-const email = ref("");
-const password = ref("");
+const formData = ref({
+    email: "",
+    password: ""
+});
 
 const signin = async () => {
     const signinResponse = await authentication.signin.signinUser({
-        email: email.value,
-        password: password.value
+        email: formData.value.email,
+        password: formData.value.password
     });
     switch (signinResponse.status) {
         case "fail":
             toast.error(signinResponse.errors ?? "Unexpected error", toastOptions);
             break;
         case "success":
-            authStore.setAccessToken(signinResponse.data?.access_token ?? "");
+            authStore.setAccessTokenUser(signinResponse.data?.access_token ?? "");
             navigateTo(externalLinks.value.dasboard);
             break;
         default:
@@ -35,12 +37,19 @@ const signin = async () => {
     }
 };
 
+const accessTokenUser = computed(() => authStore.accessTokenUser);
+onMounted(() => {
+    if (accessTokenUser.value) {
+        navigateTo(externalLinks.value.dasboard);
+    }
+});
+
 const externalLinks = ref({
     home: "/",
-    dasboard: "/test",
     signUp: "/users/auth/signup",
-    signWithGoogle: "#",
-    resetPassword: "#"
+    dasboard: "/test",
+    resetPassword: "#",
+    signWithGoogle: "#"
 });
 </script>
 
@@ -95,7 +104,7 @@ const externalLinks = ref({
                         <label class="font-medium">Email</label>
                         <input
                             type="email"
-                            v-model="email"
+                            v-model="formData.email"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -103,7 +112,7 @@ const externalLinks = ref({
                         <label class="font-medium">Password</label>
                         <input
                             type="password"
-                            v-model="password"
+                            v-model="formData.password"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>

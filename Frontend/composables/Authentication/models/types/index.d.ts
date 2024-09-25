@@ -26,11 +26,11 @@ interface FormattedSignupUser extends FormattedBaseSignup {
 }
 
 interface SignupAdmin extends BaseSignup {
-    key: string;
+    admin_key: string;
 }
 
 interface FormattedSignupAdmin extends FormattedBaseSignup {
-    key: string;
+    adminKey: string;
 }
 
 interface BaseResponseSignup {

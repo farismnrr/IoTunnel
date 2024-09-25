@@ -4,18 +4,28 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
-            accessToken: ""
+            accessTokenUser: "",
+            accessTokenAdmin: ""
         };
     },
     actions: {
-        setAccessToken(token: string) {
-            this.accessToken = token;
+        setAccessTokenUser(token: string) {
+            this.accessTokenUser = token;
         },
-        updateAccessToken(token: string) {
-            this.accessToken = token;
+        setAccessTokenAdmin(token: string) {
+            this.accessTokenAdmin = token;
         },
-        deleteAccessToken() {
-            this.accessToken = "";
+        updateAccessTokenUser(token: string) {
+            this.accessTokenUser = token;
+        },
+        updateAccessTokenAdmin(token: string) {
+            this.accessTokenAdmin = token;
+        },
+        deleteAccessTokenUser() {
+            this.accessTokenUser = "";
+        },
+        deleteAccessTokenAdmin() {
+            this.accessTokenAdmin = "";
         }
     },
     persist: {

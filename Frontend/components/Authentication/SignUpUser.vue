@@ -2,9 +2,11 @@
 import "vue3-toastify/dist/index.css";
 import { toast } from "vue3-toastify";
 import { useRuntimeConfig } from "#app";
+import { useAuthStore } from "~/stores/auth";
 import createVerification from "~/composables/Verification";
 import createAuthentication from "~/composables/Authentication";
 
+const authStore = useAuthStore();
 const config = useRuntimeConfig();
 const verification = createVerification(config);
 const authentication = createAuthentication(config);
@@ -14,19 +16,21 @@ const toastOptions = {
     autoClose: 1000
 };
 
-const firstName = ref("");
-const lastName = ref("");
-const email = ref("");
-const password = ref("");
-const passwordConfirmation = ref("");
-const phoneNumber = ref("");
-const otp = ref("");
+const formData = ref({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+    phoneNumber: "",
+    otp: ""
+});
 const isLoading = ref(false);
 
 const sendOtp = async () => {
     isLoading.value = true;
     try {
-        const otpResponse = await verification.otp.sendOtpUser(email.value);
+        const otpResponse = await verification.otp.sendOtpUser(formData.value.email);
         switch (otpResponse.status) {
             case "fail":
                 toast.error(otpResponse.errors ?? "Unexpected error", toastOptions);
@@ -46,13 +50,13 @@ const sendOtp = async () => {
 
 const signup = async () => {
     const signupResponse = await authentication.signup.signupUser({
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        password: password.value,
-        retypePassword: passwordConfirmation.value,
-        phoneNumber: phoneNumber.value,
-        otpCode: otp.value
+        firstName: formData.value.firstName,
+        lastName: formData.value.lastName,
+        email: formData.value.email,
+        password: formData.value.password,
+        retypePassword: formData.value.passwordConfirmation,
+        phoneNumber: formData.value.phoneNumber,
+        otpCode: formData.value.otp
     });
     switch (signupResponse.status) {
         case "fail":
@@ -66,9 +70,18 @@ const signup = async () => {
     }
 };
 
+const accessTokenUser = computed(() => authStore.accessTokenUser);
+onMounted(() => {
+    if (accessTokenUser.value) {
+        navigateTo(externalLinks.value.dasboard);
+    }
+});
+
 const externalLinks = ref({
     home: "/",
-    signIn: "/users/auth/signin"
+    signIn: "/users/auth/signin",
+    dasboard: "/test",
+    signWithGoogle: "#"
 });
 </script>
 
@@ -101,7 +114,7 @@ const externalLinks = ref({
                             <label class="font-medium">First Name</label>
                             <input
                                 type="text"
-                                v-model="firstName"
+                                v-model="formData.firstName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -109,7 +122,7 @@ const externalLinks = ref({
                             <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
-                                v-model="lastName"
+                                v-model="formData.lastName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -119,7 +132,7 @@ const externalLinks = ref({
                         <label class="font-medium">Email</label>
                         <input
                             type="email"
-                            v-model="email"
+                            v-model="formData.email"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -127,7 +140,7 @@ const externalLinks = ref({
                         <label class="font-medium">Password</label>
                         <input
                             type="password"
-                            v-model="password"
+                            v-model="formData.password"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -135,7 +148,7 @@ const externalLinks = ref({
                         <label class="font-medium">Re-enter Password</label>
                         <input
                             type="password"
-                            v-model="passwordConfirmation"
+                            v-model="formData.passwordConfirmation"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -143,7 +156,7 @@ const externalLinks = ref({
                         <label class="font-medium">Phone Number</label>
                         <input
                             type="text"
-                            v-model="phoneNumber"
+                            v-model="formData.phoneNumber"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -152,7 +165,7 @@ const externalLinks = ref({
                             <label class="font-medium">OTP (Email Verification)</label>
                             <input
                                 type="text"
-                                v-model="otp"
+                                v-model="formData.otp"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>

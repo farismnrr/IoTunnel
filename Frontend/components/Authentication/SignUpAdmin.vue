@@ -1,7 +1,87 @@
 <script setup lang="ts">
+import "vue3-toastify/dist/index.css";
+import { toast } from "vue3-toastify";
+import { useRuntimeConfig } from "#app";
+import { useAuthStore } from "~/stores/auth";
+import createVerification from "~/composables/Verification";
+import createAuthentication from "~/composables/Authentication";
+
+const authStore = useAuthStore();
+const config = useRuntimeConfig();
+const verification = createVerification(config);
+const authentication = createAuthentication(config);
+
+const toastOptions = {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 1000
+};
+
+const formData = ref({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+    otp: "",
+    adminKey: ""
+});
+const isLoading = ref(false);
+
+const sendOtp = async () => {
+    isLoading.value = true;
+    try {
+        const adminKeyResponse = await authentication.auth.getAdminKey();
+        const otpResponse = await verification.otp.sendOtpAdmin(formData.value.email);
+        switch (otpResponse.status) {
+            case "fail":
+                toast.error(otpResponse.errors ?? "Unexpected error", toastOptions);
+                break;
+            case "success":
+                toast.success("OTP sent successfully", toastOptions);
+                break;
+            default:
+                toast.info("Unexpected response", toastOptions);
+        }
+    } catch (error) {
+        toast.error("An error occurred while sending OTP", toastOptions);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const signUpAdmin = async () => {
+    const signupResponse = await authentication.signup.signupAdmin({
+        firstName: formData.value.firstName,
+        lastName: formData.value.lastName,
+        email: formData.value.email,
+        password: formData.value.password,
+        retypePassword: formData.value.passwordConfirmation,
+        otpCode: formData.value.otp,
+        adminKey: formData.value.adminKey
+    });
+    switch (signupResponse.status) {
+        case "fail":
+            toast.error(signupResponse.errors ?? "Unexpected error", toastOptions);
+            break;
+        case "success":
+            navigateTo(externalLinks.value.signIn);
+            break;
+        default:
+            toast.info("Unexpected response", toastOptions);
+    }
+};
+
+const accessTokenAdmin = computed(() => authStore.accessTokenAdmin);
+onMounted(() => {
+    if (accessTokenAdmin.value) {
+        navigateTo(externalLinks.value.dasboard);
+    }
+});
+
 const externalLinks = ref({
     home: "/",
-    signIn: "/admins/auth/signin"
+    signIn: "/admins/auth/signin",
+    dasboard: "/test"
 });
 </script>
 
@@ -34,6 +114,7 @@ const externalLinks = ref({
                             <label class="font-medium">First Name</label>
                             <input
                                 type="text"
+                                v-model="formData.firstName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -41,6 +122,7 @@ const externalLinks = ref({
                             <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
+                                v-model="formData.lastName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -50,6 +132,7 @@ const externalLinks = ref({
                         <label class="font-medium">Email</label>
                         <input
                             type="email"
+                            v-model="formData.email"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -57,6 +140,7 @@ const externalLinks = ref({
                         <label class="font-medium">Password</label>
                         <input
                             type="password"
+                            v-model="formData.password"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -64,6 +148,7 @@ const externalLinks = ref({
                         <label class="font-medium">Re-enter Password</label>
                         <input
                             type="password"
+                            v-model="formData.passwordConfirmation"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -72,7 +157,7 @@ const externalLinks = ref({
                             <label class="font-medium">OTP (Email Verification)</label>
                             <input
                                 type="text"
-                                v-model="otp"
+                                v-model="formData.otp"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -114,11 +199,13 @@ const externalLinks = ref({
                         <label class="font-medium">Admin Key</label>
                         <input
                             type="password"
+                            v-model="formData.adminKey"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
                     <button
                         type="submit"
+                        @click.prevent="signUpAdmin"
                         class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
                         Create account

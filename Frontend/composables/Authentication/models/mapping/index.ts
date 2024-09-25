@@ -27,7 +27,7 @@ function formatSignupAdmin(admin: FormattedSignupAdmin): SignupAdmin {
         password: admin.password,
         retype_password: admin.retypePassword,
         otp_code: admin.otpCode,
-        key: admin.key
+        admin_key: admin.adminKey
     };
 }
 

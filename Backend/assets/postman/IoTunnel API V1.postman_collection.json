@@ -18,7 +18,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -54,9 +56,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "admins", "key"]
+									"path": [
+										"{{version}}",
+										"admins",
+										"key"
+									]
 								}
 							},
 							"response": []
@@ -114,9 +122,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "admins", "otp", "register"]
+									"path": [
+										"{{version}}",
+										"admins",
+										"otp",
+										"register"
+									]
 								}
 							},
 							"response": []
@@ -127,7 +142,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -172,9 +189,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/admins",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "admins"]
+									"path": [
+										"{{version}}",
+										"admins"
+									]
 								}
 							},
 							"response": []
@@ -222,9 +244,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/admins/otp/reset",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "admins", "otp", "reset"]
+									"path": [
+										"{{version}}",
+										"admins",
+										"otp",
+										"reset"
+									]
 								}
 							},
 							"response": []
@@ -274,9 +303,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "admins", "login"]
+									"path": [
+										"{{version}}",
+										"admins",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -334,9 +369,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "otp", "register"]
+									"path": [
+										"{{version}}",
+										"users",
+										"otp",
+										"register"
+									]
 								}
 							},
 							"response": []
@@ -347,7 +389,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -392,9 +436,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users"]
+									"path": [
+										"{{version}}",
+										"users"
+									]
 								}
 							},
 							"response": []
@@ -410,7 +459,6 @@
 											"    const responseJson = pm.response.json();\r",
 											"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 											"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-											"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 											"} catch (error) {\r",
 											"    console.log(\"Error occurred: \" + error.message);\r",
 											"}"
@@ -444,9 +492,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "login"]
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -458,7 +512,9 @@
 							"script": {
 								"type": "text/javascript",
 								"packages": {},
-								"exec": [""]
+								"exec": [
+									""
+								]
 							}
 						},
 						{
@@ -466,7 +522,9 @@
 							"script": {
 								"type": "text/javascript",
 								"packages": {},
-								"exec": [""]
+								"exec": [
+									""
+								]
 							}
 						}
 					]
@@ -477,7 +535,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -519,9 +579,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "key"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
 						}
 					},
 					"response": []
@@ -532,7 +598,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -581,9 +649,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "key"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
 						}
 					},
 					"response": []
@@ -594,7 +668,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -647,9 +723,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "key"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
 						}
 					},
 					"response": []
@@ -710,9 +792,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -751,7 +840,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -781,9 +872,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -822,7 +920,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -842,9 +942,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -887,7 +994,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -917,9 +1026,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -930,7 +1046,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -978,9 +1096,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -991,7 +1114,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1049,9 +1174,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1062,7 +1192,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1120,9 +1252,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1133,7 +1270,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1181,9 +1320,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1194,7 +1338,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1242,9 +1388,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1255,7 +1406,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1317,9 +1470,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1330,7 +1488,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1388,9 +1548,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -1401,7 +1566,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1449,9 +1616,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1462,7 +1635,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1520,9 +1695,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1583,9 +1764,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1646,9 +1833,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1699,9 +1892,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1762,9 +1961,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1825,9 +2030,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1861,12 +2072,9 @@
 									"    pm.expect(responseJson.data.admin_id).to.be.a('string');\r",
 									"    pm.expect(responseJson.data).to.have.property('access_token');\r",
 									"    pm.expect(responseJson.data.access_token).to.be.a('string');\r",
-									"    pm.expect(responseJson.data).to.have.property('refresh_token');\r",
-									"    pm.expect(responseJson.data.refresh_token).to.be.a('string');\r",
 									"\r",
 									"    pm.environment.set('idAdminFaris', responseJson.data.admin_id);\r",
 									"    pm.environment.set('accessTokenAdminFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenAdminFaris', responseJson.data.refresh_token);\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -1898,9 +2106,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -1939,7 +2153,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -1959,9 +2175,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2000,7 +2223,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -2030,9 +2255,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -2071,7 +2303,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -2101,9 +2335,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2142,7 +2383,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -2172,9 +2415,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2239,9 +2489,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2286,9 +2543,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -2340,9 +2602,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -2394,9 +2661,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -2461,9 +2733,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -2517,9 +2794,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2580,9 +2863,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2643,9 +2932,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2706,9 +3001,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2769,9 +3070,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2832,9 +3139,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2888,9 +3201,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2951,9 +3270,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "reset"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -2993,20 +3318,17 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -3056,152 +3378,23 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Admin Token with Invalid Payload",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 400 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
 							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"xxx\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Edit Admin Token with Valid Access Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{accessTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Admin Token with Valid Payload",
+					"name": "Edit Admin Token with Valid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -3249,20 +3442,17 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -3316,9 +3506,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3379,9 +3574,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3442,9 +3642,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3505,9 +3710,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3568,9 +3778,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3613,20 +3828,17 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -3676,152 +3888,23 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout Admin with Invalid Payload",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 400 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
 							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"xxx\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Logout Admin with Valid Access Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{accessTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout Admin with Valid Payload",
+					"name": "Logout Admin with Valid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -3865,20 +3948,17 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenAdminFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "auth"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -3920,9 +4000,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -3974,9 +4059,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -4028,9 +4118,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -4096,9 +4191,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "otp", "register"]
+									"path": [
+										"{{version}}",
+										"users",
+										"otp",
+										"register"
+									]
 								}
 							},
 							"response": []
@@ -4109,7 +4211,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -4154,9 +4258,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users"]
+									"path": [
+										"{{version}}",
+										"users"
+									]
 								}
 							},
 							"response": []
@@ -4204,9 +4313,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "otp", "reset"]
+									"path": [
+										"{{version}}",
+										"users",
+										"otp",
+										"reset"
+									]
 								}
 							},
 							"response": []
@@ -4222,7 +4338,6 @@
 											"    const responseJson = pm.response.json();\r",
 											"    pm.environment.set('idUserNana', responseJson.data.user_id);\r",
 											"    pm.environment.set('accessTokenUserNana', responseJson.data.access_token);\r",
-											"    pm.environment.set('refreshTokenUserNana', responseJson.data.refresh_token);\r",
 											"} catch (error) {\r",
 											"    console.log(\"Error occurred: \" + error.message);\r",
 											"}"
@@ -4256,9 +4371,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "login"]
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -4282,7 +4403,9 @@
 							"script": {
 								"type": "text/javascript",
 								"packages": {},
-								"exec": [""]
+								"exec": [
+									""
+								]
 							}
 						}
 					]
@@ -4321,7 +4444,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4341,9 +4466,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -4382,7 +4514,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4412,9 +4546,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -4453,7 +4594,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4483,9 +4626,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -4560,9 +4710,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -4573,7 +4730,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4624,9 +4783,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4637,7 +4801,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4695,9 +4861,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4708,7 +4879,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4766,9 +4939,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4779,7 +4957,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4837,9 +5017,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4850,7 +5035,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4908,9 +5095,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4921,7 +5113,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -4984,9 +5178,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -4997,7 +5196,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -5055,9 +5256,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -5111,9 +5317,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5174,9 +5386,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5237,9 +5455,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5300,9 +5524,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5363,9 +5593,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5398,11 +5634,8 @@
 									"    pm.expect(responseJson.data.user_id).to.be.a('string');\r",
 									"    pm.expect(responseJson.data).to.have.property('access_token');\r",
 									"    pm.expect(responseJson.data.access_token).to.be.a('string');\r",
-									"    pm.expect(responseJson.data).to.have.property('refresh_token');\r",
-									"    pm.expect(responseJson.data.refresh_token).to.be.a('string');\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -5434,9 +5667,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -5475,7 +5714,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -5498,9 +5739,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -5539,7 +5787,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -5569,9 +5819,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -5610,7 +5867,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -5640,9 +5899,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -5681,7 +5947,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -5711,9 +5979,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -5778,9 +6053,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -5825,9 +6107,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -5879,9 +6166,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -5933,9 +6225,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -6013,9 +6310,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -6069,9 +6371,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6132,9 +6440,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6195,9 +6509,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6258,9 +6578,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6321,9 +6647,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6384,9 +6716,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6447,9 +6785,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6510,9 +6854,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/reset",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "reset"]
+							"path": [
+								"{{version}}",
+								"users",
+								"reset"
+							]
 						}
 					},
 					"response": []
@@ -6555,20 +6905,17 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -6618,152 +6965,23 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit User Token with Invalid Payload",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 400 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
 							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"xxx\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Edit User Token with Valid Access Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{accessTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit User Token with Valid Payload",
+					"name": "Edit User Token with Valid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -6810,20 +7028,17 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -6877,9 +7092,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -6940,9 +7160,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7003,9 +7228,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7066,9 +7296,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7129,9 +7364,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7174,20 +7414,17 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -7237,152 +7474,23 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout User with Invalid Payload",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 400 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
 							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"xxx\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Logout User with Valid Access Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('it should response 401 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
-									"}); \r",
-									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
-									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseJson.status).to.equal('fail');\r",
-									"    pm.expect(responseJson.errors).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{serverKey}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{accessTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
-							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout User with Valid Payload",
+					"name": "Logout User with Valid Authorization",
 					"event": [
 						{
 							"listen": "test",
@@ -7426,20 +7534,17 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refresh_token\": \"{{refreshTokenUserFaris}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/auth",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "auth"]
+							"path": [
+								"{{version}}",
+								"users",
+								"auth"
+							]
 						}
 					},
 					"response": []
@@ -7481,9 +7586,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7535,9 +7645,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7589,9 +7704,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7654,9 +7774,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -7667,7 +7794,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -7730,9 +7859,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -7748,7 +7882,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -7782,9 +7915,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -7840,9 +7979,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -7894,9 +8038,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -7948,9 +8097,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -8015,9 +8169,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -8028,7 +8187,9 @@
 						{
 							"listen": "test",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8049,9 +8210,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -8077,7 +8243,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8107,9 +8275,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -8120,7 +8295,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8183,9 +8360,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -8201,7 +8383,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -8235,9 +8416,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -8294,9 +8481,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -8312,7 +8504,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8348,9 +8542,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "key"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
 						}
 					},
 					"response": []
@@ -8408,9 +8608,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -8421,7 +8628,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8466,9 +8675,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -8484,7 +8698,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idAdminNana', responseJson.data.admin_id);\r",
 									"    pm.environment.set('accessTokenAdminNana', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenAdminNana', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -8518,9 +8731,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -8578,9 +8797,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -8591,7 +8817,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8636,9 +8864,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -8654,7 +8887,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idAdminFaris', responseJson.data.admin_id);\r",
 									"    pm.environment.set('accessTokenAdminFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenAdminFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -8688,9 +8920,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -8748,9 +8986,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -8761,7 +9006,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8806,9 +9053,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -8824,7 +9076,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -8858,9 +9109,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -8918,9 +9175,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -8931,7 +9195,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -8976,9 +9242,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -8994,7 +9265,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idUserNana', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserNana', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserNana', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -9028,9 +9298,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -9090,9 +9366,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/user",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "user"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"user"
+							]
 						}
 					},
 					"response": []
@@ -9154,9 +9436,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/admin",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "admin"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"admin"
+							]
 						}
 					},
 					"response": []
@@ -9218,9 +9506,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/admin",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "admin"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"admin"
+							]
 						}
 					},
 					"response": []
@@ -9284,9 +9578,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/admin",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "admin"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"admin"
+							]
 						}
 					},
 					"response": []
@@ -9351,9 +9651,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -9415,9 +9720,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/user",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "user"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"user"
+							]
 						}
 					},
 					"response": []
@@ -9479,9 +9790,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/user",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "user"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"user"
+							]
 						}
 					},
 					"response": []
@@ -9545,9 +9862,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/storages/user",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "storages", "user"]
+							"path": [
+								"{{version}}",
+								"storages",
+								"user"
+							]
 						}
 					},
 					"response": []
@@ -9625,9 +9948,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -9735,9 +10063,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -9847,9 +10180,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -9959,9 +10297,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10071,9 +10414,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10084,7 +10432,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -10146,9 +10496,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10251,9 +10606,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10295,9 +10655,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10349,9 +10714,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10415,9 +10785,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -10459,9 +10834,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10513,9 +10894,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10567,9 +10954,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -10630,9 +11023,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10686,9 +11085,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10749,9 +11154,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10812,9 +11223,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10875,9 +11292,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -10938,9 +11361,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -10985,9 +11414,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -11039,9 +11474,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -11093,9 +11534,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -11147,9 +11594,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -11201,9 +11654,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"products",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -11262,9 +11721,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11325,9 +11789,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11388,9 +11857,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11433,7 +11907,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -11463,9 +11939,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11507,9 +11988,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11561,9 +12047,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11622,9 +12113,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -11666,9 +12162,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -11720,9 +12222,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -11774,9 +12282,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -11828,9 +12342,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -11884,9 +12404,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -11947,9 +12473,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12010,9 +12542,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -12073,9 +12611,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12136,9 +12680,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12183,9 +12733,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12237,9 +12793,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12291,9 +12853,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -12345,9 +12913,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -12363,7 +12937,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -12408,9 +12984,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/products",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "products"]
+							"path": [
+								"{{version}}",
+								"products"
+							]
 						}
 					},
 					"response": []
@@ -12455,9 +13036,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -12509,9 +13096,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -12572,9 +13165,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -12619,9 +13218,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idOrder}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idOrder}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idOrder}}"
+							]
 						}
 					},
 					"response": []
@@ -12673,9 +13278,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idOrder}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idOrder}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idOrder}}"
+							]
 						}
 					},
 					"response": []
@@ -12727,9 +13338,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idOrder}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idOrder}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idOrder}}"
+							]
 						}
 					},
 					"response": []
@@ -12781,9 +13398,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -12839,9 +13462,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idOrder}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idOrder}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idOrder}}"
+							]
 						}
 					},
 					"response": []
@@ -12921,9 +13550,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idOrder}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idOrder}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idOrder}}"
+							]
 						}
 					},
 					"response": []
@@ -12977,9 +13612,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/{{idProduct}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "{{idProduct}}"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"{{idProduct}}"
+							]
 						}
 					},
 					"response": []
@@ -13001,9 +13642,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/orders/subscription",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "orders", "subscription"]
+							"path": [
+								"{{version}}",
+								"orders",
+								"subscription"
+							]
 						}
 					},
 					"response": []
@@ -13069,9 +13716,16 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "otp", "register"]
+									"path": [
+										"{{version}}",
+										"users",
+										"otp",
+										"register"
+									]
 								}
 							},
 							"response": []
@@ -13082,7 +13736,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -13127,9 +13783,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users"]
+									"path": [
+										"{{version}}",
+										"users"
+									]
 								}
 							},
 							"response": []
@@ -13145,7 +13806,6 @@
 											"    const responseJson = pm.response.json();\r",
 											"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 											"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-											"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 											"} catch (error) {\r",
 											"    console.log(\"Error occurred: \" + error.message);\r",
 											"}"
@@ -13179,9 +13839,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "login"]
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -13207,7 +13873,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -13237,9 +13905,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/items",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "items"]
+									"path": [
+										"{{version}}",
+										"items"
+									]
 								}
 							},
 							"response": []
@@ -13278,9 +13951,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "items", "{{idItem}}"]
+									"path": [
+										"{{version}}",
+										"items",
+										"{{idItem}}"
+									]
 								}
 							},
 							"response": []
@@ -13291,7 +13970,9 @@
 								{
 									"listen": "test",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -13312,9 +13993,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/trials",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "trials"]
+									"path": [
+										"{{version}}",
+										"trials"
+									]
 								}
 							},
 							"response": []
@@ -13325,7 +14011,9 @@
 								{
 									"listen": "test",
 									"script": {
-										"exec": [""],
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -13346,9 +14034,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/trials",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "trials"]
+									"path": [
+										"{{version}}",
+										"trials"
+									]
 								}
 							},
 							"response": []
@@ -13387,9 +14080,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/trials",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "trials"]
+									"path": [
+										"{{version}}",
+										"trials"
+									]
 								}
 							},
 							"response": []
@@ -13428,9 +14126,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/trials",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "trials"]
+									"path": [
+										"{{version}}",
+										"trials"
+									]
 								}
 							},
 							"response": []
@@ -13486,9 +14189,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13549,9 +14257,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13612,9 +14325,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13679,9 +14397,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13746,9 +14469,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13793,9 +14521,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13847,9 +14580,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13909,9 +14647,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -13971,9 +14714,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -14015,9 +14763,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14069,9 +14823,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14123,9 +14883,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14177,9 +14943,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -14235,9 +15007,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14293,9 +15071,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdNana}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
 						}
 					},
 					"response": []
@@ -14349,9 +15133,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14412,9 +15202,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14475,9 +15271,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14538,9 +15340,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -14601,9 +15409,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14664,9 +15478,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14727,9 +15547,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdNana}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
 						}
 					},
 					"response": []
@@ -14774,9 +15600,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14828,9 +15660,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14882,9 +15720,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -14936,9 +15780,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -14990,9 +15840,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -15044,9 +15900,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdNana}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdNana}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdNana}}"
+							]
 						}
 					},
 					"response": []
@@ -15070,7 +15932,6 @@
 											"    const responseJson = pm.response.json();\r",
 											"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 											"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-											"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 											"} catch (error) {\r",
 											"    console.log(\"Error occurred: \" + error.message);\r",
 											"}"
@@ -15104,9 +15965,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "login"]
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -15122,7 +15989,6 @@
 											"    const responseJson = pm.response.json();\r",
 											"    pm.environment.set('idUserNana', responseJson.data.user_id);\r",
 											"    pm.environment.set('accessTokenUserNana', responseJson.data.access_token);\r",
-											"    pm.environment.set('refreshTokenUserNana', responseJson.data.refresh_token);\r",
 											"} catch (error) {\r",
 											"    console.log(\"Error occurred: \" + error.message);\r",
 											"}"
@@ -15156,9 +16022,15 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/users/login",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "users", "login"]
+									"path": [
+										"{{version}}",
+										"users",
+										"login"
+									]
 								}
 							},
 							"response": []
@@ -15206,9 +16078,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/projects",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "projects"]
+									"path": [
+										"{{version}}",
+										"projects"
+									]
 								}
 							},
 							"response": []
@@ -15256,9 +16133,14 @@
 								},
 								"url": {
 									"raw": "{{url}}:{{port}}/{{version}}/projects",
-									"host": ["{{url}}"],
+									"host": [
+										"{{url}}"
+									],
 									"port": "{{port}}",
-									"path": ["{{version}}", "projects"]
+									"path": [
+										"{{version}}",
+										"projects"
+									]
 								}
 							},
 							"response": []
@@ -15314,9 +16196,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15377,9 +16264,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15440,9 +16332,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15503,9 +16400,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15570,9 +16472,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15637,9 +16544,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -15684,7 +16596,9 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
@@ -15743,9 +16657,16 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/xxx",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{projectIdFaris}}", "xxx"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{projectIdFaris}}",
+								"xxx"
+							]
 						}
 					},
 					"response": []
@@ -15797,9 +16718,16 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/xxx/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "xxx", "{{itemName}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"xxx",
+								"{{itemName}}"
+							]
 						}
 					},
 					"response": []
@@ -15852,7 +16780,9 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdNana}}/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
@@ -15912,7 +16842,9 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
@@ -15973,9 +16905,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16036,9 +16974,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16099,9 +17043,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{notFoundId}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{notFoundId}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{notFoundId}}"
+							]
 						}
 					},
 					"response": []
@@ -16162,9 +17112,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16225,9 +17181,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16288,9 +17250,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16351,9 +17319,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16407,9 +17381,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16470,9 +17450,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16533,9 +17519,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/xxx",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "xxx"]
+							"path": [
+								"{{version}}",
+								"components",
+								"xxx"
+							]
 						}
 					},
 					"response": []
@@ -16596,9 +17588,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16659,9 +17657,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{idComponentFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components", "{{idComponentFaris}}"]
+							"path": [
+								"{{version}}",
+								"components",
+								"{{idComponentFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -16713,7 +17717,9 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
@@ -16736,7 +17742,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -16772,9 +17780,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/key",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "key"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"key"
+							]
 						}
 					},
 					"response": []
@@ -16832,9 +17846,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -16845,7 +17866,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -16890,9 +17913,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins"]
+							"path": [
+								"{{version}}",
+								"admins"
+							]
 						}
 					},
 					"response": []
@@ -16908,7 +17936,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idAdminFaris', responseJson.data.admin_id);\r",
 									"    pm.environment.set('accessTokenAdminFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenAdminFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -16942,9 +17969,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/admins/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "admins", "login"]
+							"path": [
+								"{{version}}",
+								"admins",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -17002,9 +18035,16 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/otp/register",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "otp", "register"]
+							"path": [
+								"{{version}}",
+								"users",
+								"otp",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -17015,7 +18055,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -17060,9 +18102,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users"]
+							"path": [
+								"{{version}}",
+								"users"
+							]
 						}
 					},
 					"response": []
@@ -17078,7 +18125,6 @@
 									"    const responseJson = pm.response.json();\r",
 									"    pm.environment.set('idUserFaris', responseJson.data.user_id);\r",
 									"    pm.environment.set('accessTokenUserFaris', responseJson.data.access_token);\r",
-									"    pm.environment.set('refreshTokenUserFaris', responseJson.data.refresh_token);\r",
 									"} catch (error) {\r",
 									"    console.log(\"Error occurred: \" + error.message);\r",
 									"}"
@@ -17112,9 +18158,15 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/users/login",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "users", "login"]
+							"path": [
+								"{{version}}",
+								"users",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -17140,7 +18192,9 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -17170,9 +18224,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items"]
+							"path": [
+								"{{version}}",
+								"items"
+							]
 						}
 					},
 					"response": []
@@ -17211,9 +18270,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/items/{{idItem}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "items", "{{idItem}}"]
+							"path": [
+								"{{version}}",
+								"items",
+								"{{idItem}}"
+							]
 						}
 					},
 					"response": []
@@ -17224,7 +18289,9 @@
 						{
 							"listen": "test",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -17245,9 +18312,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -17286,9 +18358,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/trials",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "trials"]
+							"path": [
+								"{{version}}",
+								"trials"
+							]
 						}
 					},
 					"response": []
@@ -17336,9 +18413,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects"]
+							"path": [
+								"{{version}}",
+								"projects"
+							]
 						}
 					},
 					"response": []
@@ -17377,9 +18459,15 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/projects/{{projectIdFaris}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "projects", "{{projectIdFaris}}"]
+							"path": [
+								"{{version}}",
+								"projects",
+								"{{projectIdFaris}}"
+							]
 						}
 					},
 					"response": []
@@ -17427,9 +18515,14 @@
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "components"]
+							"path": [
+								"{{version}}",
+								"components"
+							]
 						}
 					},
 					"response": []
@@ -17440,7 +18533,9 @@
 						{
 							"listen": "test",
 							"script": {
-								"exec": [""],
+								"exec": [
+									""
+								],
 								"type": "text/javascript",
 								"packages": {}
 							}
@@ -17461,7 +18556,9 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/components/{{projectIdFaris}}/{{itemName}}",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
 							"path": [
 								"{{version}}",
@@ -17518,9 +18615,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/subscriptions",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "subscriptions"]
+							"path": [
+								"{{version}}",
+								"subscriptions"
+							]
 						}
 					},
 					"response": []
@@ -17575,9 +18677,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{version}}/subscriptions",
-							"host": ["{{url}}"],
+							"host": [
+								"{{url}}"
+							],
 							"port": "{{port}}",
-							"path": ["{{version}}", "subscriptions"]
+							"path": [
+								"{{version}}",
+								"subscriptions"
+							]
 						}
 					},
 					"response": []
@@ -17603,7 +18710,9 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
-				"exec": [""]
+				"exec": [
+					""
+				]
 			}
 		}
 	]

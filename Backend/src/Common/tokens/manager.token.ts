@@ -1,7 +1,7 @@
 import type { IAuth } from "../models/types";
 import Jwt from "@hapi/jwt";
 import config from "../../Infrastructure/settings/config";
-import { InvariantError, AuthenticationError } from "../errors";
+import { InvariantError, AuthorizationError } from "../errors";
 
 const TokenManager = {
     // Payload: { id: string }
@@ -26,7 +26,7 @@ const TokenManager = {
             const { payload } = artifacts.decoded;
             return payload.id;
         } catch {
-            throw new AuthenticationError("Access denied!");
+            throw new AuthorizationError("Access denied");
         }
     }
 };

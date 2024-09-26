@@ -17,8 +17,7 @@ export default class Signin {
     }
 
     private async getUrlSIgnin(owner: string): Promise<string> {
-        const url = `${this.apiUrl}/${owner}/login`;
-        return url;
+        return `${this.apiUrl}/${owner}/login`;
     }
 
     async signinUser(user: SigninUser): Promise<ResponseSigninUser> {
@@ -33,8 +32,7 @@ export default class Signin {
             // TODO: response.data.data.refresh_token <== store in http Only cookie
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 
@@ -50,8 +48,7 @@ export default class Signin {
             });
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 }

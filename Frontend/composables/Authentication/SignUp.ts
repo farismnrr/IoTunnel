@@ -32,8 +32,7 @@ export default class Signup {
             });
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 
@@ -49,8 +48,7 @@ export default class Signup {
             });
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 }

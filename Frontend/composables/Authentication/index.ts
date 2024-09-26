@@ -1,6 +1,6 @@
 import Signin from "./SignIn";
 import Signup from "./SignUp";
-import Auth from "./auth";
+import Auth from "./Auth";
 import type { Config } from "../utils";
 
 interface Authentication {

@@ -160,29 +160,36 @@ class UserHandler {
             refresh_token: refreshToken,
             role: "user"
         });
+
+        h.state(`refreshTokenUser`, refreshToken, {
+            path: "/",
+            isSecure: true,
+            isHttpOnly: true,
+            isSameSite: "Strict",
+            ttl: 7 * 24 * 60 * 60 * 1000
+        });
+
         return h
             .response({
                 status: "success",
                 message: "User successfully logged in",
                 data: {
                     user_id: userId,
-                    access_token: accessToken,
-                    refresh_token: refreshToken
+                    access_token: accessToken
                 }
             })
             .code(200);
     }
 
     async editUserAuthHandler(request: Request, h: ResponseToolkit) {
-        const payload = request.payload as IAuth;
+        const refreshToken = request.state[`refreshTokenUser`];
         const serverAuth = request.headers.authorization;
-        this._validator.validateUserAuthPayload(payload);
-        const userId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
+        const userId = this._tokenManager.verifyRefreshToken(refreshToken);
         const accessToken = this._tokenManager.generateAccessToken({ id: userId });
         await this._userService.editUserAuth(
             {
                 access_token: accessToken,
-                refresh_token: payload.refresh_token
+                refresh_token: refreshToken
             } as IAuth,
             serverAuth
         );
@@ -198,13 +205,12 @@ class UserHandler {
     }
 
     async logoutUserHandler(request: Request, h: ResponseToolkit) {
-        const payload = request.payload as IAuth;
+        const refreshToken = request.state[`refreshTokenUser`];
         const serverAuth = request.headers.authorization;
-        this._validator.validateUserAuthPayload(payload);
-        this._tokenManager.verifyRefreshToken(payload.refresh_token);
-        await this._userService.logoutUser(payload.refresh_token, serverAuth);
+        this._tokenManager.verifyRefreshToken(refreshToken);
+        await this._userService.logoutUser(refreshToken, serverAuth);
 
-        h.unstate("jwt", {
+        h.unstate("refreshTokenUser", {
             path: "/",
             isSecure: true,
             isHttpOnly: true,

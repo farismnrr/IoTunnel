@@ -5,8 +5,8 @@ import { useRuntimeConfig } from "#app";
 import { useAuthStore } from "~/stores/auth";
 import createAuthentication from "~/composables/Authentication";
 
-const authStore = useAuthStore();
 const config = useRuntimeConfig();
+const authStore = useAuthStore();
 const authentication = createAuthentication(config);
 
 const toastOptions = {

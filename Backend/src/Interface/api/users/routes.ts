@@ -22,11 +22,6 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
         handler: handler.registerUserHandler
     },
     {
-        method: "POST",
-        path: "/users/login",
-        handler: handler.loginUserHandler
-    },
-    {
         method: "GET",
         path: "/users",
         handler: handler.getUserByIdHandler,
@@ -63,6 +58,11 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
     // End User Routes
 
     // Start User Auth Routes
+    {
+        method: "POST",
+        path: "/users/login",
+        handler: handler.loginUserHandler
+    },
     {
         method: "PUT",
         path: "/users/auth",

@@ -22,11 +22,6 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
         handler: handler.registerAdminHandler
     },
     {
-        method: "POST",
-        path: "/admins/login",
-        handler: handler.loginAdminHandler
-    },
-    {
         method: "GET",
         path: "/admins",
         handler: handler.getAdminByIdHandler,
@@ -63,6 +58,11 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
     // End Admin Routes
 
     // Start Admin Auth Routes
+    {
+        method: "POST",
+        path: "/admins/login",
+        handler: handler.loginAdminHandler
+    },
     {
         method: "PUT",
         path: "/admins/auth",

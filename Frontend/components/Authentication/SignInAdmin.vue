@@ -6,8 +6,8 @@ import { useAuthStore } from "~/stores/auth";
 import createVerification from "~/composables/Verification";
 import createAuthentication from "~/composables/Authentication";
 
-const authStore = useAuthStore();
 const config = useRuntimeConfig();
+const authStore = useAuthStore();
 const verification = createVerification(config);
 const authentication = createAuthentication(config);
 

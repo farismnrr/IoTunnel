@@ -162,29 +162,36 @@ class AdminHandler {
             refresh_token: refreshToken,
             role: "admin"
         });
+
+        h.state(`refreshTokenAdmin`, refreshToken, {
+            path: "/",
+            isSecure: true,
+            isHttpOnly: true,
+            isSameSite: "Strict",
+            ttl: 7 * 24 * 60 * 60 * 1000
+        });
+
         return h
             .response({
                 status: "success",
                 message: "Admin successfully logged in",
                 data: {
                     admin_id: adminId,
-                    access_token: accessToken,
-                    refresh_token: refreshToken
+                    access_token: accessToken
                 }
             })
             .code(200);
     }
 
     async editAdminAuthHandler(request: Request, h: ResponseToolkit) {
-        const payload = request.payload as IAuth;
+        const refreshToken = request.state[`refreshTokenAdmin`];
         const serverAuth = request.headers.authorization;
-        this._validator.validateAdminAuthPayload(payload);
-        const adminId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
+        const adminId = this._tokenManager.verifyRefreshToken(refreshToken);
         const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
         await this._adminService.editAdminAuth(
             {
                 access_token: accessToken,
-                refresh_token: payload.refresh_token
+                refresh_token: refreshToken
             } as IAuth,
             serverAuth
         );
@@ -200,11 +207,18 @@ class AdminHandler {
     }
 
     async logoutAdminHandler(request: Request, h: ResponseToolkit) {
-        const payload = request.payload as IAuth;
+        const refreshToken = request.state[`refreshTokenAdmin`];
         const serverAuth = request.headers.authorization;
-        this._validator.validateAdminAuthPayload(payload);
-        this._tokenManager.verifyRefreshToken(payload.refresh_token);
-        await this._adminService.logoutAdmin(payload.refresh_token, serverAuth);
+        this._tokenManager.verifyRefreshToken(refreshToken);
+        await this._adminService.logoutAdmin(refreshToken, serverAuth);
+
+        h.unstate("refreshTokenAdmin", {
+            path: "/",
+            isSecure: true,
+            isHttpOnly: true,
+            isSameSite: "Strict"
+        });
+
         return h
             .response({
                 status: "success",

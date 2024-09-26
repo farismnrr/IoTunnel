@@ -294,7 +294,7 @@ class UserService {
         }
         const apiKey = serverAuth.split(" ")[1];
         if (apiKey !== this._serverKey) {
-            throw new AuthorizationError("You are not authorized to edit user auth");
+            throw new AuthorizationError("You are not authorized to logout user");
         }
         const userAuth = await this._authRepository.getUserAuth(payload.refresh_token);
         if (!userAuth) {

@@ -1,13 +1,6 @@
 import axios from "axios";
-import { formatSigninAdmin } from "./models/mapping";
-import type {
-    SigninUser,
-    FormattedSigninAdmin,
-    ResponseSigninUser,
-    ResponseSigninAdmin
-} from "./models/types";
 
-export default class Signin {
+export default class GetData {
     private readonly apiUrl: string;
     private readonly apiSecret: string;
 
@@ -16,14 +9,14 @@ export default class Signin {
         this.apiSecret = apiSecret;
     }
 
-    private async getUrlSIgnin(owner: string): Promise<string> {
-        return `${this.apiUrl}/${owner}/login`;
+    async getUrlProfile(owner: string): Promise<string> {
+        return `${this.apiUrl}/${owner}`;
     }
 
-    async signinUser(user: SigninUser): Promise<ResponseSigninUser> {
+    async getUserProfile(): Promise<any> {
         try {
-            const url = await this.getUrlSIgnin("users");
-            const response = await axios.post(url, user, {
+            const url = await this.getUrlProfile("users");
+            const response = await axios.get(url, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${this.apiSecret}`
@@ -35,11 +28,10 @@ export default class Signin {
         }
     }
 
-    async signinAdmin(admin: FormattedSigninAdmin): Promise<ResponseSigninAdmin> {
+    async getAdminProfile(): Promise<any> {
         try {
-            const url = await this.getUrlSIgnin("admins");
-            const formattedAdmin = formatSigninAdmin(admin);
-            const response = await axios.post(url, formattedAdmin, {
+            const url = await this.getUrlProfile("admins");
+            const response = await axios.get(url, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${this.apiSecret}`

@@ -4,16 +4,14 @@ import { computed, onMounted } from "vue";
 
 const authStore = useAuthStore();
 const accessTokenUser = computed(() => authStore.accessTokenUser);
-const accessTokenAdmin = computed(() => authStore.accessTokenAdmin);
 
 const logout = async () => {
     authStore.deleteAccessTokenUser();
-    authStore.deleteAccessTokenAdmin();
     navigateTo("/");
 };
 
 onMounted(() => {
-    if (!accessTokenUser.value && !accessTokenAdmin.value) {
+    if (!accessTokenUser.value) {
         navigateTo("/");
     }
 });
@@ -24,8 +22,6 @@ onMounted(() => {
         <h1>You are logged in</h1>
         <h2>Access Token User :</h2>
         <p>{{ accessTokenUser }}</p>
-        <h2>Access Token Admin :</h2>
-        <p>{{ accessTokenAdmin }}</p>
         <button
             @click.prevent="logout"
             type="submit"

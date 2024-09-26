@@ -1,7 +1,4 @@
-interface BaseResponse {
-    status: string;
-    message: string;
-}
+import type { BaseResponse } from "@/composables/utils";
 
 interface ResponseOtp extends BaseResponse {
     errors?: string;

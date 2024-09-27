@@ -154,20 +154,15 @@ class UserHandler {
         const userId = await this._userService.loginUser(payload, serverAuth);
         const accessToken = this._tokenManager.generateAccessToken({ id: userId });
         const refreshToken = this._tokenManager.generateRefreshToken({ id: userId });
-        await this._userService.addUserAuth({
-            id: userId,
-            access_token: accessToken,
-            refresh_token: refreshToken,
-            role: "user"
-        });
-
-        h.state(`refreshTokenUser`, refreshToken, {
-            path: "/",
-            isSecure: true,
-            isHttpOnly: true,
-            isSameSite: "Strict",
-            ttl: 7 * 24 * 60 * 60 * 1000
-        });
+        await this._userService.addUserAuth(
+            {
+                id: userId,
+                access_token: accessToken,
+                refresh_token: refreshToken,
+                role: "user"
+            },
+            serverAuth
+        );
 
         return h
             .response({
@@ -175,24 +170,20 @@ class UserHandler {
                 message: "User successfully logged in",
                 data: {
                     user_id: userId,
-                    access_token: accessToken
+                    access_token: accessToken,
+                    refresh_token: refreshToken
                 }
             })
             .code(200);
     }
 
     async editUserAuthHandler(request: Request, h: ResponseToolkit) {
-        const refreshToken = request.state[`refreshTokenUser`];
         const serverAuth = request.headers.authorization;
-        const userId = this._tokenManager.verifyRefreshToken(refreshToken);
+        const payload = request.payload as IAuth;
+        this._validator.validateUserAuthPayload(payload);
+        const userId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
         const accessToken = this._tokenManager.generateAccessToken({ id: userId });
-        await this._userService.editUserAuth(
-            {
-                access_token: accessToken,
-                refresh_token: refreshToken
-            } as IAuth,
-            serverAuth
-        );
+        await this._userService.editUserAuth({ ...payload, access_token: accessToken }, serverAuth);
         return h
             .response({
                 status: "success",
@@ -205,17 +196,11 @@ class UserHandler {
     }
 
     async logoutUserHandler(request: Request, h: ResponseToolkit) {
-        const refreshToken = request.state[`refreshTokenUser`];
         const serverAuth = request.headers.authorization;
-        this._tokenManager.verifyRefreshToken(refreshToken);
-        await this._userService.logoutUser(refreshToken, serverAuth);
-
-        h.unstate("refreshTokenUser", {
-            path: "/",
-            isSecure: true,
-            isHttpOnly: true,
-            isSameSite: "Strict"
-        });
+        const payload = request.payload as IAuth;
+        this._validator.validateUserAuthPayload(payload);
+        this._tokenManager.verifyRefreshToken(payload.refresh_token);
+        await this._userService.logoutUser(payload.refresh_token, serverAuth);
 
         return h
             .response({

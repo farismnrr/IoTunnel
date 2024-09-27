@@ -5,7 +5,9 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiSecret: process.env.API_SECRET,
-            apiUrl: `${process.env.API_URL}/api/${process.env.API_VERSION}`
+            apiUrl: `${process.env.API_URL}/api/${process.env.API_VERSION}`,
+            privateKey: process.env.PRIVATE_KEY,
+            publicKey: process.env.PUBLIC_KEY
         }
     },
     modules: [

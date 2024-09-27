@@ -5,6 +5,10 @@ import { useRuntimeConfig } from "#app";
 import { useAuthStore } from "~/stores/auth";
 import createAuthentication from "~/composables/Authentication";
 
+import Cookies from "js-cookie";
+import { encode } from "js-base64";
+import { encrypt } from "~/composables/Encryption";
+
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
 const authentication = createAuthentication(config);
@@ -30,6 +34,14 @@ const signin = async () => {
             break;
         case "success":
             authStore.setAccessTokenUser(signinResponse.data?.access_token ?? "");
+            const encryption1 = encrypt(signinResponse.data?.refresh_token ?? "");
+            const encryption2 = encode(encryption1);
+            Cookies.set("refreshTokenUser", encryption2, {
+                sameSite: "strict",
+                expires: 7,
+                secure: true
+            });
+
             navigateTo(externalLinks.value.dasboard);
             break;
         default:

@@ -64,13 +64,13 @@ const routes: (handler: AdminHandler) => ServerRoute[] = handler => [
         handler: handler.loginAdminHandler
     },
     {
-        method: "PUT",
+        method: "POST",
         path: "/admins/auth",
         handler: handler.editAdminAuthHandler
     },
     {
-        method: "DELETE",
-        path: "/admins/auth",
+        method: "POST",
+        path: "/admins/logout",
         handler: handler.logoutAdminHandler
     },
     // End Admin Auth Routes

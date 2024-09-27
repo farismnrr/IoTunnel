@@ -24,6 +24,7 @@ const productService = new ProductService(
     userRepository,
     authRepository,
     redisRepository,
+    config.timeOut.trial as number,
     config.jwt.serverKey as string
 );
 const productHandler = new ProductHandler(productService, ProductValidator);

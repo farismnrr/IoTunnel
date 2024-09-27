@@ -77,6 +77,7 @@ interface FormattedSigninAdmin extends BaseSignin {
 
 interface SigninData {
     access_token: string;
+    refresh_token: string;
 }
 
 interface UserSigninData extends SigninData {

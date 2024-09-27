@@ -2,11 +2,15 @@
 import Jwt from "@hapi/jwt";
 import * as Hapi from "@hapi/hapi";
 import Config from "../settings/config";
+import Cookie from "@hapi/cookie";
 
 const ExternalPlugins = async (server: Hapi.Server) => {
     await server.register([
         {
             plugin: Jwt
+        },
+        {
+            plugin: Cookie
         }
     ]);
 

@@ -29,6 +29,9 @@ class OrderService {
     private readonly _mosquittoRepository: MosquittoRepository;
     private readonly _subscriptionRepository: SubscriptionRepository;
     private readonly _redisRepository: RedisRepository;
+    private readonly _oneMonth: number;
+    private readonly _threeMonth: number;
+    private readonly _sixMonth: number;
 
     constructor(
         orderRepository: OrderRepository,
@@ -38,7 +41,10 @@ class OrderService {
         midtransRepository: MidtransRepository,
         mosquittoRepository: MosquittoRepository,
         subscriptionRepository: SubscriptionRepository,
-        redisRepository: RedisRepository
+        redisRepository: RedisRepository,
+        oneMonth: number,
+        threeMonth: number,
+        sixMonth: number
     ) {
         this._orderRepository = orderRepository;
         this._authRepository = authRepository;
@@ -48,6 +54,9 @@ class OrderService {
         this._mosquittoRepository = mosquittoRepository;
         this._subscriptionRepository = subscriptionRepository;
         this._redisRepository = redisRepository;
+        this._oneMonth = oneMonth;
+        this._threeMonth = threeMonth;
+        this._sixMonth = sixMonth;
     }
 
     async createOrder(userId: string, productId: string): Promise<IOrder> {
@@ -194,13 +203,13 @@ class OrderService {
         let trialEndDate;
         switch (subscriptionDuration) {
             case "1 month":
-                trialEndDate = new Date(createdAt.getTime() + 1 * 30 * 24 * 60 * 60 * 1000); // Set for 1 Months of Subscription
+                trialEndDate = new Date(createdAt.getTime() + this._oneMonth); // Set for 1 Months of Subscription
                 break;
             case "3 months":
-                trialEndDate = new Date(createdAt.getTime() + 3 * 30 * 24 * 60 * 60 * 1000); // Set for 3 Months of Subscription
+                trialEndDate = new Date(createdAt.getTime() + this._threeMonth); // Set for 3 Months of Subscription
                 break;
             case "6 months":
-                trialEndDate = new Date(createdAt.getTime() + 6 * 30 * 24 * 60 * 60 * 1000); // Set for 6 Months of Subscription
+                trialEndDate = new Date(createdAt.getTime() + this._sixMonth); // Set for 6 Months of Subscription
                 break;
             default:
                 throw new Error(`Unsupported subscription duration: ${subscriptionDuration}`);

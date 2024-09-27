@@ -6,7 +6,7 @@ interface Profile {
 }
 
 const createProfile = (config: Config): Profile => ({
-    getData: new getData(config.public.apiUrl, config.public.apiSecret)
+    getData: new getData(config.public.apiUrl)
 });
 
 export default createProfile;

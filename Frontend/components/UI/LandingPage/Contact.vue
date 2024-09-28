@@ -3,9 +3,7 @@
         <div class="container px-6 py-12 mx-auto">
             <div class="lg:flex lg:items-center lg:-mx-6">
                 <div class="lg:w-1/2 lg:mx-6">
-                    <h1
-                        class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl"
-                    >
+                    <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl">
                         Contact us for <br />
                         more info
                     </h1>
@@ -33,7 +31,7 @@
                             </svg>
 
                             <span class="mx-2 text-gray-700 truncate w-72">
-                                Cecilia Chapman 711-2880 Nulla St. Mankato Mississippi 96522
+                                Surabaya, Indonesia
                             </span>
                         </p>
 
@@ -53,9 +51,7 @@
                                 />
                             </svg>
 
-                            <span class="mx-2 text-gray-700 truncate w-72"
-                                >(257) 563-7401</span
-                            >
+                            <span class="mx-2 text-gray-700 truncate w-72">(257) 563-7401</span>
                         </p>
 
                         <p class="flex items-start -mx-2">
@@ -74,9 +70,7 @@
                                 />
                             </svg>
 
-                            <span class="mx-2 text-gray-700 truncate w-72"
-                                >acb@example.com</span
-                            >
+                            <span class="mx-2 text-gray-700 truncate w-72">acb@example.com</span>
                         </p>
                     </div>
 
@@ -170,9 +164,7 @@
 
                         <form class="mt-6">
                             <div class="flex-1">
-                                <label class="block mb-2 text-sm text-gray-600"
-                                    >Full Name</label
-                                >
+                                <label class="block mb-2 text-sm text-gray-600">Full Name</label>
                                 <input
                                     type="text"
                                     placeholder="John Doe"
@@ -192,9 +184,7 @@
                             </div>
 
                             <div class="w-full mt-6">
-                                <label class="block mb-2 text-sm text-gray-600"
-                                    >Message</label
-                                >
+                                <label class="block mb-2 text-sm text-gray-600">Message</label>
                                 <textarea
                                     class="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-48 focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
                                     placeholder="Message"
@@ -202,7 +192,7 @@
                             </div>
 
                             <button
-                                class="w-full px-6 py-3 mt-6 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50"
+                                class="bg-primary-600 hover:bg-primary-500 w-full px-6 py-3 mt-6 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50"
                             >
                                 get in touch
                             </button>

@@ -8,9 +8,8 @@
             </h2>
 
             <p class="max-w-4xl mt-6 text-center text-gray-500">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quidem officiis
-                reprehenderit, aperiam veritatis non, quod veniam fuga possimus hic explicabo
-                laboriosam nam. A tempore totam ipsa nemo adipisci iusto!
+                Take your business to new heights with IoTunnel powerful IoT management platform.
+                Simplify your IoT operations, reduce costs, and increase efficiency.
             </p>
 
             <button

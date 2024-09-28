@@ -6,8 +6,8 @@ import { useAuthStore } from "~/stores/auth";
 import createVerification from "~/composables/Verification";
 import createAuthentication from "~/composables/Authentication";
 
-const config = useRuntimeConfig();
 const authStore = useAuthStore();
+const config = useRuntimeConfig();
 const verification = createVerification(config);
 const authentication = createAuthentication(config);
 
@@ -17,9 +17,13 @@ const toastOptions = {
 };
 
 const formData = ref({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
-    otp: ""
+    passwordConfirmation: "",
+    otp: "",
+    adminKey: ""
 });
 const isLoading = ref(false);
 
@@ -44,19 +48,22 @@ const sendOtp = async () => {
     }
 };
 
-const signin = async () => {
-    const signinResponse = await authentication.signin.signinAdmin({
+const signUpAdmin = async () => {
+    const signupResponse = await authentication.signup.signupAdmin({
+        firstName: formData.value.firstName,
+        lastName: formData.value.lastName,
         email: formData.value.email,
         password: formData.value.password,
-        otpCode: formData.value.otp
+        retypePassword: formData.value.passwordConfirmation,
+        otpCode: formData.value.otp,
+        adminKey: formData.value.adminKey
     });
-    switch (signinResponse.status) {
+    switch (signupResponse.status) {
         case "fail":
-            toast.error(signinResponse.errors ?? "Unexpected error", toastOptions);
+            toast.error(signupResponse.errors ?? "Unexpected error", toastOptions);
             break;
         case "success":
-            authStore.setAccessTokenAdmin(signinResponse.data?.access_token ?? "");
-            navigateTo(externalLinks.value.dasboard);
+            navigateTo(externalLinks.value.signIn);
             break;
         default:
             toast.info("Unexpected response", toastOptions);
@@ -72,37 +79,54 @@ onMounted(() => {
 
 const externalLinks = ref({
     home: "/",
-    signUp: "/admins/auth/signup",
-    dasboard: "/test",
-    resetPassword: "#"
+    signIn: "/admins/auth/signin",
+    dasboard: "/admins/dashboard"
 });
 </script>
+
 <template>
     <section
-        class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
+        class="w-full min-h-screen bg-gradient-to-r from-primary-100 to-white sm:px-4 flex justify-center"
     >
-        <div class="w-full space-y-6 text-gray-600 sm:max-w-md">
+        <div class="w-full space-y-6 text-gray-600 sm:max-w-md mb-8">
             <div class="text-center">
                 <NuxtLink :to="externalLinks.home">
                     <img src="/icons/logo.svg" width="150" class="mx-auto" />
                 </NuxtLink>
-                <div class="mt-5 space-y-2">
-                    <h3 class="text-gray-800 text-2xl font-bold sm:text-3xl">
-                        Log in to your account
-                    </h3>
+                <div class="space-y-2">
+                    <h3 class="text-gray-800 text-2xl font-bold sm:text-3xl">Create an account</h3>
                     <p class="">
-                        Don't have an account?
+                        Already have an account?
                         <NuxtLink
-                            :to="externalLinks.signUp"
+                            :to="externalLinks.signIn"
                             class="font-medium text-primary-500 hover:text-primary-400"
                         >
-                            Sign up
+                            Log in
                         </NuxtLink>
                     </p>
                 </div>
             </div>
-            <div class="bg-white shadow p-4 py-6 space-y-8 sm:p-6 sm:rounded-lg">
+            <div class="bg-white shadow p-4 py-4 sm:p-6 sm:rounded-lg">
                 <form class="space-y-5">
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="flex flex-auto flex-col pl-1">
+                            <label class="font-medium">First Name</label>
+                            <input
+                                type="text"
+                                v-model="formData.firstName"
+                                class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                            />
+                        </div>
+                        <div class="flex flex-auto flex-col pr-1">
+                            <label class="font-medium">Last Name</label>
+                            <input
+                                type="text"
+                                v-model="formData.lastName"
+                                class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                            />
+                        </div>
+                    </div>
+
                     <div>
                         <label class="font-medium">Email</label>
                         <input
@@ -116,6 +140,22 @@ const externalLinks = ref({
                         <input
                             type="password"
                             v-model="formData.password"
+                            class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                        />
+                    </div>
+                    <div>
+                        <label class="font-medium">Re-enter Password</label>
+                        <input
+                            type="password"
+                            v-model="formData.passwordConfirmation"
+                            class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                        />
+                    </div>
+                    <div>
+                        <label class="font-medium">Admin Key</label>
+                        <input
+                            type="password"
+                            v-model="formData.adminKey"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -164,17 +204,12 @@ const externalLinks = ref({
                     </div>
                     <button
                         type="submit"
-                        @click.prevent="signin"
+                        @click.prevent="signUpAdmin"
                         class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
-                        Sign in
+                        Create account
                     </button>
                 </form>
-            </div>
-            <div class="text-center mb-5">
-                <NuxtLink :to="externalLinks.resetPassword" class="hover:text-primary-600">
-                    Forgot password?
-                </NuxtLink>
             </div>
         </div>
     </section>

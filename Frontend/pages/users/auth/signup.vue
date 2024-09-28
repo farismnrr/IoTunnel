@@ -1,5 +1,5 @@
 <script setup>
-import SignUpUser from "~/components/Authentication/SignUpUser.vue";
+import SignUpUser from "~/components/UI/Authentication/SignUpUser.vue";
 </script>
 
 <template>

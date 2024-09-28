@@ -1,5 +1,5 @@
 <script setup>
-import SignUpAdmin from "~/components/Authentication/SignUpAdmin.vue";
+import SignUpAdmin from "~/components/UI/Authentication/SignUpAdmin.vue";
 </script>
 
 <template>

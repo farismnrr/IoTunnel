@@ -3,6 +3,7 @@ import "vue3-toastify/dist/index.css";
 import { toast } from "vue3-toastify";
 import { useRuntimeConfig } from "#app";
 import { useAuthStore } from "~/stores/auth";
+import createVerification from "~/composables/Verification";
 import createAuthentication from "~/composables/Authentication";
 
 import Cookies from "js-cookie";
@@ -11,6 +12,7 @@ import { encrypt } from "~/composables/Encryption";
 
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
+const verification = createVerification(config);
 const authentication = createAuthentication(config);
 
 const toastOptions = {
@@ -20,23 +22,47 @@ const toastOptions = {
 
 const formData = ref({
     email: "",
-    password: ""
+    password: "",
+    otp: ""
 });
+const isLoading = ref(false);
+
+const sendOtp = async () => {
+    isLoading.value = true;
+    try {
+        const otpResponse = await verification.otp.sendOtpAdmin(formData.value.email);
+        switch (otpResponse.status) {
+            case "fail":
+                toast.error(otpResponse.errors ?? "Unexpected error", toastOptions);
+                break;
+            case "success":
+                toast.success("OTP sent successfully", toastOptions);
+                break;
+            default:
+                toast.info("Unexpected response", toastOptions);
+        }
+    } catch (error) {
+        toast.error("An error occurred while sending OTP", toastOptions);
+    } finally {
+        isLoading.value = false;
+    }
+};
 
 const signin = async () => {
-    const signinResponse = await authentication.signin.signinUser({
+    const signinResponse = await authentication.signin.signinAdmin({
         email: formData.value.email,
-        password: formData.value.password
+        password: formData.value.password,
+        otpCode: formData.value.otp
     });
     switch (signinResponse.status) {
         case "fail":
             toast.error(signinResponse.errors ?? "Unexpected error", toastOptions);
             break;
         case "success":
-            authStore.setAccessTokenUser(signinResponse.data?.access_token ?? "");
+            authStore.setAccessTokenAdmin(signinResponse.data?.access_token ?? "");
             const encryption1 = encrypt(signinResponse.data?.refresh_token ?? "");
             const encryption2 = encode(encryption1);
-            Cookies.set("refreshTokenUser", encryption2, {
+            Cookies.set("refreshTokenAdmin", encryption2, {
                 sameSite: "strict",
                 expires: 7,
                 secure: true
@@ -49,22 +75,20 @@ const signin = async () => {
     }
 };
 
-const accessTokenUser = computed(() => authStore.accessTokenUser);
+const accessTokenAdmin = computed(() => authStore.accessTokenAdmin);
 onMounted(() => {
-    if (accessTokenUser.value) {
+    if (accessTokenAdmin.value) {
         navigateTo(externalLinks.value.dasboard);
     }
 });
 
 const externalLinks = ref({
     home: "/",
-    signUp: "/users/auth/signup",
-    dasboard: "/test",
-    resetPassword: "#",
-    signWithGoogle: "#"
+    signUp: "/admins/auth/signup",
+    dasboard: "/admins/dashboard",
+    resetPassword: "#"
 });
 </script>
-
 <template>
     <section
         class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
@@ -90,27 +114,6 @@ const externalLinks = ref({
                 </div>
             </div>
             <div class="bg-white shadow p-4 py-6 space-y-8 sm:p-6 sm:rounded-lg">
-                <div class="grid grid-cols-1 gap-x-3">
-                    <NuxtLink
-                        :to="externalLinks.signWithGoogle"
-                        class="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100"
-                    >
-                        <!-- Comment: Google Icon SVG here -->
-                        <img
-                            src="https://raw.githubusercontent.com/sidiDev/remote-assets/7cd06bf1d8859c578c2efbfda2c68bd6bedc66d8/google-icon.svg"
-                            alt="Google"
-                            class="w-5 h-5"
-                        />
-                    </NuxtLink>
-                </div>
-                <div class="relative">
-                    <span class="block w-full h-px bg-gray-300"></span>
-                    <p
-                        class="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto"
-                    >
-                        Or continue with
-                    </p>
-                </div>
                 <form class="space-y-5">
                     <div>
                         <label class="font-medium">Email</label>
@@ -128,9 +131,52 @@ const externalLinks = ref({
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
+                    <div class="grid grid-cols-[65%_32%] gap-3">
+                        <div class="flex flex-col">
+                            <label class="font-medium">OTP (Email Verification)</label>
+                            <input
+                                type="text"
+                                v-model="formData.otp"
+                                class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                            />
+                        </div>
+                        <div class="flex flex-col">
+                            <button
+                                @click.prevent="sendOtp"
+                                type="submit"
+                                :disabled="isLoading"
+                                class="w-full mt-7 px-3 py-3 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150 flex items-center justify-center"
+                            >
+                                <span v-if="!isLoading">Send OTP</span>
+                                <span v-else class="flex items-center">
+                                    <svg
+                                        class="animate-spin h-5 w-5 mr-3 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            class="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            stroke-width="4"
+                                        ></circle>
+                                        <path
+                                            class="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        ></path>
+                                    </svg>
+                                    Sending...
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                     <button
-                        @click.prevent="signin"
                         type="submit"
+                        @click.prevent="signin"
                         class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
                         Sign in

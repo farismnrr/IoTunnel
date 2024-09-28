@@ -17,9 +17,7 @@ const editAccessToken = async () => {
     const accessToken = await user.auth.EditUserToken(refreshToken.value);
     switch (accessToken.status) {
         case "fail":
-            authStore.deleteAccessTokenUser();
-            Cookies.remove("refreshTokenUser");
-            navigateTo(externalLinks.value.signIn);
+            await deleteAccessToken();
             break;
         case "success":
             authStore.setAccessTokenUser(accessToken.data.access_token);
@@ -37,13 +35,9 @@ const deleteAccessToken = async () => {
         case "success":
             authStore.deleteAccessTokenUser();
             Cookies.remove("refreshTokenUser");
-            navigateTo(externalLinks.value.home);
+            navigateTo(externalLinks.value.signIn);
             break;
     }
-};
-
-const logout = async () => {
-    await deleteAccessToken();
 };
 
 onMounted(async () => {
@@ -79,19 +73,8 @@ const externalLinks = ref({
     home: "/",
     signUp: "/users/auth/signup",
     signIn: "/users/auth/signin",
-    dasboard: "/test"
+    dasboard: "/users/dashboard"
 });
 </script>
 
-<template>
-    <div>
-        <h1>Access Token: {{ accessToken }}</h1>
-        <h1>Refresh Token: {{ refreshToken }}</h1>
-        <button
-            @click.prevent="logout"
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-            Logout
-        </button>
-    </div>
-</template>
+<template></template>

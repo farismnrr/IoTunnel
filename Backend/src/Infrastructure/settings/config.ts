@@ -69,6 +69,14 @@ const config = {
     redis: {
         host: process.env.REDIS_HOST,
         port: process.env.REDIS_PORT
+    },
+    timeOut: {
+        otp: 5 * 60 * 1000,
+        mosquitto: 1 * 1000,
+        trial: 1 * 60 * 1000,
+        oneMonth: 1 * 30 * 24 * 60 * 60 * 1000,
+        threeMonth: 3 * 30 * 24 * 60 * 60 * 1000,
+        sixMonth: 6 * 30 * 24 * 60 * 60 * 1000
     }
 };
 

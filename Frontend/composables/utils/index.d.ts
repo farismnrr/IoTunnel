@@ -5,4 +5,9 @@ interface Config {
     };
 }
 
-export type { Config };
+interface BaseResponse {
+    status: string;
+    message: string;
+}
+
+export type { Config, BaseResponse };

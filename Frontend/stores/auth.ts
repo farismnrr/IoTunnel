@@ -9,6 +9,12 @@ export const useAuthStore = defineStore("auth", {
         };
     },
     actions: {
+        getAccessTokenUser() {
+            return this.accessTokenUser;
+        },
+        getAccessTokenAdmin() {
+            return this.accessTokenAdmin;
+        },
         setAccessTokenUser(token: string) {
             this.accessTokenUser = token;
         },

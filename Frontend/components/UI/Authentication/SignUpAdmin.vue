@@ -30,7 +30,6 @@ const isLoading = ref(false);
 const sendOtp = async () => {
     isLoading.value = true;
     try {
-        const adminKeyResponse = await authentication.auth.getAdminKey();
         const otpResponse = await verification.otp.sendOtpAdmin(formData.value.email);
         switch (otpResponse.status) {
             case "fail":
@@ -81,7 +80,7 @@ onMounted(() => {
 const externalLinks = ref({
     home: "/",
     signIn: "/admins/auth/signin",
-    dasboard: "/test"
+    dasboard: "/admins/dashboard"
 });
 </script>
 
@@ -109,8 +108,8 @@ const externalLinks = ref({
             </div>
             <div class="bg-white shadow p-4 py-4 sm:p-6 sm:rounded-lg">
                 <form class="space-y-5">
-                    <div class="flex gap-6">
-                        <div class="flex flex-col pl-1">
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="flex flex-auto flex-col pl-1">
                             <label class="font-medium">First Name</label>
                             <input
                                 type="text"
@@ -118,7 +117,7 @@ const externalLinks = ref({
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        <div class="flex flex-col pr-1">
+                        <div class="flex flex-auto flex-col pr-1">
                             <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
@@ -149,6 +148,14 @@ const externalLinks = ref({
                         <input
                             type="password"
                             v-model="formData.passwordConfirmation"
+                            class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
+                        />
+                    </div>
+                    <div>
+                        <label class="font-medium">Admin Key</label>
+                        <input
+                            type="password"
+                            v-model="formData.adminKey"
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
@@ -194,14 +201,6 @@ const externalLinks = ref({
                                 </span>
                             </button>
                         </div>
-                    </div>
-                    <div>
-                        <label class="font-medium">Admin Key</label>
-                        <input
-                            type="password"
-                            v-model="formData.adminKey"
-                            class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
-                        />
                     </div>
                     <button
                         type="submit"

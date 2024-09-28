@@ -11,62 +11,56 @@ const config = useRuntimeConfig();
 const authStore = useAuthStore();
 const refreshToken = ref("");
 const accessToken = ref("");
-const user = createAuthentication(config);
+const admin = createAuthentication(config);
 
 const editAccessToken = async () => {
-    const accessToken = await user.auth.EditUserToken(refreshToken.value);
+    const accessToken = await admin.auth.EditAdminToken(refreshToken.value);
     switch (accessToken.status) {
         case "fail":
-            authStore.deleteAccessTokenUser();
-            Cookies.remove("refreshTokenUser");
-            navigateTo(externalLinks.value.signIn);
+            await deleteAccessToken();
             break;
         case "success":
-            authStore.setAccessTokenUser(accessToken.data.access_token);
-            accessToken.value = authStore.getAccessTokenUser();
+            authStore.setAccessTokenAdmin(accessToken.data.access_token);
+            accessToken.value = authStore.getAccessTokenAdmin();
             break;
     }
 };
 
 const deleteAccessToken = async () => {
-    const accessToken = await user.auth.DeleteUserToken(refreshToken.value);
+    const accessToken = await admin.auth.DeleteAdminToken(refreshToken.value);
     switch (accessToken.status) {
         case "fail":
             navigateTo(externalLinks.value.dasboard);
             break;
         case "success":
-            authStore.deleteAccessTokenUser();
-            Cookies.remove("refreshTokenUser");
-            navigateTo(externalLinks.value.home);
+            authStore.deleteAccessTokenAdmin();
+            Cookies.remove("refreshTokenAdmin");
+            navigateTo(externalLinks.value.signIn);
             break;
     }
 };
 
-const logout = async () => {
-    await deleteAccessToken();
-};
-
 onMounted(async () => {
-    const rawEncryptedValue = Cookies.get("refreshTokenUser");
+    const rawEncryptedValue = Cookies.get("refreshTokenAdmin");
     const encryptedValue = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*=).[A-Z0-9a-z=]+$/.test(
         rawEncryptedValue ?? ""
     )
         ? rawEncryptedValue
-        : Cookies.remove("refreshTokenUser");
+        : Cookies.remove("refreshTokenAdmin");
     const decryptedValue = decode(encryptedValue ?? "");
     const finalValue = decrypt(decryptedValue);
     refreshToken.value = finalValue;
-    accessToken.value = authStore.getAccessTokenUser();
+    accessToken.value = authStore.getAccessTokenAdmin();
 
     if (!refreshToken.value) {
-        authStore.deleteAccessTokenUser();
+        authStore.deleteAccessTokenAdmin();
         navigateTo(externalLinks.value.signIn);
         return;
     }
 
     const profile = createProfile(config);
-    const userResponse = await profile.getData.getUserProfile(accessToken.value);
-    switch (userResponse.status) {
+    const adminResponse = await profile.getData.getAdminProfile(accessToken.value);
+    switch (adminResponse.status) {
         case "fail":
             await editAccessToken();
             break;
@@ -77,21 +71,10 @@ onMounted(async () => {
 
 const externalLinks = ref({
     home: "/",
-    signUp: "/users/auth/signup",
-    signIn: "/users/auth/signin",
-    dasboard: "/test"
+    signUp: "/admins/auth/signup",
+    signIn: "/admins/auth/signin",
+    dasboard: "/admins/dashboard"
 });
 </script>
 
-<template>
-    <div>
-        <h1>Access Token: {{ accessToken }}</h1>
-        <h1>Refresh Token: {{ refreshToken }}</h1>
-        <button
-            @click.prevent="logout"
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-            Logout
-        </button>
-    </div>
-</template>
+<template></template>

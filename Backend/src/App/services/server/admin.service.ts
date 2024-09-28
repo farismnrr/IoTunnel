@@ -299,7 +299,14 @@ class AdminService {
     // End Admin Service
 
     // Start Admin Auth Service
-    async addAdminAuth(payload: IAuth): Promise<void> {
+    async addAdminAuth(payload: IAuth, serverKey: string): Promise<void> {
+        if (!serverKey) {
+            throw new AuthenticationError("Unauthorized");
+        }
+        const apiKey = serverKey.split(" ")[1];
+        if (apiKey !== this._serverKey) {
+            throw new AuthorizationError("You are not authorized to add admin auth");
+        }
         const admin = await this._adminRepository.getAdminById(payload.id);
         if (admin) {
             await this._authRepository.addAdminAuth({ ...payload, id: admin.id });
@@ -314,6 +321,9 @@ class AdminService {
         if (apiKey !== this._serverKey) {
             throw new AuthorizationError("You are not authorized to edit admin auth");
         }
+        if (!payload.refresh_token) {
+            throw new AuthenticationError("Unauthorized");
+        }
         const adminAuth = await this._authRepository.getAdminAuth(payload.refresh_token);
         if (!adminAuth) {
             throw new NotFoundError("Admin not found");
@@ -321,13 +331,16 @@ class AdminService {
         await this._authRepository.editAdminAuth(payload.access_token, payload.refresh_token);
     }
 
-    async logoutAdmin(refreshToken: string, serverAuth: string): Promise<void> {
-        if (!serverAuth) {
+    async logoutAdmin(refreshToken: string, serverKey: string): Promise<void> {
+        if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
-        const apiKey = serverAuth.split(" ")[1];
+        const apiKey = serverKey.split(" ")[1];
         if (apiKey !== this._serverKey) {
-            throw new AuthorizationError("You are not authorized to logout");
+            throw new AuthorizationError("You are not authorized to logout admin");
+        }
+        if (!refreshToken) {
+            throw new AuthenticationError("Unauthorized");
         }
         const adminAuth = await this._authRepository.getAdminAuth(refreshToken);
         if (!adminAuth) {

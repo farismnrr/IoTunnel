@@ -281,20 +281,30 @@ class UserService {
     // End User Service
 
     // Start User Auth Service
-    async addUserAuth(payload: IAuth): Promise<void> {
+    async addUserAuth(payload: IAuth, serverKey: string): Promise<void> {
+        if (!serverKey) {
+            throw new AuthenticationError("Unauthorized");
+        }
+        const apiKey = serverKey.split(" ")[1];
+        if (apiKey !== this._serverKey) {
+            throw new AuthorizationError("You are not authorized to add user auth");
+        }
         const user = await this._userRepository.getUserById(payload.id);
         if (user) {
             await this._authRepository.addUserAuth({ ...payload, id: user.id });
         }
     }
 
-    async editUserAuth(payload: IAuth, serverAuth: string): Promise<void> {
-        if (!serverAuth) {
+    async editUserAuth(payload: IAuth, serverKey: string): Promise<void> {
+        if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
-        const apiKey = serverAuth.split(" ")[1];
+        const apiKey = serverKey.split(" ")[1];
         if (apiKey !== this._serverKey) {
-            throw new AuthorizationError("You are not authorized to logout user");
+            throw new AuthorizationError("You are not authorized to edit user auth");
+        }
+        if (!payload.refresh_token) {
+            throw new AuthenticationError("Unauthorized");
         }
         const userAuth = await this._authRepository.getUserAuth(payload.refresh_token);
         if (!userAuth) {
@@ -303,13 +313,16 @@ class UserService {
         await this._authRepository.editUserAuth(payload.access_token, payload.refresh_token);
     }
 
-    async logoutUser(refreshToken: string, serverAuth: string): Promise<void> {
-        if (!serverAuth) {
+    async logoutUser(refreshToken: string, serverKey: string): Promise<void> {
+        if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
-        const apiKey = serverAuth.split(" ")[1];
+        const apiKey = serverKey.split(" ")[1];
         if (apiKey !== this._serverKey) {
             throw new AuthorizationError("You are not authorized to logout user");
+        }
+        if (!refreshToken) {
+            throw new AuthenticationError("Unauthorized");
         }
         const userAuth = await this._authRepository.getUserAuth(refreshToken);
         if (!userAuth) {

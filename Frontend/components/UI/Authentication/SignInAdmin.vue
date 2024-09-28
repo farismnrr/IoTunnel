@@ -6,6 +6,10 @@ import { useAuthStore } from "~/stores/auth";
 import createVerification from "~/composables/Verification";
 import createAuthentication from "~/composables/Authentication";
 
+import Cookies from "js-cookie";
+import { encode } from "js-base64";
+import { encrypt } from "~/composables/Encryption";
+
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
 const verification = createVerification(config);
@@ -56,6 +60,14 @@ const signin = async () => {
             break;
         case "success":
             authStore.setAccessTokenAdmin(signinResponse.data?.access_token ?? "");
+            const encryption1 = encrypt(signinResponse.data?.refresh_token ?? "");
+            const encryption2 = encode(encryption1);
+            Cookies.set("refreshTokenAdmin", encryption2, {
+                sameSite: "strict",
+                expires: 7,
+                secure: true
+            });
+
             navigateTo(externalLinks.value.dasboard);
             break;
         default:
@@ -73,7 +85,7 @@ onMounted(() => {
 const externalLinks = ref({
     home: "/",
     signUp: "/admins/auth/signup",
-    dasboard: "/test",
+    dasboard: "/admins/dashboard",
     resetPassword: "#"
 });
 </script>

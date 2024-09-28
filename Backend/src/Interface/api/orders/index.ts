@@ -29,7 +29,10 @@ const orderService = new OrderService(
     midtransRepository,
     mosquittoRepository,
     subscriptionRepository,
-    redisRepository
+    redisRepository,
+    config.timeOut.oneMonth as number,
+    config.timeOut.threeMonth as number,
+    config.timeOut.sixMonth as number
 );
 const orderHandler = new OrderHandler(orderService);
 

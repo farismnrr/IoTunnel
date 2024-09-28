@@ -29,7 +29,6 @@ export default class Signin {
                     Authorization: `Bearer ${this.apiSecret}`
                 }
             });
-            // TODO: response.data.data.refresh_token <== store in http Only cookie
             return response.data;
         } catch (error: any) {
             return error.response.data;

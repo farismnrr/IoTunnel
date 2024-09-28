@@ -32,6 +32,8 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
                     for (const userSubscription of subscription.rows) {
                         if (!users.includes(userSubscription.user_id)) {
                             await mosquittoRepository.getMosquittoUrl(userSubscription.api_key);
+                            console.log("success add user");
+                            return;
                         }
                     }
                 }
@@ -54,6 +56,7 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
                         const subscription = await pool.query(subscriptionQuery);
                         if (!subscription.rowCount) {
                             await mosquittoRepository.deleteMosquittoUrl(serverKey, userId);
+                            console.log("success delete user");
                             return;
                         }
                     }
@@ -78,11 +81,14 @@ const ExpirityPlugin = async (server: Hapi.Server) => {
                 }
 
                 setInterval(async () => {
-                    await addMosquittoUser();
-                    await deleteMosquittoUser();
                     await deleteSubscription();
                     await deleteOtp();
-                }, 1 * 1000);
+                }, Config.timeOut.otp);
+
+                setInterval(async () => {
+                    await addMosquittoUser();
+                    await deleteMosquittoUser();
+                }, Config.timeOut.mosquitto);
             }
         }
     });

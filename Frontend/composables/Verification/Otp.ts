@@ -11,14 +11,12 @@ export default class Otp {
     }
 
     async getUrlSIgnin(owner: string): Promise<string> {
-        const url = `${this.apiUrl}/${owner}/otp/register`;
-        return url;
+        return `${this.apiUrl}/${owner}/otp/register`;
     }
 
     async sendOtpUser(email: string): Promise<ResponseOtp> {
         try {
-            const owner = "users";
-            const url = await this.getUrlSIgnin(owner);
+            const url = await this.getUrlSIgnin("users");
             const response = await axios.post(
                 url,
                 {
@@ -33,15 +31,13 @@ export default class Otp {
             );
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 
     async sendOtpAdmin(email: string): Promise<ResponseOtp> {
         try {
-            const owner = "admins";
-            const url = await this.getUrlSIgnin(owner);
+            const url = await this.getUrlSIgnin("admins");
             const response = await axios.post(
                 url,
                 {
@@ -57,8 +53,7 @@ export default class Otp {
 
             return response.data;
         } catch (error: any) {
-            const response = error.response;
-            return response.data;
+            return error.response.data;
         }
     }
 }

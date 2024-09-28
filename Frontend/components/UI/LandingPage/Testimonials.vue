@@ -7,9 +7,7 @@
                 </h1>
 
                 <p class="max-w-2xl mx-auto mt-4 text-center text-gray-500 xl:mt-6">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias quas magni
-                    libero consequuntur voluptatum velit amet id repudiandae ea, deleniti laborum in
-                    neque eveniet.
+                    Don't just take our word for it. Our customers say it best.
                 </p>
             </div>
             <!--Slider wrapper-->
@@ -96,34 +94,34 @@ interface Testimonial {
 
 const testimonials = ref<Testimonial[]>([
     {
-        text: "Pagedone has made it possible for me to stay on top of my portfolio and make informed decisions quickly and easily.",
+        text: "IoTunnel has revolutionized our IoT operations. We can now monitor and manage our devices in real-time, reducing downtime and increasing efficiency.",
         avatar: "https://pagedone.io/asset/uploads/1696229969.png",
         name: "Jane D",
-        position: "CEO"
+        position: "IoT Engineer"
     },
     {
-        text: "Thanks to pagedone, I feel more informed and confident about my investment decisions than ever before.",
+        text: "With IoTunnel, we've been able to unlock new insights from our IoT devices and make data-driven decisions. It's been a game-changer for our business.",
         avatar: "https://pagedone.io/asset/uploads/1696229994.png",
         name: "Harsh P.",
-        position: "Product Designer"
+        position: "IoT Engineer"
     },
     {
-        text: "The customer service team at pagedone went above and beyond to help me resolve a billing issue.",
+        text: "IoTunnel's customer support is top-notch. They're always available to help us troubleshoot issues and optimize our IoT setup.",
         avatar: "https://pagedone.io/asset/uploads/1696230027.png",
         name: "Alex K.",
-        position: "Design Lead"
+        position: "Operations Manager"
     },
     {
-        text: "Pagedone has made it possible for me to stay on top of my portfolio and make informed decisions quickly and easily.",
+        text: "IoTunnel has revolutionized our IoT operations. We can now monitor and manage our devices in real-time, reducing downtime and increasing efficiency.",
         avatar: "https://pagedone.io/asset/uploads/1696229969.png",
         name: "Jane D",
-        position: "CEO"
+        position: "IoT Engineer"
     },
     {
-        text: "Thanks to pagedone, I feel more informed and confident about my investment decisions than ever before.",
+        text: "With IoTunnel, we've been able to unlock new insights from our IoT devices and make data-driven decisions. It's been a game-changer for our business.",
         avatar: "https://pagedone.io/asset/uploads/1696229994.png",
         name: "Harsh P.",
-        position: "Product Designer"
+        position: "IoT Engineer"
     }
 ]);
 </script>
@@ -148,11 +146,11 @@ const testimonials = ref<Testimonial[]>([
 
 .swiper-slide.swiper-slide-active > .slide_active\:border-primary {
     --tw-border-opacity: 1;
-    border-color: theme('colors.primary.500');
+    border-color: theme("colors.primary.500");
 }
 
 .swiper-slide.swiper-slide-active > .group .slide_active\:text-gray-800 {
     --tw-text-opacity: 1;
-    color: theme('colors.gray.800');
+    color: theme("colors.gray.800");
 }
 </style>

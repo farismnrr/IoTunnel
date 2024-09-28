@@ -1,3 +1,5 @@
+import type { BaseResponse } from "@/composables/utils";
+
 // Signup types
 interface BaseSignup {
     first_name: string;
@@ -33,11 +35,6 @@ interface FormattedSignupAdmin extends FormattedBaseSignup {
     adminKey: string;
 }
 
-interface BaseResponseSignup {
-    status: string;
-    message: string;
-}
-
 interface SignupDataUser {
     freeTrial: boolean;
 }
@@ -52,12 +49,12 @@ interface AdminSignupData extends SignupDataAdmin {
     adminId: string;
 }
 
-interface ResponseSignupUser extends BaseResponseSignup {
+interface ResponseSignupUser extends BaseResponse {
     errors?: string;
     data?: UserSignupData;
 }
 
-interface ResponseSignupAdmin extends BaseResponseSignup {
+interface ResponseSignupAdmin extends BaseResponse {
     errors?: string;
     data?: AdminSignupData;
 }
@@ -78,13 +75,9 @@ interface FormattedSigninAdmin extends BaseSignin {
     otpCode: string;
 }
 
-interface BaseResponseSignin {
-    status: string;
-    message: string;
-}
-
 interface SigninData {
     access_token: string;
+    refresh_token: string;
 }
 
 interface UserSigninData extends SigninData {
@@ -95,14 +88,19 @@ interface AdminSigninData extends SigninData {
     adminId: string;
 }
 
-interface ResponseSigninUser extends BaseResponseSignin {
+interface ResponseSigninUser extends BaseResponse {
     errors?: string;
     data?: UserSigninData;
 }
 
-interface ResponseSigninAdmin extends BaseResponseSignin {
+interface ResponseSigninAdmin extends BaseResponse {
     errors?: string;
     data?: AdminSigninData;
+}
+
+// Auth types
+interface AuthData extends BaseResponse {
+    access_token: string;
 }
 
 export type {
@@ -116,5 +114,6 @@ export type {
     SigninAdmin,
     ResponseSigninUser,
     ResponseSigninAdmin,
-    FormattedSigninAdmin
+    FormattedSigninAdmin,
+    AuthData
 };

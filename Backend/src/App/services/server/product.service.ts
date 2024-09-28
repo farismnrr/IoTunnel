@@ -21,6 +21,7 @@ class ProductService {
     private readonly _userRepository: UserRepository;
     private readonly _authRepository: AuthRepository;
     private readonly _redisRepository: RedisRepository;
+    private readonly _timeOut: number;
     private readonly _serverKey: string;
 
     constructor(
@@ -30,6 +31,7 @@ class ProductService {
         userRepository: UserRepository,
         authRepository: AuthRepository,
         redisRepository: RedisRepository,
+        timeOut: number,
         serverKey: string
     ) {
         this._productRepository = productRepository;
@@ -38,6 +40,7 @@ class ProductService {
         this._userRepository = userRepository;
         this._authRepository = authRepository;
         this._redisRepository = redisRepository;
+        this._timeOut = timeOut;
         this._serverKey = serverKey;
     }
 
@@ -186,8 +189,7 @@ class ProductService {
             free_trial: false
         });
         const createdAt = new Date();
-        const trialEndDate = new Date(createdAt.getTime() + 14 * 24 * 60 * 60 * 1000); // Set for 14 Days of Trials
-        // const trialEndDate = new Date(createdAt.getTime() + 5 * 60 * 1000);
+        const trialEndDate = new Date(createdAt.getTime() + this._timeOut); 
         await this._subscriptionRepository.addSubscription(userId, {
             id: `subscription-${trial.id}-${Date.now()}`,
             trial_id: trial.id,

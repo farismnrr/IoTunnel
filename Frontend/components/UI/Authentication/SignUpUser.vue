@@ -80,7 +80,7 @@ onMounted(() => {
 const externalLinks = ref({
     home: "/",
     signIn: "/users/auth/signin",
-    dasboard: "/test",
+    dasboard: "/users/dashboard",
     signWithGoogle: "#"
 });
 </script>
@@ -109,16 +109,16 @@ const externalLinks = ref({
             </div>
             <div class="bg-white shadow p-4 py-4 sm:p-6 sm:rounded-lg">
                 <form class="space-y-5">
-                    <div class="flex gap-6">
-                        <div class="flex flex-col pl-1">
-                            <label class="font-medium">First Name</label>
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="flex flex-auto flex-col pr-1">
+                            <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
                                 v-model="formData.firstName"
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        <div class="flex flex-col pr-1">
+                        <div class="flex flex-auto flex-col pr-1">
                             <label class="font-medium">Last Name</label>
                             <input
                                 type="text"
@@ -160,8 +160,8 @@ const externalLinks = ref({
                             class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                         />
                     </div>
-                    <div class="grid grid-cols-[65%_32%] gap-3">
-                        <div class="flex flex-col">
+                    <div class="grid grid-cols-[65%_32%] gap-3 sm:flex-col">
+                        <div class="flex flex-auto flex-col">
                             <label class="font-medium">OTP (Email Verification)</label>
                             <input
                                 type="text"
@@ -169,7 +169,7 @@ const externalLinks = ref({
                                 class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-primary-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-auto flex-col">
                             <button
                                 @click.prevent="sendOtp"
                                 type="submit"

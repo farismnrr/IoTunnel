@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import NavBar from "~/components/LandingPage/NavBar.vue";
-import Hero from "~/components/LandingPage/Hero.vue";
-import Feature from "~/components/LandingPage/Feature.vue";
-import Pricing from "~/components/LandingPage/Pricing.vue";
-import Testimonials from "~/components/LandingPage/Testimonials.vue";
-import CTA from "~/components/LandingPage/CTA.vue";
-import Contact from "~/components/LandingPage/Contact.vue";
-import Footer from "~/components/LandingPage/Footer.vue";
+import NavBar from "~/components/UI/LandingPage/NavBar.vue";
+import Hero from "~/components/UI/LandingPage/Hero.vue";
+import Feature from "~/components/UI/LandingPage/Feature.vue";
+import Pricing from "~/components/UI/LandingPage/Pricing.vue";
+import Testimonials from "~/components/UI/LandingPage/Testimonials.vue";
+import CTA from "~/components/UI/LandingPage/CTA.vue";
+import Contact from "~/components/UI/LandingPage/Contact.vue";
+import Footer from "~/components/UI/LandingPage/Footer.vue";
 </script>
 
 <template>

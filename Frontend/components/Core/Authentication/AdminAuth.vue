@@ -9,33 +9,42 @@ import createAuthentication from "~/composables/Authentication";
 
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
-const refreshToken = ref("");
-const accessToken = ref("");
 const admin = createAuthentication(config);
 
+const data = ref({
+    refreshToken: "",
+    accessToken: "",
+    internalLinks: {
+        home: "/",
+        signUp: "/admins/auth/signup",
+        signIn: "/admins/auth/signin",
+        dasboard: "/admins/dashboard"
+    }
+});
+
 const editAccessToken = async () => {
-    const accessToken = await admin.auth.EditAdminToken(refreshToken.value);
+    const accessToken = await admin.auth.EditAdminToken(data.value.refreshToken);
     switch (accessToken.status) {
         case "fail":
             await deleteAccessToken();
             break;
         case "success":
             authStore.setAccessTokenAdmin(accessToken.data.access_token);
-            accessToken.value = authStore.getAccessTokenAdmin();
+            data.value.accessToken = authStore.getAccessTokenAdmin();
             break;
     }
 };
 
 const deleteAccessToken = async () => {
-    const accessToken = await admin.auth.DeleteAdminToken(refreshToken.value);
+    const accessToken = await admin.auth.DeleteAdminToken(data.value.refreshToken);
     switch (accessToken.status) {
         case "fail":
-            navigateTo(externalLinks.value.dasboard);
+            navigateTo(data.value.internalLinks.dasboard);
             break;
         case "success":
             authStore.deleteAccessTokenAdmin();
             Cookies.remove("refreshTokenAdmin");
-            navigateTo(externalLinks.value.signIn);
+            navigateTo(data.value.internalLinks.signIn);
             break;
     }
 };
@@ -49,17 +58,17 @@ onMounted(async () => {
         : Cookies.remove("refreshTokenAdmin");
     const decryptedValue = decode(encryptedValue ?? "");
     const finalValue = decrypt(decryptedValue);
-    refreshToken.value = finalValue;
-    accessToken.value = authStore.getAccessTokenAdmin();
+    data.value.refreshToken = finalValue;
+    data.value.accessToken = authStore.getAccessTokenAdmin();
 
-    if (!refreshToken.value) {
+    if (!data.value.refreshToken) {
         authStore.deleteAccessTokenAdmin();
-        navigateTo(externalLinks.value.signIn);
+        navigateTo(data.value.internalLinks.signIn);
         return;
     }
 
     const profile = createProfile(config);
-    const adminResponse = await profile.getData.getAdminProfile(accessToken.value);
+    const adminResponse = await profile.getData.getAdminProfile(data.value.accessToken);
     switch (adminResponse.status) {
         case "fail":
             await editAccessToken();
@@ -68,13 +77,8 @@ onMounted(async () => {
             break;
     }
 });
-
-const externalLinks = ref({
-    home: "/",
-    signUp: "/admins/auth/signup",
-    signIn: "/admins/auth/signin",
-    dasboard: "/admins/dashboard"
-});
 </script>
 
-<template></template>
+<template>
+    <div></div>
+</template>

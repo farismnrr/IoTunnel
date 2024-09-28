@@ -38,3 +38,17 @@ export const useAuthStore = defineStore("auth", {
         storage: piniaPluginPersistedstate.sessionStorage()
     }
 });
+
+export const useTokenStore = defineStore("token", {
+    state: () => ({
+        refreshToken: ""
+    }),
+    actions: {
+        setRefreshToken(token: string) {
+            this.refreshToken = token;
+        },
+        getRefreshToken() {
+            return this.refreshToken;
+        }
+    }
+});

@@ -11,7 +11,6 @@ const user = createAuthentication(config);
 
 const data = ref({
     refreshToken: "",
-    accessToken: "",
     internalIcons: {
         searchIcon:
             "M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z",
@@ -56,7 +55,21 @@ const data = ref({
         featureTitle: "New feature available!",
         featureText:
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus harum officia eligendi velit."
-    }
+    },
+    dropDownItems: [
+        {
+            name: "Products",
+            url: "#"
+        },
+        {
+            name: "Billing",
+            url: "#"
+        },
+        {
+            name: "Invoice",
+            url: "#"
+        }
+    ]
 });
 
 const logout = async () => {
@@ -64,8 +77,9 @@ const logout = async () => {
 };
 
 const deleteAccessToken = async () => {
-    const accessToken = await user.auth.DeleteUserToken(data.value.refreshToken);
-    switch (accessToken.status) {
+    const logoutResponse = await user.auth.DeleteUserToken(data.value.refreshToken);
+    console.log(logoutResponse);
+    switch (logoutResponse.status) {
         case "fail":
             navigateTo(data.value.internalLinks.dashboardUrl);
             break;
@@ -78,6 +92,15 @@ const deleteAccessToken = async () => {
     }
 };
 
+const toggleProjectsDropdown = () => {
+    const dropdown = document.getElementById("dropdown-projects");
+    if (dropdown) {
+        dropdown.classList.toggle("hidden");
+    } else {
+        console.error("Dropdown element not found!");
+    }
+};
+
 onMounted(async () => {
     data.value.refreshToken = tokenStore.getRefreshToken();
 });
@@ -85,7 +108,7 @@ onMounted(async () => {
 
 <template>
     <aside
-        class="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l"
+        class="fixed w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l"
     >
         <NuxtLink :to="data.internalLinks.homeUrl">
             <div class="flex items-center space-x-2">
@@ -96,7 +119,7 @@ onMounted(async () => {
 
         <div class="flex flex-col justify-between flex-1 mt-6">
             <nav class="flex-1 -mx-3 space-y-3">
-                <div class="relative mx-3">
+                <!-- <div class="relative mx-3">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
                             <path
@@ -114,7 +137,7 @@ onMounted(async () => {
                         class="w-full py-1.5 pl-10 pr-4 text-gray-700 bg-white border rounded-md focus:border-primary-400 focus:ring-primary-300 focus:ring-opacity-40 focus:outline-none focus:ring"
                         placeholder="Search"
                     />
-                </div>
+                </div> -->
 
                 <NuxtLink
                     class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
@@ -159,29 +182,54 @@ onMounted(async () => {
 
                     <span class="mx-2 text-sm font-medium">Dashboard</span>
                 </NuxtLink>
-
                 <NuxtLink
-                    class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                    class="flex items-center justify-between px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
                     :to="data.internalLinks.projectsUrl"
+                    @click.prevent="toggleProjectsDropdown"
                 >
+                    <div class="flex items-center">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                :d="data.internalIcons.projectsIcon"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                        <span class="mx-2 text-sm font-medium">Projects</span>
+                    </div>
                     <svg
+                        class="w-3 h-3"
+                        aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-5 h-5"
+                        viewBox="0 0 10 6"
                     >
                         <path
-                            :d="data.internalIcons.projectsIcon"
+                            stroke="currentColor"
                             stroke-linecap="round"
                             stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m1 1 4 4 4-4"
                         />
                     </svg>
-
-                    <span class="mx-2 text-sm font-medium">Projects</span>
                 </NuxtLink>
-
+                <ul id="dropdown-projects" class="hidden">
+                    <li v-for="item in data.dropDownItems" :key="item.name">
+                        <a
+                            :href="item.url"
+                            class="flex items-center w-full p-2 text-gray-600 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 text-sm font-medium"
+                        >
+                            {{ item.name }}
+                        </a>
+                    </li>
+                </ul>
                 <NuxtLink
                     class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
                     :to="data.internalLinks.tasksUrl"

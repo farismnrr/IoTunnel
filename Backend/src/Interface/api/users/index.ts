@@ -3,19 +3,20 @@ import routes from "./routes";
 import UserHandler from "./handler";
 import UserValidator from "../../../App/validators/users";
 import config from "../../../Infrastructure/settings/config";
-import TokenManager from "../../../Common/tokens/manager.token";
+import TokenManager from "../../../Common/manager/manager.token";
+import ResponseManager from "../../../Common/manager/manager.response";
 import UserService from "../../../App/services/server/user.service";
 import ProductService from "../../../App/services/server/product.service";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import MailRepository from "../../../Infrastructure/repositories/server/mail/mail.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
-import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/server/mqtt/mosquitto.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 
 const mailRepository = new MailRepository();
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const productRepository = new ProductRepository();
 const mosquittoRepository = new MosquittoRepository();
 const subscriptionRepository = new SubscriptionRepository();
@@ -36,9 +37,17 @@ const productService = new ProductService(
     userRepository,
     authRepository,
     redisRepository,
+    config.timeOut.trial as number,
     config.jwt.serverKey as string
 );
-const userHandler = new UserHandler(userService, productService, UserValidator, TokenManager);
+
+const userHandler = new UserHandler(
+    userService,
+    productService,
+    UserValidator,
+    TokenManager,
+    ResponseManager
+);
 
 export default {
     name: "users",

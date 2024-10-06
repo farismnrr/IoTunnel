@@ -313,7 +313,7 @@ class AdminService {
         }
     }
 
-    async editAdminAuth(payload: IAuth, serverKey: string): Promise<void> {
+    async editAdminAuth(accessToken: string, refreshToken: string, serverKey: string): Promise<void> {
         if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
@@ -321,14 +321,14 @@ class AdminService {
         if (apiKey !== this._serverKey) {
             throw new AuthorizationError("You are not authorized to edit admin auth");
         }
-        if (!payload.refresh_token) {
+        if (!refreshToken) {
             throw new AuthenticationError("Unauthorized");
         }
-        const adminAuth = await this._authRepository.getAdminAuth(payload.refresh_token);
+        const adminAuth = await this._authRepository.getAdminAuth(refreshToken);
         if (!adminAuth) {
             throw new NotFoundError("Admin not found");
         }
-        await this._authRepository.editAdminAuth(payload.access_token, payload.refresh_token);
+        await this._authRepository.editAdminAuth(accessToken, refreshToken);
     }
 
     async logoutAdmin(refreshToken: string, serverKey: string): Promise<void> {

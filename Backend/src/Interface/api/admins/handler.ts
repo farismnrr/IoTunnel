@@ -7,24 +7,28 @@ import type {
 } from "../../../Common/models/types";
 import autoBind from "auto-bind";
 import AdminValidator from "../../../App/validators/admins";
-import TokenManager from "../../../Common/tokens/manager.token";
+import TokenManager from "../../../Common/manager/manager.token";
 import AdminService from "../../../App/services/server/admin.service";
+import ResponseManager from "../../../Common/manager/manager.response";
 
 class AdminHandler {
     private readonly _adminService: AdminService;
     private readonly _validator: typeof AdminValidator;
     private readonly _tokenManager: typeof TokenManager;
+    private readonly _responseManager: typeof ResponseManager;
     private readonly _adminKey: string;
 
     constructor(
         adminService: AdminService,
         validator: typeof AdminValidator,
         tokenManager: typeof TokenManager,
+        responseManager: typeof ResponseManager,
         adminKey: string
     ) {
         this._adminService = adminService;
         this._validator = validator;
         this._tokenManager = tokenManager;
+        this._responseManager = responseManager;
         this._adminKey = adminKey;
         autoBind(this);
     }
@@ -35,15 +39,15 @@ class AdminHandler {
         const serverAuth = request.headers.authorization;
         this._validator.validateSendOtpPayload(payload);
         const otpCode = await this._adminService.sendOtpMail(payload.email, serverAuth);
-        return h
-            .response({
-                status: "success",
-                message: "OTP sent to email",
-                data: {
-                    otp_code: otpCode
-                }
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "OTP sent to email",
+            data: {
+                otp_code: otpCode
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async sendOtpResetPasswordHandler(request: Request, h: ResponseToolkit) {
@@ -54,15 +58,15 @@ class AdminHandler {
             payload.email,
             serverAuth
         );
-        return h
-            .response({
-                status: "success",
-                message: "OTP sent to email",
-                data: {
-                    otp_code: otpCode
-                }
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "OTP sent to email",
+            data: {
+                otp_code: otpCode
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
     // End OTP Handler
 
@@ -73,27 +77,27 @@ class AdminHandler {
         await this._adminService.validateRegisterAdminPayload(payload);
         this._validator.validateAdminPayload(payload);
         const admin = await this._adminService.registerAdmin(payload, serverAuth);
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully registered",
-                data: {
-                    admin_id: admin
-                }
-            })
-            .code(201);
+        const response = {
+            status: "success",
+            message: "Admin successfully registered",
+            data: {
+                admin_id: admin
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(201);
     }
 
     async getAdminByIdHandler(request: Request, h: ResponseToolkit) {
         const admin = request.auth.credentials as unknown as IAuth;
         const adminData = await this._adminService.getAdminById(admin.id);
-        return h
-            .response({
-                status: "success",
-                message: "Admin fetched successfully",
-                data: adminData
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "Admin fetched successfully",
+            data: adminData
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async editAdminHandler(request: Request, h: ResponseToolkit) {
@@ -102,12 +106,12 @@ class AdminHandler {
         await this._adminService.validateEditAdminPayload(payload);
         this._validator.validateEditAdminPayload(payload);
         await this._adminService.editAdmin(admin.id, payload);
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully edited"
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "Admin successfully edited"
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async changePasswordHandler(request: Request, h: ResponseToolkit) {
@@ -116,34 +120,33 @@ class AdminHandler {
         await this._adminService.validateResetPasswordPayload(payload);
         this._validator.validateChangePasswordPayload(payload);
         await this._adminService.resetPassword(payload, serverAuth);
-        return h
-            .response({
-                status: "success",
-                message: "Password successfully changed"
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "Password successfully changed"
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async deleteAdminByIdHandler(request: Request, h: ResponseToolkit) {
         const admin = request.auth.credentials as unknown as IAuth;
         await this._adminService.deleteAdminById(admin.id);
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully deleted"
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "Admin successfully deleted"
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async deleteAllAdminsHandler(request: Request, h: ResponseToolkit) {
         const apiKey = request.query.api_key;
         await this._adminService.deleteAllAdmins(apiKey);
-        return h
-            .response({
-                status: "success",
-                message: "All admins successfully deleted"
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "All admins successfully deleted"
+        };
+        return h.response(response).code(200);
     }
     // End Admin Handler
 
@@ -165,52 +168,47 @@ class AdminHandler {
             },
             serverAuth
         );
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully logged in",
-                data: {
-                    admin_id: adminId,
-                    access_token: accessToken,
-                    refresh_token: refreshToken
-                }
-            })
-            .code(200);
+
+        const response = {
+            status: "success",
+            message: "Admin successfully logged in",
+            data: {
+                admin_id: adminId,
+                access_token: accessToken
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200).state("refreshTokenAdmin", refreshToken);
     }
 
     async editAdminAuthHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
-        const payload = request.payload as IAuth;
-        this._validator.validateAdminAuthPayload(payload);
-        const adminId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
+        const refreshToken = request.state.refreshTokenAdmin;
+        const adminId = this._tokenManager.verifyRefreshToken(refreshToken);
         const accessToken = this._tokenManager.generateAccessToken({ id: adminId });
-        await this._adminService.editAdminAuth(
-            { ...payload, access_token: accessToken },
-            serverAuth
-        );
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully edited",
-                data: {
-                    access_token: accessToken
-                }
-            })
-            .code(200);
+        await this._adminService.editAdminAuth(accessToken, refreshToken, serverAuth);
+        const response = {
+            status: "success",
+            message: "Admin successfully edited",
+            data: {
+                access_token: accessToken
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
 
     async logoutAdminHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
-        const payload = request.payload as IAuth;
-        this._validator.validateAdminAuthPayload(payload);
-        this._tokenManager.verifyRefreshToken(payload.refresh_token);
-        await this._adminService.logoutAdmin(payload.refresh_token, serverAuth);
-        return h
-            .response({
-                status: "success",
-                message: "Admin successfully logged out"
-            })
-            .code(200);
+        const refreshToken = request.state.refreshTokenAdmin;
+        this._tokenManager.verifyRefreshToken(refreshToken);
+        await this._adminService.logoutAdmin(refreshToken, serverAuth);
+        const response = {
+            status: "success",
+            message: "Admin successfully logged out"
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200).unstate("refreshTokenAdmin");
     }
     // End Admin Auth Handler
 
@@ -219,15 +217,15 @@ class AdminHandler {
         const adminKey = this._adminKey;
         const serverAuth = request.headers.authorization;
         await this._adminService.getAdminKey(serverAuth);
-        return h
-            .response({
-                status: "success",
-                message: "Admin key successfully retrieved",
-                data: {
-                    admin_key: adminKey
-                }
-            })
-            .code(200);
+        const response = {
+            status: "success",
+            message: "Admin key successfully retrieved",
+            data: {
+                admin_key: adminKey
+            }
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
     }
     // End Admin Key Handler
 }

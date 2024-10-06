@@ -8,6 +8,7 @@ import StorageRepository from "../../../Infrastructure/repositories/server/stora
 import AdminRepository from "../../../Infrastructure/repositories/server/postgres/admin.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
+import ResponseManager from "../../../Common/manager/manager.response";
 
 const storageRepository = new StorageRepository({
     projectId: config.storage.projectId as string,
@@ -17,7 +18,7 @@ const storageRepository = new StorageRepository({
 const userRepository = new UserRepository(config.photo.default as string);
 const adminRepository = new AdminRepository(config.photo.default as string);
 const redisRepository = new RedisRepository();
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const storageService = new StorageService(
     storageRepository,
     adminRepository,
@@ -25,7 +26,7 @@ const storageService = new StorageService(
     authRepository,
     redisRepository
 );
-const storageHandler = new StorageHandler(storageService);
+const storageHandler = new StorageHandler(storageService, ResponseManager);
 
 export default {
     name: "storages",

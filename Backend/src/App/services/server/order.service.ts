@@ -1,22 +1,21 @@
 import type {
     IOrder,
     IOrderData,
-    IOrderWithPaymentUrl,
-    ISubscription
+    IOrderWithPaymentUrl
 } from "../../../Common/models/types";
 import OrderRepository from "../../../Infrastructure/repositories/server/postgres/order.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
-import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/server/mqtt/mosquitto.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import CursRepository from "../../../Infrastructure/repositories/external/curs.repo";
 import { nanoid } from "nanoid";
 import {
     NotFoundError,
     AuthorizationError,
-    ConnectionError,
     ConflictError
 } from "../../../Common/errors";
 
@@ -29,6 +28,7 @@ class OrderService {
     private readonly _mosquittoRepository: MosquittoRepository;
     private readonly _subscriptionRepository: SubscriptionRepository;
     private readonly _redisRepository: RedisRepository;
+    private readonly _cursRepository: CursRepository;
     private readonly _oneMonth: number;
     private readonly _threeMonth: number;
     private readonly _sixMonth: number;
@@ -42,6 +42,7 @@ class OrderService {
         mosquittoRepository: MosquittoRepository,
         subscriptionRepository: SubscriptionRepository,
         redisRepository: RedisRepository,
+        cursRepository: CursRepository,
         oneMonth: number,
         threeMonth: number,
         sixMonth: number
@@ -54,6 +55,7 @@ class OrderService {
         this._mosquittoRepository = mosquittoRepository;
         this._subscriptionRepository = subscriptionRepository;
         this._redisRepository = redisRepository;
+        this._cursRepository = cursRepository;
         this._oneMonth = oneMonth;
         this._threeMonth = threeMonth;
         this._sixMonth = sixMonth;
@@ -62,10 +64,6 @@ class OrderService {
     async createOrder(userId: string, productId: string): Promise<IOrder> {
         const id = `order-${nanoid(16)}`;
         const status = "pending";
-        const connection = await this._mosquittoRepository.getMosquittoConnection();
-        if (connection !== 200) {
-            throw new ConnectionError("Failed to get Mosquitto Connection");
-        }
         const order = await this._orderRepository.getOrderByUserId(userId);
         if (order) {
             throw new ConflictError("User already has an order");
@@ -88,9 +86,10 @@ class OrderService {
                 "User already has a subscription, please cancel the existing subscription before subscribing to a new product"
             );
         }
+        const price = await this._cursRepository.konversiUSDKeIDR(product.price);
         const transactionDetails = {
             order_id: id,
-            gross_amount: product.price
+            gross_amount: price
         };
         const customerDetails = {
             first_name: user.first_name,
@@ -100,7 +99,7 @@ class OrderService {
         };
         const itemDetails = {
             id: product.id,
-            price: product.price,
+            price: price,
             quantity: 1,
             name: product.product_name
         };
@@ -128,8 +127,7 @@ class OrderService {
 
     async getOrderById(
         userid: string,
-        orderId: string,
-        api_key: string
+        orderId: string
     ): Promise<{ order: IOrderData; source: string } | IOrderWithPaymentUrl> {
         const order = await this._orderRepository.getOrderById(orderId);
         if (!order) {
@@ -172,7 +170,6 @@ class OrderService {
         const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
         if (!subscription) {
             await this.createOrderWithSubscription(userid, product.id);
-            await this._mosquittoRepository.getMosquittoUrl(api_key);
             await this._redisRepository.delete(`order:${orderId}`);
         }
         const orderData = {
@@ -214,21 +211,15 @@ class OrderService {
             default:
                 throw new Error(`Unsupported subscription duration: ${subscriptionDuration}`);
         }
+        const apiKey = `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`;
         await this._subscriptionRepository.addSubscription(userId, {
             id: `subscription-${product.id}-${Date.now()}`,
             product_id: product.id,
-            api_key: `key-${nanoid(16)}-${product.id}-${nanoid(5)}-${Date.now()}`,
+            api_key: apiKey,
             subscription_start_date: createdAt,
             subscription_end_date: trialEndDate
         });
-    }
-
-    async getSubscriptions(api_key: string): Promise<ISubscription> {
-        const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(api_key);
-        if (!subscription) {
-            throw new NotFoundError("Subscription not found");
-        }
-        return subscription;
+        await this._mosquittoRepository.updateMosquittoPassword(userId, apiKey);
     }
 
     async getSubscriptionsTimeRemaining(userId: string): Promise<string> {

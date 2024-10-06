@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "dev": "bun copy-env && bun generate-token && bun start",
-        "start": "NODE_ENV=production bun --watch src/server.ts",
+        "start": "NODE_ENV=development bun --watch src/server.ts",
         "deploy": "pm2 start dist/backend-server",
         "migrate": "bun migration.ts",
         "build:server": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server --platform=linux-x64",
@@ -15,18 +15,17 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.11.1",
-        "@types/bcrypt": "^5.0.2",
         "@types/bcryptjs": "^2.4.6",
         "@types/bun": "latest",
+        "@types/crypto-js": "^4.2.2",
         "@types/eslint__js": "^8.42.3",
         "@types/hapi__cookie": "^12.0.5",
         "@types/multer": "^1.4.12",
         "@types/nodemailer": "^6.4.16",
         "@types/pg": "^8.11.10",
-        "@types/uuid": "^10.0.0",
         "eslint": "^9.11.1",
-        "globals": "^15.9.0",
-        "typescript-eslint": "^8.7.0"
+        "globals": "^15.10.0",
+        "typescript-eslint": "^8.8.0"
     },
     "peerDependencies": {
         "typescript": "^5.5.4"
@@ -40,12 +39,11 @@
         "aws-sdk": "^2.1691.0",
         "axios": "^1.7.7",
         "bcryptjs": "^2.4.3",
-        "jimp": "^1.6.0",
+        "crypto-js": "^4.2.0",
         "joi": "^17.13.3",
         "mock-aws-s3": "^4.0.2",
         "multer": "^1.4.5-lts.1",
         "nanoid": "^5.0.7",
-        "nock": "^13.5.5",
         "nodemailer": "^6.9.15",
         "pg": "^8.13.0",
         "redis": "^4.7.0",

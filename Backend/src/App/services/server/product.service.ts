@@ -1,6 +1,6 @@
 import type { IProduct, ITrialWithSubscription } from "../../../Common/models/types";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
-import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/server/mqtt/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
@@ -9,7 +9,6 @@ import { nanoid } from "nanoid";
 import {
     NotFoundError,
     AuthorizationError,
-    ConnectionError,
     InvariantError,
     AuthenticationError
 } from "../../../Common/errors";
@@ -160,11 +159,7 @@ class ProductService {
         };
     }
 
-    async editTrialByUserId(userId: string, api_key: string): Promise<void> {
-        const connection = await this._mosquittoRepository.getMosquittoConnection();
-        if (connection !== 200) {
-            throw new ConnectionError("Failed to get Mosquitto Connection");
-        }
+    async editTrialByUserId(userId: string): Promise<void> {
         const user = await this._userRepository.getUserById(userId);
         if (!user) {
             throw new NotFoundError("User not found");
@@ -189,15 +184,16 @@ class ProductService {
             free_trial: false
         });
         const createdAt = new Date();
-        const trialEndDate = new Date(createdAt.getTime() + this._timeOut); 
+        const trialEndDate = new Date(createdAt.getTime() + this._timeOut);
+        const apiKey = `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`;
         await this._subscriptionRepository.addSubscription(userId, {
             id: `subscription-${trial.id}-${Date.now()}`,
             trial_id: trial.id,
-            api_key: `key-${nanoid(16)}-${trial.id}-${nanoid(5)}-${Date.now()}`,
+            api_key: apiKey,
             subscription_start_date: createdAt,
             subscription_end_date: trialEndDate
         });
-        await this._mosquittoRepository.getMosquittoUrl(api_key);
+        await this._mosquittoRepository.updateMosquittoPassword(userId, apiKey);
         await this._redisRepository.delete(`trial:${user.email}`);
     }
     // End Trial Service

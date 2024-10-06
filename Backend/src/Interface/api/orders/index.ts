@@ -8,12 +8,15 @@ import UserRepository from "../../../Infrastructure/repositories/server/postgres
 import OrderRepository from "../../../Infrastructure/repositories/server/postgres/order.repo";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
 import MidtransRepository from "../../../Infrastructure/repositories/external/midtrans.repo";
-import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/server/mqtt/mosquitto.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
+import CursRepository from "../../../Infrastructure/repositories/external/curs.repo";
+import ResponseManager from "../../../Common/manager/manager.response";
 
+const cursRepository = new CursRepository();
 const userRepository = new UserRepository(config.photo.default as string);
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const orderRepository = new OrderRepository();
 const productRepository = new ProductRepository();
 const midtransRepository = new MidtransRepository();
@@ -30,11 +33,12 @@ const orderService = new OrderService(
     mosquittoRepository,
     subscriptionRepository,
     redisRepository,
+    cursRepository,
     config.timeOut.oneMonth as number,
     config.timeOut.threeMonth as number,
     config.timeOut.sixMonth as number
 );
-const orderHandler = new OrderHandler(orderService);
+const orderHandler = new OrderHandler(orderService, ResponseManager);
 
 export default {
     name: "orders",

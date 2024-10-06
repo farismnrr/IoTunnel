@@ -30,3 +30,4 @@ sudo -u postgres psql -c "CREATE DATABASE iotunnel_db OWNER iotunnel;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE iotunnel_db TO iotunnel;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON SCHEMA public TO iotunnel;"
 ```
+

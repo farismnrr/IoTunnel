@@ -3,15 +3,16 @@ import routes from "./routes";
 import ProductHandler from "./handler";
 import ProductService from "../../../App/services/server/product.service";
 import ProductRepository from "../../../Infrastructure/repositories/server/postgres/product.repo";
-import MosquittoRepository from "../../../Infrastructure/repositories/external/mosquitto.repo";
+import MosquittoRepository from "../../../Infrastructure/repositories/server/mqtt/mosquitto.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
 import ProductValidator from "../../../App/validators/products";
 import config from "../../../Infrastructure/settings/config";
+import ResponseManager from "../../../Common/manager/manager.response";
 
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const userRepository = new UserRepository(config.photo.default as string);
 const productRepository = new ProductRepository();
 const mosquittoRepository = new MosquittoRepository();
@@ -27,7 +28,7 @@ const productService = new ProductService(
     config.timeOut.trial as number,
     config.jwt.serverKey as string
 );
-const productHandler = new ProductHandler(productService, ProductValidator);
+const productHandler = new ProductHandler(productService, ProductValidator, ResponseManager);
 
 export default {
     name: "products",

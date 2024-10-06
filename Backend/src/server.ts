@@ -1,7 +1,6 @@
 import Hapi from "@hapi/hapi";
 import config from "./Infrastructure/settings/config";
 import ExternalPlugins from "./Infrastructure/plugins/external.plugin";
-import ExpirityPlugin from "./Infrastructure/plugins/expirity.plugin";
 import CustomPlugins from "./Infrastructure/plugins/custom.plugin";
 import LogPlugin from "./Infrastructure/plugins/logging.plugin";
 import ClientError from "./Common/errors";
@@ -13,7 +12,7 @@ const createServer = async () => {
         routes: {
             cors: {
                 origin: ["*"],
-                headers: ["Accept", "Authorization", "Content-Type", "If-None-Match"],
+                headers: ["Authorization", "Content-Type"],
                 credentials: true
             }
         }
@@ -75,7 +74,6 @@ const startServer = async () => {
     await CustomPlugins(server);
     handleClientError(server);
     handleServerLog(server);
-    await ExpirityPlugin(server);
 
     await server.start();
     console.log(`Server running at ${server.info.uri}`);

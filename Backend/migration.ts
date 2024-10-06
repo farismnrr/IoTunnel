@@ -19,7 +19,9 @@ async function migrate() {
             `create-subscriptions-table.sql`,
             `create-topics-table.sql`,
             `create-projects-table.sql`,
-            `create-components-table.sql`
+            `create-components-table.sql`,
+            `add-products.sql`,
+            `add-items.sql`
         ];
 
         for (const migration of migrations) {

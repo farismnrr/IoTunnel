@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// This plugin is used only in development mode
 const LogPlugin = {
     ServerRequestLog(request: any) {
         request.plugins.startTime = process.hrtime();
@@ -35,11 +36,13 @@ const LogPlugin = {
         const response = request.response;
         const statusCode = response.isBoom ? response.output.statusCode : response.statusCode;
 
-        console.log(
-            `[ Bun - Hapi ] Code: ${statusCode} | Time: ${unit === "s" ? " " : ""}${responseTime
-                .toFixed()
-                .padStart(3, " ")}${unit} | ${paddedMethod}\t${request.path}`
-        );
+        if (request.path !== "/") {
+            console.log(
+                `[ Bun - Hapi ] Code: ${statusCode} | Time: ${unit === "s" ? " " : ""}${responseTime
+                    .toFixed()
+                    .padStart(3, " ")}${unit} | ${paddedMethod}\t${request.path}`
+            );
+        }
 
         if (response.isBoom && response.output.statusCode === 404) {
             return h

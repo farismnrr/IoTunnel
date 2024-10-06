@@ -11,6 +11,7 @@ import ProjectRepository from "../../../Infrastructure/repositories/server/mqtt/
 import ComponentRepository from "../../../Infrastructure/repositories/server/mqtt/component.repo";
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import RedisRepository from "../../../Infrastructure/repositories/server/cache/redis.repo";
+import ResponseManager from "../../../Common/manager/manager.response";
 
 const componentRepository = new ComponentRepository();
 const subscriptionRepository = new SubscriptionRepository();
@@ -28,7 +29,7 @@ const componentService = new ComponentService(
     userRepository,
     redisRepository
 );
-const componentHandler = new ComponentHandler(componentService, ComponentValidator);
+const componentHandler = new ComponentHandler(componentService, ComponentValidator, ResponseManager);
 
 export default {
     name: "components",

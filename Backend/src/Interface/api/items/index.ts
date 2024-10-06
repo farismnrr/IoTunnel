@@ -6,11 +6,12 @@ import AuthRepository from "../../../Infrastructure/repositories/server/postgres
 import ItemRepository from "../../../Infrastructure/repositories/server/mqtt/item.repo";
 import ItemValidator from "../../../App/validators/items";
 import config from "../../../Infrastructure/settings/config";
+import ResponseManager from "../../../Common/manager/manager.response";
 
 const itemRepository = new ItemRepository();
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const itemService = new ItemService(itemRepository, authRepository, config.jwt.serverKey as string);
-const itemHandler = new ItemHandler(itemService, ItemValidator);
+const itemHandler = new ItemHandler(itemService, ItemValidator, ResponseManager);
 
 export default {
     name: "items",

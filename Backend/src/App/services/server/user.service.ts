@@ -295,7 +295,7 @@ class UserService {
         }
     }
 
-    async editUserAuth(payload: IAuth, serverKey: string): Promise<void> {
+    async editUserAuth(accessToken: string, refreshToken: string, serverKey: string): Promise<void> {
         if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
@@ -303,14 +303,14 @@ class UserService {
         if (apiKey !== this._serverKey) {
             throw new AuthorizationError("You are not authorized to edit user auth");
         }
-        if (!payload.refresh_token) {
+        if (!refreshToken) {
             throw new AuthenticationError("Unauthorized");
         }
-        const userAuth = await this._authRepository.getUserAuth(payload.refresh_token);
+        const userAuth = await this._authRepository.getUserAuth(refreshToken);
         if (!userAuth) {
             throw new NotFoundError("User not found");
         }
-        await this._authRepository.editUserAuth(payload.access_token, payload.refresh_token);
+        await this._authRepository.editUserAuth(accessToken, refreshToken);
     }
 
     async logoutUser(refreshToken: string, serverKey: string): Promise<void> {

@@ -48,8 +48,42 @@ const ExternalPlugins = async (server: Hapi.Server) => {
         })
     };
 
+    const sessionOptionsUser = {
+        cookie: {
+            name: "refreshTokenUser",
+            isSecure: false,
+            isHttpOnly: true,
+            isSameSite: "Strict",
+            path: "/",
+            ttl: Config.timeOut.cookie,
+            password: Config.jwt.refreshTokenKey
+        },
+        validate: async () => {
+            return { isValid: true };
+        },
+        requestDecoratorName: "userCookieAuth"
+    };
+
+    const sessionOptionsAdmin = {
+        cookie: {
+            name: "refreshTokenAdmin",
+            isSecure: false,
+            isHttpOnly: true,
+            isSameSite: "Strict",
+            path: "/",
+            ttl: Config.timeOut.cookie,
+            password: Config.jwt.refreshTokenKey
+        },
+        validate: async () => {
+            return { isValid: true };
+        },
+        requestDecoratorName: "adminCookieAuth"
+    };
+
     server.auth.strategy("admin_jwt", "jwt", adminJwtOptions);
     server.auth.strategy("user_jwt", "jwt", userJwtOptions);
+    server.auth.strategy("user_session", "cookie", sessionOptionsUser);
+    server.auth.strategy("admin_session", "cookie", sessionOptionsAdmin);
 };
 
 export default ExternalPlugins;

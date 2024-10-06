@@ -7,11 +7,12 @@ import SubscriptionRepository from "../../../Infrastructure/repositories/server/
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
 import ProjectValidator from "../../../App/validators/projects";
+import ResponseManager from "../../../Common/manager/manager.response";
 import config from "../../../Infrastructure/settings/config";
 
 const projectRepository = new ProjectRepository();
 const subscriptionRepository = new SubscriptionRepository();
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository(config.timeOut.otp as number);
 const userRepository = new UserRepository(config.photo.default as string);
 const projectService = new ProjectService(
     projectRepository,
@@ -19,7 +20,7 @@ const projectService = new ProjectService(
     userRepository,
     subscriptionRepository
 );
-const projectHandler = new ProjectHandler(projectService, ProjectValidator);
+const projectHandler = new ProjectHandler(projectService, ProjectValidator, ResponseManager);
 
 export default {
     name: "projects",

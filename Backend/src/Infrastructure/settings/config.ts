@@ -19,7 +19,7 @@ const config = {
         host: process.env.HOST || "localhost"
     },
     jwt: {
-        adminKey: process.env.NODE_ENV === "production" ? adminKey : process.env.ADMIN_KEY,
+        adminKey: process.env.NODE_ENV === "development" ? adminKey : process.env.ADMIN_KEY,
         serverKey: process.env.SERVER_KEY,
         accessTokenKey: process.env.ACCESS_TOKEN_KEY,
         refreshTokenKey: process.env.REFRESH_TOKEN_KEY,
@@ -72,11 +72,11 @@ const config = {
     },
     timeOut: {
         otp: 5 * 60 * 1000,
-        mosquitto: 1 * 1000,
-        trial: 1 * 60 * 1000,
+        trial: 14 * 24 * 60 * 60 * 1000,
         oneMonth: 1 * 30 * 24 * 60 * 60 * 1000,
         threeMonth: 3 * 30 * 24 * 60 * 60 * 1000,
-        sixMonth: 6 * 30 * 24 * 60 * 60 * 1000
+        sixMonth: 6 * 30 * 24 * 60 * 60 * 1000,
+        cookie: 14 * 24 * 60 * 60 * 1000
     }
 };
 

@@ -11,11 +11,6 @@ const routes: (handler: OrderHandler) => ServerRoute[] = handler => [
         }
     },
     {
-        method: "POST",
-        path: "/orders/subscription",
-        handler: handler.getSubscriptionsHandler
-    },
-    {
         method: "GET",
         path: "/orders/{id}",
         handler: handler.getOrderByIdHandler,

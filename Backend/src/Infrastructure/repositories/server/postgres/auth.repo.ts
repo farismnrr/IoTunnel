@@ -3,16 +3,18 @@ import { Pool } from "pg";
 
 class AuthRepository {
     private readonly _pool: Pool;
+    private readonly _expiredTime: number;
 
-    constructor() {
+    constructor(expiredTime: number) {
         this._pool = new Pool();
+        this._expiredTime = expiredTime;
     }
 
     // Start OTP Repository
     async addOtp(email: string, otpCode: number): Promise<void> {
         await this.deleteOtpByEmail(email);
         const createdAt = new Date();
-        const otpExpiresAt = new Date(createdAt.getTime() + 5 * 60 * 1000);
+        const otpExpiresAt = new Date(createdAt.getTime() + this._expiredTime);
         const otpQuery = {
             text: `
           		INSERT INTO otp_codes (email, otp_code, created_at, otp_expires_at) 
@@ -64,6 +66,36 @@ class AuthRepository {
     }
     // End OTP Repository
 
+    // Start Delete Expired OTP and Subscription
+    async deleteExpiredOtp(): Promise<void> {
+        const currentTime = new Date();
+        const otpQuery = {
+            text: `DELETE FROM otp_codes WHERE otp_expires_at < $1`,
+            values: [currentTime]
+        };
+        const result = await this._pool.query(otpQuery);
+        const deletedCount = result.rowCount;
+        if (deletedCount === 0) {
+            return;
+        }
+        console.log(`Deleted ${deletedCount} expired OTP(s)`);
+    }
+
+    async deleteExpiredSubscription(): Promise<void> {
+        const currentTime = new Date();
+        const subscriptionQuery = {
+            text: `DELETE FROM subscriptions WHERE subscription_end_date < $1`,
+            values: [currentTime]
+        };
+        const result = await this._pool.query(subscriptionQuery);
+        const deletedCount = result.rowCount;
+        if (deletedCount === 0) {
+            return;
+        }
+        console.log(`Deleted ${deletedCount} expired subscription(s)`);
+    }
+    // End Delete Expired OTP and Subscription
+
     // Start Admin Auth Repository
     async addAdminAuth(auth: IAuth): Promise<void> {
         const createdAt = new Date();
@@ -78,13 +110,19 @@ class AuthRepository {
         await this._pool.query(adminAuthQuery);
     }
 
-    async getAdminAuth(refreshToken: string): Promise<string | null> {
+    async getAdminAuth(refreshToken: string): Promise<number> {
+        await this.deleteExpiredOtp();
+        await this.deleteExpiredSubscription();
         const adminAuthQuery = {
-            text: `SELECT admin_id FROM auths WHERE refresh_token = $1`,
+            text: `
+                SELECT COUNT(*) as admin_count
+                FROM auths 
+                WHERE refresh_token = $1
+            `,
             values: [refreshToken]
         };
         const adminAuthResult = await this._pool.query(adminAuthQuery);
-        return adminAuthResult.rows[0]?.admin_id || null;
+        return adminAuthResult.rows[0]?.admin_count || 0;
     }
 
     async getAdminRole(adminId: string): Promise<string | null> {
@@ -138,17 +176,19 @@ class AuthRepository {
         await this._pool.query(userAuthQuery);
     }
 
-    async getUserAuth(refreshToken: string): Promise<IAuth | null> {
+    async getUserAuth(refreshToken: string): Promise<number> {
+        await this.deleteExpiredOtp();
+        await this.deleteExpiredSubscription();
         const userAuthQuery = {
             text: `
-				SELECT user_id, refresh_token, access_token, role 
-				FROM auths 
-				WHERE refresh_token = $1
-			`,
+                SELECT COUNT(*) as user_count
+                FROM auths 
+                WHERE refresh_token = $1
+            `,
             values: [refreshToken]
         };
         const userAuthResult = await this._pool.query(userAuthQuery);
-        return userAuthResult.rows[0] || null;
+        return parseInt(userAuthResult.rows[0]?.user_count) || 0;
     }
 
     async getUserRole(userId: string): Promise<string | null> {

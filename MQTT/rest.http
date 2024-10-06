@@ -1,4 +1,0 @@
-GET http://34.124.156.206:5499
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer YOUR_API_KEY

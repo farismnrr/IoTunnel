@@ -27,7 +27,7 @@ const data = ref({
     }
 });
 
-const getInTouch = () => {};
+const getInTouchButton = () => {};
 </script>
 
 <template>
@@ -224,7 +224,7 @@ const getInTouch = () => {};
 
                             <button
                                 type="submit"
-                                @click.prevent="getInTouch"
+                                @click.prevent="getInTouchButton"
                                 class="bg-primary-600 hover:bg-primary-500 w-full px-6 py-3 mt-6 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50"
                             >
                                 {{ data.text.getInTouch }}

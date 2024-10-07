@@ -23,7 +23,14 @@ const data = ref({
     }
 });
 
-const signinButton = async () => {};
+import AuthenticationService from "~/composables/service/authenticationService";
+const signinButton = async () => {
+    const authenticationService = AuthenticationService(data.value.internalLinks.dasboard);
+    await authenticationService.userLogin({
+        email: data.value.formData.email,
+        password: data.value.formData.password
+    });
+};
 </script>
 
 <template>
@@ -65,9 +72,7 @@ const signinButton = async () => {};
                 </div>
                 <div class="relative">
                     <span class="block w-full h-px bg-gray-300"></span>
-                    <p
-                        class="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto"
-                    >
+                    <p class="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">
                         {{ data.text.orContinueWith }}
                     </p>
                 </div>

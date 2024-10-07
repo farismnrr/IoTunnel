@@ -26,11 +26,11 @@ const data = ref({
 });
 
 import VerificationService from "~/composables/service/verificationService";
-
-const verificationService = VerificationService();
+import AuthenticationService from "~/composables/service/authenticationService";
 
 const sendOtpButton = async () => {
     data.value.isLoading = true;
+    const verificationService = VerificationService();
     try {
         await verificationService.validateSendOtpAdminRegister(data.value.formData.email);
     } catch (error) {
@@ -39,7 +39,14 @@ const sendOtpButton = async () => {
         data.value.isLoading = false;
     }
 };
-const signinButton = async () => {};
+const signinButton = async () => {
+    const authenticationService = AuthenticationService(data.value.internalLinks.dasboard);
+    await authenticationService.adminLogin({
+        email: data.value.formData.email,
+        password: data.value.formData.password,
+        otp_code: data.value.formData.otp
+    });
+};
 </script>
 
 <template>

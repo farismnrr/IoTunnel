@@ -34,11 +34,11 @@ const data = ref({
 });
 
 import VerificationService from "~/composables/service/verificationService";
-
-const verificationService = VerificationService();
+import AuthenticationService from "~/composables/service/authenticationService";
 
 const sendOtpButton = async () => {
     data.value.isLoading = true;
+    const verificationService = VerificationService();
     try {
         await verificationService.validateSendOtpUserRegister(data.value.formData.email);
     } catch (error) {
@@ -48,7 +48,18 @@ const sendOtpButton = async () => {
     }
 };
 
-const signupButton = async () => {};
+const signupButton = async () => {
+    const authenticationService = AuthenticationService(data.value.internalLinks.signIn);
+    await authenticationService.userRegister({
+        first_name: data.value.formData.firstName,
+        last_name: data.value.formData.lastName,
+        password: data.value.formData.password,
+        retype_password: data.value.formData.passwordConfirmation,
+        email: data.value.formData.email,
+        phone_number: data.value.formData.phoneNumber,
+        otp_code: data.value.formData.otp
+    });
+};
 </script>
 
 <template>

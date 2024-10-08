@@ -1,5 +1,6 @@
 import axios from "axios";
 import EncryptionManager from "@/composables/utils/encryption";
+import useCookie from "@/composables/api/Cookie";
 import type {
     UserRegistrationData,
     AdminRegistrationData,
@@ -11,11 +12,13 @@ class Verification {
     private readonly _apiUrl: string;
     private readonly _apiSecret: string;
     private readonly _encryptionManager: EncryptionManager;
+    private readonly _cookie: ReturnType<typeof useCookie>;
 
     constructor(apiUrl: string, apiSecret: string, encryptionManager: EncryptionManager) {
         this._apiUrl = apiUrl;
         this._apiSecret = apiSecret;
         this._encryptionManager = encryptionManager;
+        this._cookie = useCookie();
     }
 
     async getUrlSignup(owner: string): Promise<string> {
@@ -67,6 +70,7 @@ class Verification {
                     Authorization: `Bearer ${this._apiSecret}`
                 }
             });
+            await this._cookie.setCookie(response.data, "user");
             const data = await this._encryptionManager.decrypt(response.data as string);
             return data as AuthenticationResponse;
         } catch (error: any) {
@@ -83,6 +87,7 @@ class Verification {
                     Authorization: `Bearer ${this._apiSecret}`
                 }
             });
+            await this._cookie.setCookie(response.data, "admin");
             const data = await this._encryptionManager.decrypt(response.data as string);
             return data as AuthenticationResponse;
         } catch (error: any) {

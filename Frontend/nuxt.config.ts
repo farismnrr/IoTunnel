@@ -10,5 +10,10 @@ export default defineNuxtConfig({
             publicKey: process.env.PUBLIC_KEY
         }
     },
-    modules: ["@nuxtjs/tailwindcss"]
+    nitro: {
+        routeRules: {
+            "/api/**": { cors: true, headers: { "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE" } }
+        }
+    },
+    modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "pinia-plugin-persistedstate/nuxt"]
 });

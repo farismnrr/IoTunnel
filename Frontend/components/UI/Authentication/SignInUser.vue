@@ -24,8 +24,11 @@ const data = ref({
 });
 
 import AuthenticationService from "~/composables/service/authenticationService";
+import { useRuntimeConfig } from "#app";
+
+const config = useRuntimeConfig();
 const signinButton = async () => {
-    const authenticationService = AuthenticationService(data.value.internalLinks.dasboard);
+    const authenticationService = AuthenticationService(data.value.internalLinks.dasboard, config);
     await authenticationService.userLogin({
         email: data.value.formData.email,
         password: data.value.formData.password

@@ -1,11 +1,10 @@
 import { toast, toastOptions } from "@/composables/utils/toast";
-import { useRuntimeConfig } from "#app";
 import useVerification from "@/composables/api/Verification";
 import type { VerificationResponse } from "@/composables/model";
+import type { Config } from "@/composables/model";
 
-const VerificationService = () => {
-    const Config = useRuntimeConfig();
-    const verification = useVerification(Config);
+const VerificationService = (config: Config) => {
+    const verification = useVerification(config);
 
     const handleOtpResponse = (otpResponse: VerificationResponse) => {
         switch (otpResponse.status) {

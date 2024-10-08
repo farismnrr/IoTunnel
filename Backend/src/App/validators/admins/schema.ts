@@ -109,10 +109,17 @@ const SendOtpPayloadSchema = Joi.object({
     email: Joi.string().email().required().error(new Error("Email must be a valid email address"))
 });
 
+const AdminAuthPayloadSchema = Joi.object({
+    refresh_token: Joi.string()
+        .required()
+        .error(new Error("Refresh token must be a valid refresh token"))
+});
+
 export {
     SendOtpPayloadSchema,
     EditAdminPayloadSchema,
     LoginAdminPayloadSchema,
     RegisterAdminPayloadSchema,
-    ChangePasswordPayloadSchema
+    ChangePasswordPayloadSchema,
+    AdminAuthPayloadSchema
 };

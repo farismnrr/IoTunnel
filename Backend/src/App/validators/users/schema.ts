@@ -115,5 +115,5 @@ export {
     EditUserPayloadSchema,
     LoginUserPayloadSchema,
     RegisterUserPayloadSchema,
-    ChangePasswordPayloadSchema
+    ChangePasswordPayloadSchema,
 };

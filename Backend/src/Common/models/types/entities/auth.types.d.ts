@@ -7,6 +7,10 @@ interface IAuth {
     refresh_token: string;
 }
 
+interface IAuthState {
+    data: IAuth | null;
+}
+
 interface IOtpCode {
     id: string;
     admin_id: string;
@@ -16,4 +20,4 @@ interface IOtpCode {
 
 type IAuthToken = RemoveKeys<IAuth, "id" & "role">;
 
-export type { IAuth, IOtpCode, IAuthToken };
+export type { IAuth, IOtpCode, IAuthToken, IAuthState };

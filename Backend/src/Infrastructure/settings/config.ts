@@ -76,7 +76,7 @@ const config = {
         oneMonth: 1 * 30 * 24 * 60 * 60 * 1000,
         threeMonth: 3 * 30 * 24 * 60 * 60 * 1000,
         sixMonth: 6 * 30 * 24 * 60 * 60 * 1000,
-        cookie: 14 * 24 * 60 * 60 * 1000
+        cookie: 5 * 60 * 1000
     }
 };
 

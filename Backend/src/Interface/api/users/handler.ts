@@ -3,7 +3,8 @@ import type {
     IUser,
     IUserWithOtp,
     IUserWithNewPassword,
-    IAuth
+    IAuth,
+    IAuthState
 } from "../../../Common/models/types";
 import autoBind from "auto-bind";
 import UserService from "../../../App/services/server/user.service";
@@ -135,7 +136,7 @@ class UserHandler {
             message: "User successfully deleted"
         };
         const encryptedResponse = this._responseManager.encrypt(response);
-        return h.response(encryptedResponse).code(200).unstate("refreshTokenUser");
+        return h.response(encryptedResponse).code(200);
     }
 
     async deleteAllUsersHandler(request: Request, h: ResponseToolkit) {
@@ -146,7 +147,7 @@ class UserHandler {
             message: "All users successfully deleted"
         };
         const encryptedResponse = this._responseManager.encrypt(response);
-        return h.response(encryptedResponse).code(200).unstate("refreshTokenUser");
+        return h.response(encryptedResponse).code(200);
     }
     // End User Handler
 
@@ -174,19 +175,40 @@ class UserHandler {
             message: "User successfully logged in",
             data: {
                 user_id: userId,
-                access_token: accessToken
+                access_token: accessToken,
+                refresh_token: refreshToken
             }
         };
         const encryptedResponse = this._responseManager.encrypt(response);
-        return h.response(encryptedResponse).code(200).state("refreshTokenUser", refreshToken);
+        return h.response(encryptedResponse).code(200);
     }
 
     async editUserAuthHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
-        const refreshToken = request.state.refreshTokenUser;
-        const userId = this._tokenManager.verifyRefreshToken(refreshToken);
-        const accessToken = this._tokenManager.generateAccessToken({ id: userId });
-        await this._userService.editUserAuth(accessToken, refreshToken, serverAuth);
+        let accessToken: string;
+        if (process.env.NODE_ENV === "production") {
+            const payload = request.payload;
+            const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
+            const decryptedRefreshToken = decryptedPayload.data;
+            if (!decryptedRefreshToken) {
+                throw new Error("Invalid refresh token");
+            }
+            const userId = this._tokenManager.verifyRefreshToken(
+                decryptedRefreshToken.refresh_token
+            );
+            accessToken = this._tokenManager.generateAccessToken({ id: userId });
+            await this._userService.editUserAuth(
+                accessToken,
+                decryptedRefreshToken.refresh_token,
+                serverAuth
+            );
+        } else {
+            const payload = request.payload as IAuth;
+            const userId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
+            accessToken = this._tokenManager.generateAccessToken({ id: userId });
+            await this._userService.editUserAuth(accessToken, payload.refresh_token, serverAuth);
+        }
+
         const response = {
             status: "success",
             message: "User successfully edited",
@@ -200,15 +222,29 @@ class UserHandler {
 
     async logoutUserHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
-        const refreshToken = request.state.refreshTokenUser;
+        let refreshToken: string;
+        if (process.env.NODE_ENV === "production") {
+            const payload = request.payload;
+            const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
+            const decryptedRefreshToken = decryptedPayload.data;
+            if (!decryptedRefreshToken) {
+                throw new Error("Invalid refresh token");
+            }
+            refreshToken = decryptedRefreshToken.refresh_token;
+        } else {
+            const payload = request.payload as IAuth;
+            refreshToken = payload.refresh_token;
+        }
+
         this._tokenManager.verifyRefreshToken(refreshToken);
         await this._userService.logoutUser(refreshToken, serverAuth);
+
         const response = {
             status: "success",
             message: "User successfully logged out"
         };
         const encryptedResponse = this._responseManager.encrypt(response);
-        return h.response(encryptedResponse).code(200).unstate("refreshTokenUser");
+        return h.response(encryptedResponse).code(200);
     }
     // End User Auth Handler
 }

@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "bun copy-env && bun generate-token && bun start",
         "start": "NODE_ENV=development bun --watch src/server.ts",
+        "start:prod": "NODE_ENV=production bun --watch src/server.ts",
         "deploy": "pm2 start dist/backend-server",
         "migrate": "bun migration.ts",
         "build:server": "NODE_ENV=production bun build src/server.ts --compile --minify --outfile dist/backend-server --platform=linux-x64",

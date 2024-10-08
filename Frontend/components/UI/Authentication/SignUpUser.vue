@@ -20,6 +20,7 @@ const data = ref({
         createAccount: "Create an account",
         alreadyHaveAccount: "Already have an account?",
         logIn: "Log in",
+        firstName: "First Name",
         lastName: "Last Name",
         email: "Email",
         password: "Password",
@@ -35,10 +36,12 @@ const data = ref({
 
 import VerificationService from "~/composables/service/verificationService";
 import AuthenticationService from "~/composables/service/authenticationService";
+import { useRuntimeConfig } from "#app";
 
+const config = useRuntimeConfig();
 const sendOtpButton = async () => {
     data.value.isLoading = true;
-    const verificationService = VerificationService();
+    const verificationService = VerificationService(config);
     try {
         await verificationService.validateSendOtpUserRegister(data.value.formData.email);
     } catch (error) {
@@ -49,7 +52,7 @@ const sendOtpButton = async () => {
 };
 
 const signupButton = async () => {
-    const authenticationService = AuthenticationService(data.value.internalLinks.signIn);
+    const authenticationService = AuthenticationService(data.value.internalLinks.signIn, config);
     await authenticationService.userRegister({
         first_name: data.value.formData.firstName,
         last_name: data.value.formData.lastName,

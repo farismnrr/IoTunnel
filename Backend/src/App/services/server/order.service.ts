@@ -1,8 +1,4 @@
-import type {
-    IOrder,
-    IOrderData,
-    IOrderWithPaymentUrl
-} from "../../../Common/models/types";
+import type { IOrder, IOrderData, IOrderWithPaymentUrl } from "../../../Common/models/types";
 import OrderRepository from "../../../Infrastructure/repositories/server/postgres/order.repo";
 import AuthRepository from "../../../Infrastructure/repositories/server/postgres/auth.repo";
 import UserRepository from "../../../Infrastructure/repositories/server/postgres/user.repo";
@@ -13,11 +9,7 @@ import RedisRepository from "../../../Infrastructure/repositories/server/cache/r
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import CursRepository from "../../../Infrastructure/repositories/external/curs.repo";
 import { nanoid } from "nanoid";
-import {
-    NotFoundError,
-    AuthorizationError,
-    ConflictError
-} from "../../../Common/errors";
+import { NotFoundError, AuthorizationError, ConflictError } from "../../../Common/errors";
 
 class OrderService {
     private readonly _orderRepository: OrderRepository;
@@ -108,6 +100,10 @@ class OrderService {
             customerDetails,
             [itemDetails]
         );
+        console.log(payment);
+        if (!payment) {
+            throw new ConflictError("Failed to create payment");
+        }
         const orderId = await this._orderRepository.createOrder(userId, productId, {
             id,
             status,

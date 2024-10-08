@@ -66,18 +66,12 @@ const routes: (handler: UserHandler) => ServerRoute[] = handler => [
     {
         method: "POST",
         path: "/users/auth",
-        handler: handler.editUserAuthHandler,
-        options: {
-            auth: "user_session"
-        }
+        handler: handler.editUserAuthHandler
     },
     {
-        method: "DELETE",
+        method: "POST",
         path: "/users/logout",
-        handler: handler.logoutUserHandler,
-        options: {
-            auth: "user_session"
-        }
+        handler: handler.logoutUserHandler
     }
     // End User Auth Routes
 ];

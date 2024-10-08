@@ -34,10 +34,12 @@ const data = ref({
 
 import VerificationService from "~/composables/service/verificationService";
 import AuthenticationService from "~/composables/service/authenticationService";
+import { useRuntimeConfig } from "#app";
 
+const config = useRuntimeConfig();
 const sendOtpButton = async () => {
     data.value.isLoading = true;
-    const verificationService = VerificationService();
+    const verificationService = VerificationService(config);
     try {
         await verificationService.validateSendOtpAdminRegister(data.value.formData.email);
     } catch (error) {
@@ -48,7 +50,7 @@ const sendOtpButton = async () => {
 };
 
 const signupButton = async () => {
-    const authenticationService = AuthenticationService(data.value.internalLinks.signIn);
+    const authenticationService = AuthenticationService(data.value.internalLinks.signIn, config);
     await authenticationService.adminRegister({
         first_name: data.value.formData.firstName,
         last_name: data.value.formData.lastName,

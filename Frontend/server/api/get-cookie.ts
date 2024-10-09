@@ -1,7 +1,6 @@
-import { defineEventHandler, getCookie } from "h3";
+import { defineEventHandler, getCookie, createError } from "h3";
 import { Buffer } from "buffer";
 
-// Function to decode base64
 const decodeBase64 = (str: string | null): string | null => {
     if (!str) return null;
     return Buffer.from(str, "base64").toString("utf-8");
@@ -12,11 +11,10 @@ export default defineEventHandler(event => {
     const refreshTokenAdmin = getCookie(event, "refreshTokenAdmin");
 
     if (!refreshTokenUser && !refreshTokenAdmin) {
-        return {
-            message: "No refresh token found",
-            userToken: null,
-            adminToken: null
-        };
+        throw createError({
+            statusCode: 400,
+            statusMessage: "No refresh token found"
+        });
     }
 
     return {

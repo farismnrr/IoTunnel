@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { CheckIcon } from "@heroicons/vue/20/solid";
 
 const includedFeatures = [

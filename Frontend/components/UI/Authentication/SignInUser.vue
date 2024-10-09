@@ -23,7 +23,7 @@ const data = ref({
     }
 });
 
-import AuthenticationService from "~/composables/service/authenticationService";
+import AuthenticationService from "@/composables/service/authenticationService";
 import { useRuntimeConfig } from "#app";
 
 const config = useRuntimeConfig();

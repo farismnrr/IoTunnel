@@ -58,7 +58,7 @@ class SubscriptionRepository {
         const subscriptionQuery = {
             text: `
 				SELECT 
-					id, 
+                    id,
 					user_id, 
 					product_id, 
 					trial_id,

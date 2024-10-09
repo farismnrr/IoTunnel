@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 const data = ref({
     text: {
         title: 'Bring your Business to the <span class="text-primary-500">next level.</span>',

@@ -236,9 +236,7 @@ class AdminHandler {
             refreshToken = payload.refresh_token;
         }
 
-        this._tokenManager.verifyRefreshToken(refreshToken);
         await this._adminService.logoutAdmin(refreshToken, serverAuth);
-
         const response = {
             status: "success",
             message: "Admin successfully logged out"

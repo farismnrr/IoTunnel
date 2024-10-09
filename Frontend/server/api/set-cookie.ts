@@ -1,20 +1,16 @@
 import { defineEventHandler, readBody, setCookie, createError } from "h3";
 import { Buffer } from "buffer";
 
-// fungsi untuk encode base64
-const encodeBase64 = (str: string) => {
-    return Buffer.from(str).toString("base64");
-};
+const encodeBase64 = (str: string): string => Buffer.from(str).toString("base64");
 
-export default defineEventHandler(async event => {
-    const maxAge = 30 * 24 * 60 * 60; 
-    const body = await readBody(event);
-    const { refresh_token, role } = body;
+export default defineEventHandler(async (event) => {
+    const maxAge = 30 * 24 * 60 * 60; // 30 days in seconds
+    const { refresh_token, role } = await readBody(event);
 
     if (!refresh_token || !role) {
         throw createError({
             statusCode: 400,
-            statusMessage: "Refresh_token and role are required in the request body"
+            statusMessage: "Refresh token and role are required in the request body"
         });
     }
 
@@ -26,7 +22,8 @@ export default defineEventHandler(async event => {
     }
 
     const encodedRefreshToken = encodeBase64(refresh_token);
-    const cookieName = role === "user" ? "refreshTokenUser" : "refreshTokenAdmin";
+    const cookieName = `refreshToken${role.charAt(0).toUpperCase() + role.slice(1)}`;
+
     setCookie(event, cookieName, encodedRefreshToken, {
         maxAge,
         httpOnly: true,

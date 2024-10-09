@@ -28,8 +28,8 @@ class Token {
         return this._cookie.getCookie();
     }
 
-    async deleteCookie(): Promise<void> {
-        return this._cookie.deleteCookie();
+    async deleteCookie(cookie: string, role: string): Promise<void> {
+        return this._cookie.deleteCookie(cookie, role);
     }
 
     async userTokenUpdate(): Promise<TokenResponse> {
@@ -48,7 +48,6 @@ class Token {
             const data = await this._encryptionManager.decrypt(response.data as string);
             return data as TokenResponse;
         } catch (error: any) {
-            console.log(error.response);
             return error.response.data;
         }
     }
@@ -86,8 +85,7 @@ class Token {
                     Authorization: `Bearer ${this._apiSecret}`
                 }
             });
-            await this.deleteCookie();
-            console.log("TESTING");
+            await this.deleteCookie(userToken, "user");
             const data = await this._encryptionManager.decrypt(response.data as string);
             return data as BaseResponse;
         } catch (error: any) {
@@ -108,7 +106,7 @@ class Token {
                     Authorization: `Bearer ${this._apiSecret}`
                 }
             });
-            await this.deleteCookie();
+            await this.deleteCookie(adminToken, "admin");
             const data = await this._encryptionManager.decrypt(response.data as string);
             return data as BaseResponse;
         } catch (error: any) {

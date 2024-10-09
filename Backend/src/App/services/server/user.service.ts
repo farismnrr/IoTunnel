@@ -324,10 +324,6 @@ class UserService {
         if (!refreshToken) {
             throw new AuthenticationError("Unauthorized");
         }
-        const userAuth = await this._authRepository.getUserAuth(refreshToken);
-        if (!userAuth) {
-            throw new NotFoundError("User not found");
-        }
         await this._authRepository.deleteUserAuth(refreshToken);
     }
     // End User Auth Service

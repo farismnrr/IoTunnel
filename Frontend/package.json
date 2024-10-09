@@ -3,11 +3,13 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "nuxt build",
+        "build": "bunx kill-port 3000 && nuxt build",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare"
+        "postinstall": "nuxt prepare",
+        "debug": "bun --inspect .output/server/index.mjs",
+        "start": "bun .output/server/index.mjs"
     },
     "dependencies": {
         "@headlessui/vue": "^1.7.23",
@@ -27,6 +29,7 @@
     },
     "devDependencies": {
         "@types/crypto-js": "^4.2.2",
-        "@types/swiper": "^6.0.0"
+        "@types/swiper": "5.4.3",
+        "kill-port": "^2.0.1"
     }
 }

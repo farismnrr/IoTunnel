@@ -3,14 +3,20 @@ import { useAuthStore } from "@/stores/pinia";
 import { useRuntimeConfig } from "#app";
 import TokenService from "@/composables/service/tokenService";
 
+const data = ref({
+    internalLink: {
+        signin: "/admins/signin",
+        dashboard: "/admins/dashboard"
+    }
+});
+
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
-const tokenService = TokenService(config);
+const tokenService = TokenService(config, data.value.internalLink.signin);
 const accessToken = authStore.getAccessTokenAdmin();
 
 const logout = async () => {
     await tokenService.deleteAdminToken();
-    navigateTo("/admins/signin");
 };
 
 onMounted(async () => {

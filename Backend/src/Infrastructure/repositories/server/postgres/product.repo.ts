@@ -19,15 +19,17 @@ class ProductRepo {
 					description, 
 					price,
 					duration,
+					tags,
 					created_at,
 					updated_at
-				) VALUES ($1, $2, $3, $4, $5, $6, $6) RETURNING *`,
+				) VALUES ($1, $2, $3, $4, $5, $6, $7, $7) RETURNING *`,
             values: [
                 product.id,
                 product.product_name,
                 product.description,
                 product.price,
                 product.duration,
+                product.tags || null,
                 createdAt
             ]
         };
@@ -38,7 +40,7 @@ class ProductRepo {
 
     async getProducts(): Promise<IProduct[]> {
         const productQuery = {
-            text: `SELECT id, product_name, description, price, duration FROM products`
+            text: `SELECT id, product_name, description, price, duration, tags FROM products`
         };
         const productResult = await this._pool.query(productQuery);
         return productResult.rows;
@@ -46,7 +48,7 @@ class ProductRepo {
 
     async getProductById(id: string): Promise<IProduct | null> {
         const productQuery = {
-            text: `SELECT id, product_name, description, price, duration FROM products WHERE id = $1`,
+            text: `SELECT id, product_name, description, price, duration, tags FROM products WHERE id = $1`,
             values: [id]
         };
         const productResult = await this._pool.query(productQuery);
@@ -56,7 +58,7 @@ class ProductRepo {
     async updateProduct(id: string, product: IProduct): Promise<string> {
         const updatedAt = new Date();
         const fields: string[] = [];
-        const values: (string | number)[] = [];
+        const values: (string | number | null)[] = [];
         let index = 1;
 
         if (product.product_name) {
@@ -74,6 +76,10 @@ class ProductRepo {
         if (product.duration) {
             fields.push(`duration = $${index++}`);
             values.push(product.duration);
+        }
+        if (product.tags !== undefined) {
+            fields.push(`tags = $${index++}`);
+            values.push(product.tags || null);
         }
         if (fields.length === 0) {
             throw new Error("No fields to update");

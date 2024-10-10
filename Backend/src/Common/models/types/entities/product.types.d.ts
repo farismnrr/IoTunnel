@@ -6,6 +6,7 @@ interface IProduct {
     description: string;
     price: number;
     duration: string;
+    tags: string | null;
 }
 
 interface ITrial {

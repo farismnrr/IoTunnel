@@ -19,7 +19,7 @@ const config = {
         host: process.env.HOST || "localhost"
     },
     jwt: {
-        adminKey: process.env.NODE_ENV === "production" ? adminKey : process.env.ADMIN_KEY,
+        adminKey: process.env.NODE_ENV === "development" ? adminKey : process.env.ADMIN_KEY,
         serverKey: process.env.SERVER_KEY,
         accessTokenKey: process.env.ACCESS_TOKEN_KEY,
         refreshTokenKey: process.env.REFRESH_TOKEN_KEY,

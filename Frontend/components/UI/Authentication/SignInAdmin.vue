@@ -21,7 +21,8 @@ const data = ref({
         otpLabel: "OTP (Email Verification)",
         sendOtpButton: "Send OTP",
         signInButton: "Sign in",
-        sending: "Sending..."
+        sending: "Sending...",
+        forgotPassword: "Forgot password?"
     }
 });
 
@@ -41,6 +42,7 @@ const sendOtpButton = async () => {
         data.value.isLoading = false;
     }
 };
+
 const signinButton = async () => {
     const authenticationService = AuthenticationService(data.value.internalLinks.dasboard, config);
     await authenticationService.adminLogin({
@@ -53,9 +55,9 @@ const signinButton = async () => {
 
 <template>
     <section
-        class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
+        class="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
     >
-        <div class="w-full space-y-6 text-gray-600 sm:max-w-md">
+        <div class="w-full space-y-6 text-gray-600 sm:max-w-md mb-5">
             <div class="text-center">
                 <NuxtLink :to="data.internalLinks.home">
                     <img src="/icons/logo.svg" width="150" class="mx-auto" />
@@ -137,13 +139,18 @@ const signinButton = async () => {
                         </div>
                     </div>
                     <button
-                        type="submit"
                         @click.prevent="signinButton"
+                        type="submit"
                         class="w-full px-4 py-2 text-white font-medium bg-primary-600 hover:bg-primary-500 active:bg-primary-600 rounded-lg duration-150"
                     >
                         {{ data.text.signInButton }}
                     </button>
                 </form>
+            </div>
+            <div class="text-center">
+                <NuxtLink :to="data.internalLinks.resetPassword" class="hover:text-primary-600">
+                    {{ data.text.forgotPassword }}
+                </NuxtLink>
             </div>
         </div>
     </section>

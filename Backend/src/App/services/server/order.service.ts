@@ -100,7 +100,6 @@ class OrderService {
             customerDetails,
             [itemDetails]
         );
-        console.log(payment);
         if (!payment) {
             throw new ConflictError("Failed to create payment");
         }

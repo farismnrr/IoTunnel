@@ -1,7 +1,8 @@
 import { Config } from "./entities/configModel";
 import { BaseResponse } from "./entities/baseResponseModel";
-import { VerificationResponse } from "./entities/verificationModel";
 import { TokenResponse } from "./entities/tokenModel";
+import { ProductResponse, ProductData, Product } from "./entities/productModel";
+import { VerificationResponse } from "./entities/verificationModel";
 import {
     AuthenticationResponse,
     AdminRegistrationData,
@@ -19,5 +20,8 @@ export {
     UserRegistrationData,
     UserLoginData,
     AdminLoginData,
-    TokenResponse
+    TokenResponse,
+    ProductResponse,
+    ProductData,
+    Product
 };

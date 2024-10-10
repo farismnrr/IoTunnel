@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "#app";
+import PricingPlan from "@/components/UI/Dashboard/Users/PricingPlan.vue";
 import TokenService from "@/composables/service/tokenService";
 
 const data = ref({
@@ -10,7 +11,7 @@ const data = ref({
 });
 
 const config = useRuntimeConfig();
-const tokenService = TokenService(config, data.value.internalLink.signin);
+const tokenService = TokenService(data.value.internalLink.signin, config);
 
 const logout = async () => {
     await tokenService.deleteUserToken();
@@ -22,6 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
+    <PricingPlan />
     <div class="flex flex-col items-center justify-center min-h-screen p-4">
         <button
             @click.prevent="logout"

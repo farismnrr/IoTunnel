@@ -69,6 +69,15 @@ class AuthRepository {
     // Start Delete Expired OTP and Subscription
     async deleteExpiredOtp(): Promise<void> {
         const currentTime = new Date();
+        const getExpiredOtp = {
+            text: `SELECT COUNT(*) as otp_count FROM otp_codes WHERE otp_expires_at < $1`,
+            values: [currentTime]
+        };
+        const otpResult = await this._pool.query(getExpiredOtp);
+        const otpCount = otpResult.rows[0]?.otp_count || 0;
+        if (otpCount === 0) {
+            return;
+        }
         const otpQuery = {
             text: `DELETE FROM otp_codes WHERE otp_expires_at < $1`,
             values: [currentTime]
@@ -83,6 +92,15 @@ class AuthRepository {
 
     async deleteExpiredSubscription(): Promise<void> {
         const currentTime = new Date();
+        const getExpiredSubscription = {
+            text: `SELECT COUNT(*) as subscription_count FROM subscriptions WHERE subscription_end_date < $1`,
+            values: [currentTime]
+        };
+        const subscriptionResult = await this._pool.query(getExpiredSubscription);
+        const subscriptionCount = subscriptionResult.rows[0]?.subscription_count || 0;
+        if (subscriptionCount === 0) {
+            return;
+        }
         const subscriptionQuery = {
             text: `DELETE FROM subscriptions WHERE subscription_end_date < $1`,
             values: [currentTime]

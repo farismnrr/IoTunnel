@@ -1,58 +1,40 @@
+<script setup lang="ts">
+import { useAuthStore } from "@/stores/pinia";
+import { useRuntimeConfig } from "#app";
+import TokenService from "@/composables/service/tokenService";
+
+const data = ref({
+    internalLink: {
+        signin: "/admins/signin",
+        dashboard: "/admins/dashboard"
+    }
+});
+
+const config = useRuntimeConfig();
+const authStore = useAuthStore();
+const tokenService = TokenService(config, data.value.internalLink.signin);
+const accessToken = authStore.getAccessTokenAdmin();
+
+const logout = async () => {
+    await tokenService.deleteAdminToken();
+};
+
+onMounted(async () => {
+    await tokenService.updateAdminToken();
+});
+</script>
+
 <template>
-    <div>
-        <h1>Cookie:</h1>
-        <p>{{ tokenRef }}</p>
+    <div class="flex flex-col items-center justify-center min-h-screen p-4">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-center">Dashboard</h1>
+        <p class="text-sm sm:text-base md:text-lg lg:text-xl mb-4 text-center break-all">
+            Access Token: {{ accessToken }}
+        </p>
         <button
-            @click.prevent="setCookie"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            @click.prevent="logout"
+            class="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 text-sm sm:text-base"
         >
-            Set Cookie
-        </button>
-        <button
-            @click.prevent="getCookie"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-        >
-            Get Cookie
-        </button>
-        <button
-            @click.prevent="deleteCookie"
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-            Delete Cookie
+            Logout
         </button>
     </div>
 </template>
-
-<script setup lang="ts">
-import { useCookie } from "#imports";
-import axios from "axios";
-
-const token = useCookie("refreshTokenUser");
-const tokenRef = ref(token.value || "");
-
-const setCookie = async () => {
-    try {
-        await axios.post("/api/set-cookie", { token: "example-token" });
-    } catch (error) {
-        console.error("Error setting cookie:", error);
-    }
-};
-
-const getCookie = async () => {
-    try {
-        const response = await axios.get("/api/get-cookie");
-        console.log(response.data);
-        tokenRef.value = response.data.token;
-    } catch (error) {
-        console.error("Error getting cookie:", error);
-    }
-};
-
-const deleteCookie = async () => {
-    try {
-        await axios.get("/api/delete-cookie");
-    } catch (error) {
-        console.error("Error deleting cookie:", error);
-    }
-};
-</script>

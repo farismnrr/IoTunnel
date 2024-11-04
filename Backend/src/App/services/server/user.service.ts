@@ -295,7 +295,11 @@ class UserService {
         }
     }
 
-    async editUserAuth(accessToken: string, refreshToken: string, serverKey: string): Promise<void> {
+    async editUserAuth(
+        accessToken: string,
+        refreshToken: string,
+        serverKey: string
+    ): Promise<void> {
         if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }

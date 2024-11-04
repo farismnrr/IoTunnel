@@ -28,9 +28,9 @@ class Cookie {
         }
     }
 
-    async deleteCookie(): Promise<void> {
+    async deleteCookie(token: string, role: string): Promise<void> {
         try {
-            await axios.post(`/api/delete-cookie`);
+            await axios.post(`/api/delete-cookie`, { token, role });
         } catch (error: any) {
             console.error("Error deleting cookie:", error.response?.data || error.message);
             throw error;

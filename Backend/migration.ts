@@ -20,8 +20,10 @@ async function migrate() {
             `create-topics-table.sql`,
             `create-projects-table.sql`,
             `create-components-table.sql`,
+            `create-user-project-updates-table.sql`,
             `add-products.sql`,
-            `add-items.sql`
+            `add-items.sql`,
+            `add-users-admins.sql`
         ];
 
         for (const migration of migrations) {

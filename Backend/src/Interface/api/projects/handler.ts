@@ -81,6 +81,20 @@ class ProjectHandler {
         return h.response(encryptedResponse).code(200);
     }
 
+    async updateProjectIpAddressHandler(request: Request, h: ResponseToolkit) {
+        const apiKey = request.query.apiKey as string;
+        const { projectId } = request.params;
+        const payload = request.payload as IProject;
+        this._validator.validateUpdateProjectIpAddressPayload(payload);
+        await this._projectService.updateProjectIpAddress(apiKey, projectId, payload);
+        const response = {
+            status: "success",
+            message: "Project IP address updated successfully"
+        };
+        const encryptedResponse = this._responseManager.encrypt(response);
+        return h.response(encryptedResponse).code(200);
+    }
+
     async deleteProjectHandler(request: Request, h: ResponseToolkit) {
         const { id } = request.auth.credentials as unknown as IAuth;
         const { projectId } = request.params;

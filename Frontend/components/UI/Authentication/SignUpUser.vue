@@ -34,8 +34,8 @@ const data = ref({
     }
 });
 
-import VerificationService from "~/composables/service/verificationService";
-import AuthenticationService from "~/composables/service/authenticationService";
+import VerificationService from "@/composables/service/verificationService";
+import AuthenticationService from "@/composables/service/authenticationService";
 import { useRuntimeConfig } from "#app";
 
 const config = useRuntimeConfig();

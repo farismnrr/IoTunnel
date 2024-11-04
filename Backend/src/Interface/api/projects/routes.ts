@@ -35,6 +35,11 @@ const routes: (handler: ProjectHandler) => ServerRoute[] = handler => [
         }
     },
     {
+        method: "PATCH",
+        path: "/projects/{projectId}/ipaddress",
+        handler: handler.updateProjectIpAddressHandler
+    },
+    {
         method: "DELETE",
         path: "/projects/{projectId}",
         handler: handler.deleteProjectHandler,

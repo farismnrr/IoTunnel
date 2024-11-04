@@ -53,8 +53,8 @@ class ComponentHandler {
     }
 
     async getComponentByApiKeyHandler(request: Request, h: ResponseToolkit) {
-        const apiKey = request.headers.authorization;
         const { projectId, itemName } = request.params;
+        const apiKey = request.query.apiKey as string;
         const components = await this._componentService.getComponentByApiKey(
             apiKey,
             projectId,

@@ -1,34 +1,54 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/pinia";
 import { useRuntimeConfig } from "#app";
+import { useAuthStore } from "@/stores/pinia";
+import PricingPlan from "@/components/UI/Dashboard/Users/PricingPlan.vue";
+import MobileBar from "@/components/UI/Dashboard/Users/MobileBar.vue";
+import WebBar from "@/components/UI/Dashboard/Users/WebBar.vue";
+
 import TokenService from "@/composables/service/tokenService";
+import SubscriptionService from "@/composables/service/subscriptionService";
+
+const data = ref({
+    internalLink: {
+        signin: "/users/signin",
+        dashboard: "/users/dashboard"
+    },
+    hasSubscription: false,
+    isLoading: true
+});
 
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
-const tokenService = TokenService(config);
-const accessToken = authStore.getAccessTokenUser();
-
-const logout = async () => {
-    await tokenService.deleteUserToken();
-    navigateTo("/users/signin");
-};
+const tokenService = TokenService(data.value.internalLink.signin, config);
+const subscriptionService = SubscriptionService(data.value.internalLink.dashboard, config);
 
 onMounted(async () => {
-    await tokenService.updateUserToken();
+    try {
+        await tokenService.updateUserToken();
+    } finally {
+        if (!authStore.accessTokenUser) {
+            navigateTo(data.value.internalLink.signin);
+            return;
+        }
+    }
+    try {
+        const subscription = await subscriptionService.getSubscription();
+        data.value.hasSubscription = !!subscription;
+    } finally {
+        data.value.isLoading = false;
+    }
 });
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen p-4">
-        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-center">Dashboard</h1>
-        <p class="text-sm sm:text-base md:text-lg lg:text-xl mb-4 text-center break-all">
-            Access Token: {{ accessToken }}
-        </p>
-        <button
-            @click.prevent="logout"
-            class="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 text-sm sm:text-base"
-        >
-            Logout
-        </button>
-    </div>
+    <section>
+        <PricingPlan v-if="data.hasSubscription === false && !data.isLoading" />
+        <LoadingIndicator v-else-if="data.isLoading" />
+    </section>
+    <section class="hidden md:block">
+        <WebBar />
+    </section>
+    <section class="md:hidden">
+        <MobileBar />
+    </section>
 </template>

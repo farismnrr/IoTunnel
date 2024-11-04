@@ -29,7 +29,8 @@ const adminHandler = new AdminHandler(
     AdminValidator,
     TokenManager,
     ResponseManager,
-    config.jwt.adminKey as string
+    config.jwt.adminKey as string,
+    config.requestEnv
 );
 
 export default {

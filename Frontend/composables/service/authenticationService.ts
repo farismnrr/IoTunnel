@@ -15,22 +15,22 @@ const AuthenticationService = (externalLinks: string, config: Config) => {
     const authentication = useAuthentication(config);
 
     const handleAuthResponse = async (response: AuthenticationResponse, isAdmin: boolean) => {
-        switch (response.status) {
+        const { status } = response;
+        const setStoreToken = isAdmin ? authStore.setAccessTokenAdmin : authStore.setAccessTokenUser;
+
+        switch (status) {
             case "fail":
                 toast.error(response.errors, toastOptions);
                 break;
             case "success":
-                if ("access_token" in response.data) {
-                    if (isAdmin) {
-                        authStore.setAccessTokenAdmin(response.data.access_token);
-                    } else {
-                        authStore.setAccessTokenUser(response.data.access_token);
-                    }
+                if ("data" in response && "access_token" in response.data) {
+                    setStoreToken(response.data.access_token);
                 }
                 navigateTo(externalLinks);
                 break;
             default:
                 toast.info("Unexpected response from server", toastOptions);
+                navigateTo(externalLinks);
         }
     };
 

@@ -8,18 +8,22 @@ function generateAdminKey() {
 }
 
 let adminKey = generateAdminKey();
+const requestEnv = process.env.NODE_ENV === "development";
+const responseEnv = process.env.NODE_ENV === "production";
 
 setInterval(() => {
     adminKey = generateAdminKey();
 }, 60 * 60 * 1000);
 
 const config = {
+    requestEnv,
+    responseEnv,
     server: {
         port: process.env.PORT || 3000,
         host: process.env.HOST || "localhost"
     },
     jwt: {
-        adminKey: process.env.NODE_ENV === "development" ? adminKey : process.env.ADMIN_KEY,
+        adminKey: adminKey,
         serverKey: process.env.SERVER_KEY,
         accessTokenKey: process.env.ACCESS_TOKEN_KEY,
         refreshTokenKey: process.env.REFRESH_TOKEN_KEY,

@@ -1,11 +1,12 @@
 import CryptoJS from "crypto-js";
+import config from "../../Infrastructure/settings/config";
 
 const privateKey = process.env.PRIVATE_KEY || "";
 const publicKey = process.env.PUBLIC_KEY || "";
 
 const ResponseManager = {
     encrypt(response: object): string | object {
-        if (process.env.NODE_ENV === "development") {
+        if (config.responseEnv) {
             return response;
         }
         const nonce = CryptoJS.lib.WordArray.random(16).toString();
@@ -17,7 +18,7 @@ const ResponseManager = {
     },
 
     decrypt(ciphertext: string): string | object {
-        if (process.env.NODE_ENV === "development") {
+        if (config.responseEnv) {
             return ciphertext;
         }
         const ciphertextParts = ciphertext.split(":");

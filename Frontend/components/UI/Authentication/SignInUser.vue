@@ -7,6 +7,7 @@ const data = ref({
     internalLinks: {
         home: "/",
         signUp: "/users/signup",
+        signIn: "/users/signin",
         dasboard: "/users/dashboard",
         resetPassword: "#",
         signWithGoogle: "#"
@@ -23,10 +24,14 @@ const data = ref({
     }
 });
 
-import AuthenticationService from "~/composables/service/authenticationService";
+import AuthenticationService from "@/composables/service/authenticationService";
+import TokenService from "@/composables/service/tokenService";
 import { useRuntimeConfig } from "#app";
+import { useAuthStore } from "@/stores/pinia";
 
 const config = useRuntimeConfig();
+const authStore = useAuthStore();
+const tokenService = TokenService(data.value.internalLinks.signIn, config);
 const signinButton = async () => {
     const authenticationService = AuthenticationService(data.value.internalLinks.dasboard, config);
     await authenticationService.userLogin({
@@ -34,13 +39,24 @@ const signinButton = async () => {
         password: data.value.formData.password
     });
 };
+
+onMounted(async () => {
+    try {
+        await tokenService.updateUserToken();
+    } finally {
+        if (authStore.accessTokenUser) {
+            navigateTo(data.value.internalLinks.dasboard);
+            return;
+        }
+    }
+});
 </script>
 
 <template>
     <section
-        class="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
+        class="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-white to-primary-100 sm:px-4"
     >
-        <div class="w-full space-y-6 text-gray-600 sm:max-w-md">
+        <div class="w-full space-y-6 text-gray-600 sm:max-w-md mb-5">
             <div class="text-center">
                 <NuxtLink :to="data.internalLinks.home">
                     <img src="/icons/logo.svg" width="150" class="mx-auto" />
@@ -105,7 +121,7 @@ const signinButton = async () => {
                     </button>
                 </form>
             </div>
-            <div class="text-center mb-5">
+            <div class="text-center">
                 <NuxtLink :to="data.internalLinks.resetPassword" class="hover:text-primary-600">
                     {{ data.text.forgotPassword }}
                 </NuxtLink>

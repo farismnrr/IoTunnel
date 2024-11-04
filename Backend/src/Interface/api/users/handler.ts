@@ -19,13 +19,16 @@ class UserHandler {
     private readonly _validator: typeof UserValidator;
     private readonly _tokenManager: typeof TokenManager;
     private readonly _responseManager: typeof ResponseManager;
+    private readonly _environment: boolean;
     constructor(
         userService: UserService,
         productService: ProductService,
         validator: typeof UserValidator,
         tokenManager: typeof TokenManager,
-        responseManager: typeof ResponseManager
+        responseManager: typeof ResponseManager,
+        environment: boolean
     ) {
+        this._environment = environment;
         this._userService = userService;
         this._productService = productService;
         this._validator = validator;
@@ -186,7 +189,7 @@ class UserHandler {
     async editUserAuthHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
         let accessToken: string;
-        if (process.env.NODE_ENV === "production") {
+        if (this._environment) {
             const payload = request.payload;
             const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
             const decryptedRefreshToken = decryptedPayload.data;
@@ -223,7 +226,7 @@ class UserHandler {
     async logoutUserHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
         let refreshToken: string;
-        if (process.env.NODE_ENV === "production") {
+        if (this._environment) {
             const payload = request.payload;
             const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
             const decryptedRefreshToken = decryptedPayload.data;
@@ -233,12 +236,11 @@ class UserHandler {
             refreshToken = decryptedRefreshToken.refresh_token;
         } else {
             const payload = request.payload as IAuth;
+            this._validator.validateUserAuthPayload(payload);
             refreshToken = payload.refresh_token;
         }
 
-        this._tokenManager.verifyRefreshToken(refreshToken);
         await this._userService.logoutUser(refreshToken, serverAuth);
-
         const response = {
             status: "success",
             message: "User successfully logged out"

@@ -33,9 +33,8 @@ class StorageRepository {
         if (exists) {
             await fileUpload.delete();
         }
-
+        
         const imageBuffer = await sharp(file.buffer).resize(250, 250).toBuffer();
-
         const blobStream = fileUpload.createWriteStream({
             metadata: {
                 contentType: file.mimetype,

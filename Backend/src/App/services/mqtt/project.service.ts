@@ -5,10 +5,10 @@ import UserRepository from "../../../Infrastructure/repositories/server/postgres
 import SubscriptionRepository from "../../../Infrastructure/repositories/server/postgres/subscription.repo";
 import { nanoid } from "nanoid";
 import {
-    ConflictError,
     NotFoundError,
     AuthorizationError,
-    InvariantError
+    InvariantError,
+    AuthenticationError
 } from "../../../Common/errors";
 
 class ProjectService {
@@ -37,6 +37,9 @@ class ProjectService {
         if (!payload.description) {
             throw new InvariantError("Description is required");
         }
+        if (!payload.deviceType) {
+            throw new InvariantError("Device type is required");
+        }
     }
 
     async addProject(userId: string, payload: IProject): Promise<string> {
@@ -49,18 +52,11 @@ class ProjectService {
             throw new NotFoundError("User not found");
         }
         const id = `project-${nanoid(16)}`;
-        const isProjectExists = await this._projectRepository.getProjectByName(
-            payload.name,
-            userId
-        );
-        if (isProjectExists) {
-            throw new ConflictError("Project already exists");
-        }
         const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userId);
         if (!subscription) {
             throw new NotFoundError("Subscription not found");
         }
-        this._projectRepository.addProject(id, userId, payload);
+        await this._projectRepository.addProject(id, userId, payload);
         return id;
     }
 
@@ -78,9 +74,6 @@ class ProjectService {
             throw new NotFoundError("User not found");
         }
         const projects = await this._projectRepository.getProjectsByUserId(userId);
-        if (!projects) {
-            throw new NotFoundError("Projects not found");
-        }
         return projects;
     }
 
@@ -119,10 +112,35 @@ class ProjectService {
         if (!project) {
             throw new NotFoundError("Project not found");
         }
-        if (project.user_id !== subscription.user_id) {
+        if (project.user_id !== userId) {
             throw new AuthorizationError("You are not allowed to update this project");
         }
-        this._projectRepository.updateProject(id, payload);
+        await this._projectRepository.updateProject(id, payload);
+    }
+
+    async updateProjectIpAddress(apiKey: string, id: string, payload: IProject): Promise<void> {
+        if (!apiKey) {
+            throw new AuthenticationError("Api Key is required");
+        }
+        if (!payload.deviceIpAddress) {
+            throw new InvariantError("Device IP address is required");
+        }
+        const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(apiKey);
+        if (!subscription) {
+            throw new NotFoundError("Subscription not found");
+        }
+        const user = await this._userRepository.getUserById(subscription.user_id);
+        if (!user) {
+            throw new NotFoundError("User not found");
+        }
+        const project = await this._projectRepository.getProjectById(id);
+        if (!project) {
+            throw new NotFoundError("Project not found");
+        }
+        if (project.user_id !== user.id) {
+            throw new AuthorizationError("You are not allowed to update this project");
+        }
+        await this._projectRepository.updateProjectIpAddress(id, payload);
     }
 
     async deleteProject(id: string, userId: string): Promise<void> {
@@ -137,7 +155,7 @@ class ProjectService {
         if (project.user_id !== userId) {
             throw new AuthorizationError("You are not allowed to delete this project");
         }
-        this._projectRepository.deleteProject(id);
+        await this._projectRepository.deleteProject(id);
     }
     // End Project Service
 }

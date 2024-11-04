@@ -46,7 +46,8 @@ const userHandler = new UserHandler(
     productService,
     UserValidator,
     TokenManager,
-    ResponseManager
+    ResponseManager,
+    config.requestEnv
 );
 
 export default {

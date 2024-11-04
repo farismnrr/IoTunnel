@@ -32,7 +32,6 @@ const TokenService = (internalLink: string, config: Config) => {
                 }
                 break;
             default:
-                toast.info("Unexpected response from server", toastOptions);
                 if (isUpdate) {
                     await deleteToken();
                 }

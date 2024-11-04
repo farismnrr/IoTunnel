@@ -14,10 +14,15 @@ interface Window {
 
 const data = ref({
     activePlan: "",
-    isOpen: true,
+    isOpen: false,
     snapToken: "",
     productsData: null as ProductData | null,
     loading: true,
+    orderId: "",
+    internalLink: {
+        signin: "/users/signin",
+        dashboard: "/users/dashboard"
+    },
     text: {
         choosePlan: "Choose your plan",
         pricingPlan: "Pricing Plan",
@@ -27,6 +32,9 @@ const data = ref({
 });
 
 import ProductService from "@/composables/service/productService";
+import TrialService from "@/composables/service/trialService";
+import OrderService from "@/composables/service/orderService";
+import mapUtils from "@/composables/utils/mapping";
 import { useRuntimeConfig } from "#app";
 import type { ProductData, Product } from "@/composables/model";
 
@@ -39,13 +47,18 @@ const closeModal = () => {
     data.value.isOpen = false;
 };
 
-const handlePayment = () => {
+const handlePayment = async () => {
+    const orderService = OrderService(data.value.internalLink.dashboard, config);
+    const order = await orderService.createOrder(data.value.activePlan);
+    if (!order) return;
+    data.value.orderId = order.id;
     const snap = (window as Window).snap;
     if (snap && typeof snap.pay === "function") {
-        snap.pay(data.value.snapToken, {
-            onSuccess: () => {
+        snap.pay(order.token, {
+            onSuccess: async () => {
                 console.log("Payment successful");
                 data.value.isOpen = false;
+                await orderService.getOrder(data.value.orderId);
             },
             onPending: () => {
                 console.log("Payment pending");
@@ -53,7 +66,7 @@ const handlePayment = () => {
             },
             onClose: () => {
                 console.log("Snap payment closed");
-                data.value.isOpen = false;
+                data.value.isOpen = true;
             }
         });
     } else {
@@ -61,14 +74,15 @@ const handlePayment = () => {
     }
 };
 
-const startFreeTrial = () => {
-    console.log("Starting free trial");
-    // Add logic for starting free trial
+const handleFreeTrial = async () => {
+    const trialService = TrialService(data.value.internalLink.signin, config);
+    const isOpen = await trialService.updateTrial();
+    data.value.isOpen = isOpen;
 };
 
 const getPlans = computed(() => {
     if (!data.value.productsData) return [];
-    return data.value.productsData.products.map((product: Product) => ({
+    return mapUtils.mapData(data.value.productsData.products, (product: Product) => ({
         id: product.id,
         name: product.product_name,
         duration: product.duration,
@@ -83,18 +97,28 @@ onMounted(async () => {
     data.value.productsData = products;
     data.value.loading = false;
 
+    data.value.isOpen = true;
     const script = document.createElement("script");
     script.src = config.public.midtrans.snapUrl;
     script.setAttribute("data-client-key", config.public.midtrans.clientKey);
     document.head.appendChild(script);
-
-    data.value.snapToken = "1234567890";
 });
+
+watch(
+    () => data.value.isOpen,
+    newValue => {
+        if (newValue) {
+            document.body.classList.add("modal-open");
+        } else {
+            document.body.classList.remove("modal-open");
+        }
+    }
+);
 </script>
 
 <template>
     <section v-if="data.isOpen">
-        <div class="fixed inset-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
+        <div class="fixed inset-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center z-50">
             <div
                 class="bg-white rounded-lg shadow-lg w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
             >
@@ -125,7 +149,11 @@ onMounted(async () => {
                             </h1>
 
                             <div v-if="data.loading" class="mt-6 space-y-4 xl:mt-12">
-                                <div v-for="i in 3" :key="i" class="animate-pulse flex items-center justify-between px-4 py-3 mx-auto border rounded-xl">
+                                <div
+                                    v-for="i in 3"
+                                    :key="i"
+                                    class="animate-pulse flex items-center justify-between px-4 py-3 mx-auto border rounded-xl"
+                                >
                                     <div class="flex items-center">
                                         <div class="w-4 h-4 md:h-6 md:w-6 bg-gray-200 rounded-full"></div>
                                         <div class="flex flex-col mx-3 space-y-1">
@@ -192,8 +220,8 @@ onMounted(async () => {
 
                             <div class="flex justify-center mt-6">
                                 <button
-                                    v-if="data.activePlan === 'free'"
-                                    @click.prevent="startFreeTrial"
+                                    v-if="data.activePlan === 'PROD001'"
+                                    @click.prevent="handleFreeTrial"
                                     class="w-full px-4 py-2 text-sm md:text-base tracking-wide text-white capitalize transition-all duration-300 transform bg-primary-600 rounded-md hover:bg-primary-500 focus:outline-none focus:bg-primary-500 focus:ring focus:ring-primary-300 focus:ring-opacity-80"
                                 >
                                     {{ data.text.startTrialButton }}

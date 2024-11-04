@@ -89,31 +89,30 @@ class ComponentService {
         if (!apiKey) {
             throw new AuthenticationError("Api Key is required");
         }
-        apiKey = apiKey.split(" ")[1];
         const componentCache = await this._redisRepository.get(
             `component:${projectId}-${itemName}`
         );
-        if (componentCache) {
-            return {
-                topic_id: JSON.parse(componentCache),
-                source: "cache"
-            };
-        }
         const item = await this._itemRepository.getItemByName(itemName);
         if (!item) {
             throw new NotFoundError("Pin not Used");
-        }
-        const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(apiKey);
-        if (!subscription) {
-            throw new NotFoundError("Subscription not found");
         }
         const project = await this._projectRepository.getProjectById(projectId);
         if (!project) {
             throw new NotFoundError("Project not found");
         }
+        const subscription = await this._subscriptionRepository.getSubscriptionByApiKey(apiKey);
+        if (!subscription) {
+            throw new NotFoundError("Subscription not found");
+        }
         const components = await this._componentRepository.getComponentByItemId(item.id);
         if (!components || components.length === 0) {
             throw new NotFoundError("Component not found");
+        }
+        if (componentCache) {
+            return {
+                topic_id: JSON.parse(componentCache),
+                source: "cache"
+            };
         }
         const topicId =
             components.find(

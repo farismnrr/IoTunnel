@@ -1,11 +1,12 @@
-import type { IUser, IUserWithNewPassword } from "../../../Common/models/types";
+import type { IAuth, IUser, IUserWithNewPassword } from "../../../Common/models/types";
 import { InvariantError } from "../../../Common/errors";
 import {
     SendOtpPayloadSchema,
     EditUserPayloadSchema,
     LoginUserPayloadSchema,
     RegisterUserPayloadSchema,
-    ChangePasswordPayloadSchema
+    ChangePasswordPayloadSchema,
+    UserAuthPayloadSchema
 } from "./schema";
 
 const UserValidator = {
@@ -35,6 +36,12 @@ const UserValidator = {
     },
     validateSendOtpPayload: (payload: IUser) => {
         const validationResult = SendOtpPayloadSchema.validate(payload);
+        if (validationResult.error) {
+            throw new InvariantError(validationResult.error.message);
+        }
+    },
+    validateUserAuthPayload: (payload: IAuth) => {
+        const validationResult = UserAuthPayloadSchema.validate(payload);
         if (validationResult.error) {
             throw new InvariantError(validationResult.error.message);
         }

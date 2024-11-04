@@ -295,7 +295,11 @@ class UserService {
         }
     }
 
-    async editUserAuth(accessToken: string, refreshToken: string, serverKey: string): Promise<void> {
+    async editUserAuth(
+        accessToken: string,
+        refreshToken: string,
+        serverKey: string
+    ): Promise<void> {
         if (!serverKey) {
             throw new AuthenticationError("Unauthorized");
         }
@@ -323,6 +327,10 @@ class UserService {
         }
         if (!refreshToken) {
             throw new AuthenticationError("Unauthorized");
+        }
+        const userAuth = await this._authRepository.getUserAuth(refreshToken);
+        if (!userAuth) {
+            throw new NotFoundError("User not found");
         }
         await this._authRepository.deleteUserAuth(refreshToken);
     }

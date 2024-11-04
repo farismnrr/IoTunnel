@@ -18,19 +18,22 @@ class AdminHandler {
     private readonly _tokenManager: typeof TokenManager;
     private readonly _responseManager: typeof ResponseManager;
     private readonly _adminKey: string;
+    private readonly _environment: boolean;
 
     constructor(
         adminService: AdminService,
         validator: typeof AdminValidator,
         tokenManager: typeof TokenManager,
         responseManager: typeof ResponseManager,
-        adminKey: string
+        adminKey: string,
+        environment: boolean
     ) {
         this._adminService = adminService;
         this._validator = validator;
         this._tokenManager = tokenManager;
         this._responseManager = responseManager;
         this._adminKey = adminKey;
+        this._environment = environment;
         autoBind(this);
     }
 
@@ -186,7 +189,7 @@ class AdminHandler {
     async editAdminAuthHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
         let accessToken: string;
-        if (process.env.NODE_ENV === "production") {
+        if (this._environment) {
             const payload = request.payload;
             const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
             const decryptedRefreshToken = decryptedPayload.data;
@@ -204,6 +207,7 @@ class AdminHandler {
             );
         } else {
             const payload = request.payload as IAuth;
+            this._validator.validateAdminAuthPayload(payload);
             const adminId = this._tokenManager.verifyRefreshToken(payload.refresh_token);
             accessToken = this._tokenManager.generateAccessToken({ id: adminId });
             await this._adminService.editAdminAuth(accessToken, payload.refresh_token, serverAuth);
@@ -223,7 +227,7 @@ class AdminHandler {
     async logoutAdminHandler(request: Request, h: ResponseToolkit) {
         const serverAuth = request.headers.authorization;
         let refreshToken: string;
-        if (process.env.NODE_ENV === "production") {
+        if (this._environment) {
             const payload = request.payload;
             const decryptedPayload = this._responseManager.decrypt(payload as string) as IAuthState;
             const decryptedRefreshToken = decryptedPayload.data;
@@ -233,6 +237,7 @@ class AdminHandler {
             refreshToken = decryptedRefreshToken.refresh_token;
         } else {
             const payload = request.payload as IAuth;
+            this._validator.validateAdminAuthPayload(payload);
             refreshToken = payload.refresh_token;
         }
 

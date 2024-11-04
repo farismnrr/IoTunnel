@@ -9,6 +9,7 @@ const data = ref({
     internalLinks: {
         home: "/",
         signUp: "/admins/signup",
+        signIn: "/admins/signin",
         dasboard: "/admins/dashboard",
         resetPassword: "#"
     },
@@ -28,9 +29,13 @@ const data = ref({
 
 import VerificationService from "@/composables/service/verificationService";
 import AuthenticationService from "@/composables/service/authenticationService";
+import TokenService from "@/composables/service/tokenService";
+import { useAuthStore } from "@/stores/pinia";
 import { useRuntimeConfig } from "#app";
 
 const config = useRuntimeConfig();
+const authStore = useAuthStore();
+const tokenService = TokenService(data.value.internalLinks.signIn, config);
 const sendOtpButton = async () => {
     data.value.isLoading = true;
     const verificationService = VerificationService(config);
@@ -51,6 +56,17 @@ const signinButton = async () => {
         otp_code: data.value.formData.otp
     });
 };
+
+onMounted(async () => {
+    try {
+        await tokenService.updateAdminToken();
+    } finally {
+        if (authStore.accessTokenAdmin) {
+            navigateTo(data.value.internalLinks.dasboard);
+            return;
+        }
+    }
+});
 </script>
 
 <template>

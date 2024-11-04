@@ -75,11 +75,11 @@ class SubscriptionRepository {
         return subscriptionResult.rows[0];
     }
 
-    async getSubscriptionEndDate(userId: string): Promise<string | null> {
+    async getSubscriptionEndDate(userId: string): Promise<{ id: string; subscription_end_date: string } | null> {
         const subscriptionQuery = {
             text: `
 				SELECT 
-					subscription_end_date 
+					id, subscription_end_date 
 				FROM subscriptions
 				WHERE user_id = $1
 			`,
@@ -90,7 +90,7 @@ class SubscriptionRepository {
         if (!subscriptionResult.rows.length) {
             return null;
         }
-        return subscriptionResult.rows[0].subscription_end_date;
+        return subscriptionResult.rows[0];
     }
 
     async getSubscriptionByApiKey(apiKey: string): Promise<ISubscription> {

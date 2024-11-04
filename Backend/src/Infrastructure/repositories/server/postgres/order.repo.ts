@@ -45,7 +45,7 @@ class OrderRepo {
     async getOrderByUserId(userId: string): Promise<IOrder> {
         const orderQuery = {
             text: `
-                SELECT id FROM orders WHERE user_id = $1
+                SELECT id, token FROM orders WHERE user_id = $1
             `,
             values: [userId]
         };
@@ -65,6 +65,15 @@ class OrderRepo {
         };
         await this._pool.query(orderQuery);
         return status;
+    }
+
+    async deleteOrderByStatus(userId: string): Promise<void> {
+        const status = "pending";
+        const orderQuery = {
+            text: `DELETE FROM orders WHERE status = $1 AND user_id = $2`,
+            values: [status, userId]
+        };
+        await this._pool.query(orderQuery);
     }
 }
 

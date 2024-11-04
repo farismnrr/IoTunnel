@@ -56,10 +56,10 @@ class OrderService {
     async createOrder(userId: string, productId: string): Promise<IOrder> {
         const id = `order-${nanoid(16)}`;
         const status = "pending";
-        const order = await this._orderRepository.getOrderByUserId(userId);
-        if (order) {
-            throw new ConflictError("User already has an order");
-        }
+        await this._orderRepository.getOrderByUserId(userId);
+        // if (order) {
+        //     return order;
+        // }
         const user = await this._userRepository.getUserById(userId);
         if (!user) {
             throw new NotFoundError("User not found");
@@ -158,13 +158,11 @@ class OrderService {
                 transaction_status: order.status
             };
         }
-        if (order.status !== "paid") {
-            await this._orderRepository.editOrderStatus(orderId, "paid");
-            await this._redisRepository.delete(`order:${orderId}`);
-        }
         const subscription = await this._subscriptionRepository.getSubscriptionByUserId(userid);
         if (!subscription) {
             await this.createOrderWithSubscription(userid, product.id);
+            await this._orderRepository.editOrderStatus(orderId, "paid");
+            await this._orderRepository.deleteOrderByStatus(userid);
             await this._redisRepository.delete(`order:${orderId}`);
         }
         const orderData = {
@@ -174,7 +172,9 @@ class OrderService {
             product: product,
             subscription: subscription
         };
-        await this._redisRepository.set(`order:${orderId}`, orderData);
+        if (orderData.subscription) {
+            await this._redisRepository.set(`order:${orderId}`, orderData);
+        }
         return {
             order: orderData,
             source: "database"
@@ -217,22 +217,23 @@ class OrderService {
         await this._mosquittoRepository.updateMosquittoPassword(userId, apiKey);
     }
 
-    async getSubscriptionsTimeRemaining(userId: string): Promise<string> {
+    async getSubscriptionsTimeRemaining(userId: string): Promise<{ id: string; expired: string }> {
         const date = new Date();
-        const subscriptionEndDate = await this._subscriptionRepository.getSubscriptionEndDate(
-            userId
-        );
-        if (!subscriptionEndDate) {
+        const subscription = await this._subscriptionRepository.getSubscriptionEndDate(userId);
+        if (!subscription) {
             throw new NotFoundError("Subscription not found");
         }
-        const endDate = new Date(subscriptionEndDate);
+        const endDate = new Date(subscription.subscription_end_date);
         const timeRemaining = endDate.getTime() - date.getTime();
 
         const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
 
-        return `Remaining subscription time: ${days} days, ${hours} hours, ${minutes} minutes`;
+        return {
+            id: subscription.id,
+            expired: `${days} days, ${hours} hours, ${minutes} minutes`
+        };
     }
 }
 

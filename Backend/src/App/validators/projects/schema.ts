@@ -3,25 +3,40 @@ import Joi from "joi";
 const addProjectSchema = Joi.object({
     name: Joi.string()
         .max(50)
-        .regex(/^[^<>{}[\]]*$/)
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
         .required()
-        .error(new Error("Name harus berupa teks tanpa karakter khusus")),
+        .error(new Error("Name must be text without special characters")),
     description: Joi.string()
-        .regex(/^[^<>{}[\]]*$/)
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
         .required()
-        .error(new Error("Deskripsi harus berupa teks tanpa karakter khusus"))
+        .error(new Error("Description must be text without special characters")),
+    deviceType: Joi.string()
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
+        .required()
+        .error(new Error("Device type is required"))
 });
 
 const updateProjectSchema = Joi.object({
     name: Joi.string()
         .max(50)
-        .regex(/^[^<>{}[\]]*$/)
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
         .optional()
-        .error(new Error("Name harus berupa teks tanpa karakter khusus")),
+        .error(new Error("Name must be text without special characters")),
     description: Joi.string()
-        .regex(/^[^<>{}[\]]*$/)
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
         .optional()
-        .error(new Error("Deskripsi harus berupa teks tanpa karakter khusus"))
+        .error(new Error("Description must be text without special characters")),
+    deviceType: Joi.string()
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
+        .optional()
+        .error(new Error("Device type must be text")),
 });
 
-export { addProjectSchema, updateProjectSchema };
+const updateProjectIpAddressSchema = Joi.object({
+    deviceIpAddress: Joi.string()
+        .regex(/^[^<>/;\\|`~{}[\]]*$/)
+        .required()
+        .error(new Error("Device IP address must be text"))
+});
+
+export { addProjectSchema, updateProjectSchema, updateProjectIpAddressSchema };
